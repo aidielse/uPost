@@ -1,0 +1,31 @@
+Web Science Term Project 02/25/2014 meeting minutes
+
+Technologies:
+
+Front end:
+	HTML5
+	CSS3/Bootstrap
+	Javascript/Jquery
+
+Back end:
+	PHP
+	PostgreSQL
+	
+Other:
+	Oauth (?)
+	OpenID(?)
+
+Database:
+	
+	Users
+		UserId
+		Username
+		Email
+		Password
+		
+	Session
+		UserId
+		facebookSessionToken
+		twitterSessionToken
+		googleplusSessionToken
+	
