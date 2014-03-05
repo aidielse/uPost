@@ -1,28 +1,17 @@
-.icon-bar{
-  display: block;
-  width: 22px;
-  height: 2px;
-  border-radius: 1px;
-  background-color: #888;
-  margin-top: 4px;
+textarea {
+  resize: none;
+  width: 100%;
 }
 
-.custom-panel{
-  padding: 10px;
-  border-radius: 0px;
-  box-shadow:5px 5px 5px grey;
-  border:solid #e7e7e7 1px;
-  text-align:center;
-  -webkit-transition: -webkit-transform 1s, box-shadow 1s;
-  transition: transform 1s, box-shadow 1s;
-
-}
-.custom-panel:not(:first-child){
-  margin-top: 30px;
+.navbar-toggle .icon-bar {
+  background-color: #428bca;
 }
 
-.custom-panel:hover{
-  box-shadow:0px 0px 0px grey;
-  -webkit-transform: translate(5px,8px);
-  transform: translate(5px, 8px);
+.service-list {
+  margin: 0;
+}
+.service-item {
+  margin-right: 2em;
+  display: inline-block;
+  float: left;
 }
