@@ -17,13 +17,89 @@
   		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
+  		<!-- JQueryUI -->
+  		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  		
   		<link rel="stylesheet" href="Styles/general.css">
+  		
+  		<script>
+  		$(document).ready(function(){
+  	  	});
+  		
+  		</script>
   		
 		<title> uPost Social Network Update Manager</title>
 	</head>
-<?php $_SESSION["user"]="Anonymous"; ?>
+<?php //$_SESSION["user"]="Anonymous"; ?>
 <?php if(!isset($_SESSION["user"])): ?>
 	<body>
+		<!-- Popup for user login -->
+		<div class="modal fade" id="user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">Login</h4>
+		      </div>
+		      <form role="form">
+		      
+		        <div class="modal-body">
+		          <div class="form-group">
+		            <label>Username:</label>
+		            <input id="login_name" class="form-control" type="text">
+		          </div>
+		          <div class="form-group">
+		            <label>Password:</label>
+		            <input id="login_password" class="form-control" type="password">
+		          </div>
+		        </div>
+		        <div class="modal-footer">
+		          <div class="form-group">
+		            <input class="btn btn-primary btn-block" type="submit" value="Log in" >
+		          </div>
+		        </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Popup for user register -->
+		<div class="modal fade" id="user_register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">Login</h4>
+		      </div>
+		      <form role="form">
+		      
+		        <div class="modal-body">
+		          <div class="form-group">
+		            <label>Username:</label>
+		            <input id="register_name" class="form-control" type="text">
+		          </div>
+		          <div class="form-group">
+		            <label>Password:</label>
+		            <input id="register_password" class="form-control" type="password">
+		          </div>
+		          <div class="form-group">
+		            <label>Password again:</label>
+		            <input id="register_password_again" class="form-control" type="password">
+		          </div>
+		        </div>
+		        <div class="modal-footer">
+		          <div class="form-group">
+		            <input class="btn btn-primary btn-block" type="submit" value="Register" >
+		          </div>
+		        </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Nav header -->
 		<div class="fluid-container">
 		    <div class="navbar navbar-default fixed-top" role="navigation">
 		        <div class="navbar-header">
@@ -32,8 +108,8 @@
 		        </div>
 		        
 		        <ul class="nav navbar-nav navbar-right">
-		        	<li><a href="#">Login</a></li>
-		        	<li><a href="#">Register</a></li>
+		        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
+		        	<li><a href="#" data-toggle="modal" data-target="#user_register">Register</a></li>
 		        	<li class="dropdown">
 		        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Know about us <b class="caret"></b></a>
 		        	    <ul class="dropdown-menu">
@@ -47,6 +123,7 @@
 		        
 		    </div>
 		</div>
+		<?php require_once("alert.php");?>
 		<div class="fluid-container">
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
@@ -113,7 +190,7 @@
 		        </ul>
 		    </div>
 		</div>
-		
+		<?php require_once("alert.php");?>
 		<div class="fluid-container">
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>

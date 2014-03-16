@@ -52,6 +52,8 @@
 		        
 		    </div>
 		</div>
+		<?php require_once("alert.php");?>
+		
 		
 		<div class="fluid-container">
 			<div class="row">
