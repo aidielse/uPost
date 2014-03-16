@@ -26,13 +26,15 @@
   		
   		<script>
   		$(document).ready(function(){
+  	  		//$("#debug").append("Hello bug!").show(200);
+  	  		
   	  	});
   		
   		</script>
   		
 		<title> uPost Social Network Update Manager</title>
 	</head>
-<?php //$_SESSION["user"]="Anonymous"; ?>
+<?php $_SESSION["user"]="Anonymous"; ?>
 <?php if(!isset($_SESSION["user"])): ?>
 	<body>
 		<!-- Popup for user login -->
@@ -195,11 +197,49 @@
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
 			    <div class="col-md-8 panel custom-panel">
-			    	<form role="form">
+			    	<script>
+			    	function saveLocation(position)
+			    	{
+				    	$("#current_loc").html(position.coords.latitude+" "+position.coords.longitude);
+			    	}
+			    	function showError(error)
+			    	{
+			    		switch(error.code) 
+					    {
+					    case error.PERMISSION_DENIED:
+					      $("#current_loc").html("User denied the request for Geolocation.");
+					      break;
+					    case error.POSITION_UNAVAILABLE:
+						  $("#current_loc").html("Location information is unavailable.");
+					      break;
+					    case error.TIMEOUT:
+						  $("#current_loc").html("The request to get user location timed out.");
+					      break;
+					    case error.UNKNOWN_ERROR:
+						  $("#current_loc").html("An unknown error occurred.");
+					      break;
+					    }
+			    	}
+			    	if(navigator.geolocation)
+			    	{
+			    		navigator.geolocation.getCurrentPosition(saveLocation, showError);
+			    	}
+					</script>
+				    <form role="form">
 			    		<div class="form-group">
 			    			<label for="post_text">Write something and public everywhere!</label>
 			    			<textarea id="post_text" class="form-control" placeholder="Write something you want to say..." rows="5"></textarea>
 			    			
+			    		</div>
+			    		<div class="form-group">
+			    		    <div class="row">
+			    			    <div class="col-sm-3">
+			    				    <label>Your current location:</label>
+			    			    </div>
+			    				<div class="col-sm-3">
+			    				<p id="current_loc"></p>
+			    				</div>
+			    			</div>
 			    		</div>
 			    		<div class="form-group">
 			    			<!-- Generated dynamically -->
