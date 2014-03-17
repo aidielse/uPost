@@ -1,0 +1,17 @@
+textarea {
+  resize: none;
+  width: 100%;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #428bca;
+}
+
+.service-list {
+  margin: 0;
+}
+.service-item {
+  margin-right: 2em;
+  display: inline-block;
+  float: left;
+}
