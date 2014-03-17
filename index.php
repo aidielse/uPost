@@ -243,12 +243,18 @@
 			    		</div>
 			    		<div class="form-group">
 			    			<!-- Generated dynamically -->
+			    			
+			    			<img src="Images/Logos/facebook.jpg" height="20">
 			    			<label class="checkbox-inline">
-			    				Facebook<input type="checkbox">
+			    				<input type="checkbox">
 			    			</label>
+			    			<span>&nbsp;&nbsp;</span>
+			    			
+			    			<img src="Images/Logos/twitter.jpg" height="20">
 			    			<label class="checkbox-inline">
-			    				Twitter<input type="checkbox">
+			    			<input type="checkbox">
 			    			</label>
+			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
 			    		<div class="form-group">
 			    			<input class="btn btn-default btn-block" type="submit" value="uPOST!">

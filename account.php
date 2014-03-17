@@ -89,7 +89,7 @@
 				<div class="col-md-8 panel custom-panel">
 					<div class="row">
 						<div class="col-md-3">
-							<p>Social Network Site 1</p>
+							<img class="img-responsive" src="Images/Logos/facebook.jpg" >
 						</div>
 						<div class="col-md-6">
 							<form role="form">
@@ -119,7 +119,7 @@
 				<div class="col-md-8 panel custom-panel">
 					<div class="row">
 						<div class="col-md-3">
-							<p>Social Network Site 1</p>
+							<img class="img-responsive" src="Images/Logos/twitter.jpg" >
 						</div>
 						<div class="col-md-6">
 							<form role="form">
