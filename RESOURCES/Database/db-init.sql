@@ -1,29 +1,42 @@
-DROP DATABASE IF EXISTS upost;
+DROP DATABASE IF EXISTS uPost;
 
-CREATE DATABASE upost;
+CREATE DATABASE uPost;
 
-USE upost;
+USE uPost;
 
-DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS Users CASCADE;
 
-CREATE TABLE users (
+CREATE TABLE Users (
 
-	userId INT PRIMARY KEY AUTO_INCREMENT,
-	userName VARCHAR(255) UNIQUE NOT NULL,
-	email VARCHAR(255) UNIQUE NOT NULL,
-	password VARCHAR(255) NOT NULL
+	userId INT PRIMARY KEY AUTO_INCREMENT
 );
 
-CREATE TABLE sessions (
+CREATE TABLE Facebook (
 
-	sessionId INT PRIMARY KEY AUTO_INCREMENT,
+	facebookId INT PRIMARY KEY,
 	userId INT,
-	token VARCHAR(255),
-	tokenIdentifier VARCHAR(1),
+	accessToken TEXT(512),
 
-	FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
+	FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
 );
 
-GRANT ALL ON upost.* to 'phpuser1'@'localhost';
+CREATE TABLE Twitter (
+
+	twitterId INT PRIMARY KEY,
+	userId INT,
+	accessToken TEXT(512),
+
+	FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
+);
+
+CREATE TABLE GooglePlus (
+
+	googlePlusId INT PRIMARY KEY,
+	userId INT,
+	accessToken TEXT(512),
+
+	FOREIGN KEY (userId) REFERENCES Users(userId) ON DELETE CASCADE
+);
+GRANT ALL ON uPost.* to 'phpuser1'@'localhost';
 
 SET PASSWORD FOR 'phpuser1'@'localhost' = PASSWORD('phppass');
