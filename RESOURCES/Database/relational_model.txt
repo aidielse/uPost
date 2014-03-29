@@ -1,3 +1,0 @@
-users(userId,userName,email,password)
-
-sessions(sessionId,userId,token,tokenIdentifier)
