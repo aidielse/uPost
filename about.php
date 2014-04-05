@@ -23,6 +23,7 @@
 	  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	  		
 	  		<!-- Facebook Login -->
+	  		<!-- Ignore for now, because we are going to implement server-side login -->
 	  		<script>
 		  	  //Facebook Login
 		  	  //The access token to fetch a user's info from facebook
@@ -103,12 +104,14 @@
 	  		</script>
 	  		
 	  		<!-- Store the user name and access tokens -->
+	  		
+	  		
 	  		<script>
 	  		$(document).ready(function(){
 		  	  
 	  		  $("#fb_login").on("click", function(e){
-	  			e.preventDefault();
-	  			fb_login();
+	  			//e.preventDefault();
+	  			//fb_login();
 		  	  });
 	  		});
 	  		</script>
@@ -117,6 +120,7 @@
   		</head>
   		
 		<!-- Popup for user login -->
+		<!-- Form data format: [username]->xxx, [password]->xxx, [sns]->login with xxx -->
 		<div class="modal fade" id="user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
@@ -125,23 +129,22 @@
 		        <h4 class="modal-title" id="myModalLabel">Login</h4>
 		      </div>
 		      
-		      <form role="form">
-		        
-		      	
+		      <form role="form" action="login.php" method="post" autocomplete="on">
 		        <div class="modal-body">
-		          <button id="fb_login" class="btn btn-primary">login with facebook</button>
 		          <div class="form-group">
-		            <label>Username:</label>
-		            <input id="login_name" class="form-control" type="text">
+		            <label>Username(email):</label>
+		            <input name="username" class="form-control" type="text">
 		          </div>
 		          <div class="form-group">
 		            <label>Password:</label>
-		            <input id="login_password" class="form-control" type="password">
+		            <input name="password" class="form-control" type="password">
 		          </div>
 		        </div>
 		        <div class="modal-footer">
 		          <div class="form-group">
-		            <input class="btn btn-primary btn-block" type="submit" value="Log in" >
+		            <input id="fb_login" name="sns" class="btn btn-primary" type="submit" value="login with Facebook">
+		          	<input id="tw_login" name="sns" class="btn btn-primary" type="submit" value="login with Twitter">
+		          	<input id="gp_login" name="sns" class="btn btn-primary" type="submit" value="login with Google+">
 		          </div>
 		        </div>
 		      </form>
@@ -155,27 +158,25 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">Login</h4>
+		        <h4 class="modal-title" id="myModalLabel">Register</h4>
 		      </div>
 		      <form role="form">
 		      
 		        <div class="modal-body">
 		          <div class="form-group">
 		            <label>Username:</label>
-		            <input id="register_name" class="form-control" type="text">
+		            <input class="form-control" type="text">
 		          </div>
 		          <div class="form-group">
 		            <label>Password:</label>
-		            <input id="register_password" class="form-control" type="password">
-		          </div>
-		          <div class="form-group">
-		            <label>Password again:</label>
-		            <input id="register_password_again" class="form-control" type="password">
+		            <input class="form-control" type="password">
 		          </div>
 		        </div>
 		        <div class="modal-footer">
 		          <div class="form-group">
-		            <input class="btn btn-primary btn-block" type="submit" value="Register" >
+		            <input class="btn btn-primary" type="submit" value="register with Facebook" >
+		            <input class="btn btn-primary" type="submit" value="register with Twitter" >
+		            <input class="btn btn-primary" type="submit" value="register with Google+" >
 		          </div>
 		        </div>
 		      </form>
@@ -184,29 +185,28 @@
 		</div>
 		
 		<!-- Nav header -->
-		<div class="fluid-container">
-		    <div class="navbar navbar-default fixed-top" role="navigation">
-		        <div class="navbar-header">
-		            <a class="navbar-brand" href="index.php">uPOST</a>
-		          	
-		        </div>
-		        
-		        <ul class="nav navbar-nav navbar-right">
-		        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
-		        	<li><a href="#" data-toggle="modal" data-target="#user_register">Register</a></li>
-		        	<li class="dropdown">
-		        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Know about us <b class="caret"></b></a>
-		        	    <ul class="dropdown-menu">
-		        	    	<li><a href="#contactus">Contact Us</a></li>
-		        	    	<li><a href="#github">Follow on Github</a></li>
-		        	    </ul>
-		        	
-		        	
-          			</li>
-		        </ul>
-		        
+		<div class="navbar navbar-default fixed-top" role="navigation">
+	        <div class="navbar-header">
+	            <a class="navbar-brand" href="index.php">uPOST</a>
+	          	
 		    </div>
-		</div>
+		        
+		    <ul class="nav navbar-nav navbar-right">
+	        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
+	        	<li><a href="#" data-toggle="modal" data-target="#user_register">Register</a></li>
+		        <li class="dropdown">
+		       		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Know about us <b class="caret"></b></a>
+		       	    <ul class="dropdown-menu">
+		       	    	<li><a href="#contactus">Contact Us</a></li>
+		       	    	<li><a href="#github">Follow on Github</a></li>
+		       	    </ul>
+		        	
+		        	
+          		</li>
+	        </ul>
+		        
+        </div>
+		<!-- For client-side notifications -->
 		<?php require_once("alert.php");?>
 		<div class="fluid-container">
 			<div class="row">
