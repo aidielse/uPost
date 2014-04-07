@@ -107,13 +107,6 @@
 	  		
 	  		
 	  		<script>
-	  		$(document).ready(function(){
-		  	  
-	  		  $("#fb_login").on("click", function(e){
-	  			//e.preventDefault();
-	  			//fb_login();
-		  	  });
-	  		});
 	  		</script>
 	  		
 	  		<link rel="stylesheet" href="Styles/general.css">
