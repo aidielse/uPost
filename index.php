@@ -36,7 +36,7 @@
   		<link rel="stylesheet" href="Styles/general.css">
   		
   		<script>
-  		$(document).ready(function(){
+  		$(document).ready(function() {
   	  		//$("#debug").append("Hello bug!").show(200);
   	  		
   	  	});
