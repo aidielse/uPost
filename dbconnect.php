@@ -20,7 +20,7 @@
         $success=false;
     } 
 
-    if(success)
+    if($success)
     {
     	
 	    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 

@@ -1,6 +1,6 @@
 <?php 
 //Store app-realted information
-$database=array("username"=>"root", "password"=>"dddd", "host"=>"localhost", "dbname"=>"unknown");
+$database=array("username"=>"root", "password"=>"websci", "host"=>"localhost", "dbname"=>"upost");
 
 //Get the current host and uri, so that browser redirection works correctly in different development environments
 $host  = $_SERVER['HTTP_HOST'];

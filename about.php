@@ -6,7 +6,7 @@
 	  		<meta name="viewport" content="width=device-width, initial-scale=1">
 	  		
 	  		<style>
-	  		
+	  		  
 	  		</style>
 	  		
 	  		<!-- Jquery -->
@@ -22,93 +22,9 @@
 	  		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
 	  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	  		
-	  		<!-- Facebook Login -->
-	  		<!-- Ignore for now, because we are going to implement server-side login -->
 	  		<script>
-		  	  //Facebook Login
-		  	  //The access token to fetch a user's info from facebook
-		  	  var access_token;
-		  	  window.fbAsyncInit = function() {
-		  	  FB.init({
-		  	    appId      : '722200331145073',
-		  	    status     : true, // check login status
-		  	    cookie     : true, // enable cookies to allow the server to access the session
-		  	    xfbml      : true  // parse XFBML
-		  	  });
-	
-		  	  //Subscribe to the event when user's login status changed
-		  	  FB.Event.subscribe('auth.authResponseChange', function(response) {
-		  	    	// Here we specify what we do with the response anytime this event occurs. 
-			  	    if (response.status === 'connected') {
-			  	      access_token=response["authResponse"]["accessToken"];
-			  	      var username="";
-			  	      //ajax call to facebook to retrieve the username of that user
-			  	      $.ajax({
-			  			url:"https://graph.facebook.com/me?fields=id,username",
-			  			type:"GET",
-			  			dataType:"",
-			  			data:{access_token: access_token},
-			  			ajax:true,
-			  			success: function(data, textStatus, jqXHR){
-			  				//getting the username
-							username=data["username"];
-							//now we have access_token and username
-							console.log("facebook access token: "+access_token);
-							console.log("username: "+username);
-							//
-							//
-							//
-							//
-							//
-							//
-				  		},
-				  		error: function(){
-
-					  	}
-			  		  });
-			  	    }else {
-			  	      destroy_data();
-			  	    }
-			  });
-		  	  };
-		  	  
-	
-		  	  // Load the Facebook SDK asynchronously
-		  	  (function(d){
-		  	   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-		  	   if (d.getElementById(id)) {return;}
-		  	   js = d.createElement('script'); js.id = id; js.async = true;
-		  	   js.src = "//connect.facebook.net/en_US/all.js";
-		  	   ref.parentNode.insertBefore(js, ref);
-		  	  }(document));
-	
-		  	  //Prompts the user to login 
-		  	  function fb_login()
-		  	  {
-		  		  FB.login(function(response){
-		  			  for(key in response.authResponse)
-		  			  {
-		  				  console.log(key+": "+response.authResponse[key]);
-		  			  }
-		  			  for(key in response)
-		  			  {
-		  				  console.log(key+": "+response[key]);
-		  			  }
-		  		  	  
-		  		  }, {scope: 'email,publish_actions'});
-		  	  }
-	  		</script>
-	  		
-	  		<!-- Twitter login -->
-	  		<scipt>
-	  		</script>
-	  		
-	  		<!-- Store the user name and access tokens -->
-	  		
-	  		
-	  		<script>
-	  		</script>
-	  		
+	  		  
+		  	</script>
 	  		<link rel="stylesheet" href="Styles/general.css">
   		</head>
   		

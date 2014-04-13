@@ -1,6 +1,6 @@
 <?php
 require_once("config.php");
-//require_once("dbconnect.php");
+require_once("dbconnect.php");
 
 if(!empty($_POST))
 {
@@ -34,6 +34,7 @@ else
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
+			
 			login_fail_redirect();
 			die();
 		}
@@ -46,6 +47,7 @@ else
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
+			
 			login_fail_redirect();
 			die();
 		}
@@ -58,6 +60,9 @@ else
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
+			//
+			echo "3<br />";
+			die();
 			login_fail_redirect();
 			die();
 		}
@@ -70,6 +75,7 @@ else
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
+			
 			login_fail_redirect();
 			die();
 		}	
@@ -84,28 +90,82 @@ else
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
+			
 			login_fail_redirect();
 			die();
 		}
 		$username=json_decode($ret, true)["username"];
 		
-		//Store the access token and username in the database
-		//To be done...
-				
- 		session_start();
- 		$_SESSION["user"]=array("username"=>$username, "userid"=>$userid);
-		
 		curl_close($c);
-		//Redirect to homepage
-		$host  = $_SERVER['HTTP_HOST'];
-		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		$extra = 'index.php?sns=facebook&login-succeeded=true';
-		header("Location: http://$host$uri/$extra");
-		die();
+		//Store the access token and username in the database
+ 		session_start();
+ 		if(true)//!isset($_SESSION["user"]))
+ 		{
+ 			
+ 			//Check if the user already exists in the facebook table
+ 			//If not, insert a new user, and insert a new user-to-facebook mapping
+ 			//If yes, update the access token in the facebook table
+ 			try
+ 			{
+ 				$query="SELECT * FROM facebook WHERE `facebookid`=:userid";
+ 				$query_params=array("userid"=>$userid);
+ 				$stmt = $db->prepare($query);
+ 				$result = $stmt->execute($query_params);
+ 			
+	 			$fb=$stmt->fetch();
+	 			if(!$fb)
+	 			{
+	 				
+	 				$query="INSERT INTO users(`userId`) VALUES('')";
+	 				$result = $db->exec($query);
+	 				$upost_userid=$db->lastInsertId();
+	 				
+	 				$query="INSERT INTO facebook(`facebookId`, `userId`, `accessToken`) VALUES(:facebookId, :userId, :accessToken)";
+	 				$stmt=$db->prepare($query);
+	 				$result=$stmt->execute(array("facebookId"=>$userid, "userId"=>$upost_userid, "accessToken"=>$access_token));
+	 				
+	 			}
+	 			else
+	 			{
+	 				
+	 				
+	 				$query="UPDATE `facebook` SET `accessToken`=:accessToken WHERE `facebookId`=:facebookId";
+	 				$stmt=$db->prepare($query);
+	 				$result=$stmt->execute(array("accessToken"=>$access_token, "facebookId"=>$userid));
+	 				
+	 			}
+	 			$_SESSION["user"]=array("username"=>$username, "userid"=>$userid);
+	 			
+	 			
+	 			//Redirect to homepage
+	 			$host  = $_SERVER['HTTP_HOST'];
+	 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+	 			$extra = 'index.php?sns=facebook&login-succeeded=true';
+	 			header("Location: http://$host$uri/$extra");
+	 			die();
+ 			}
+ 			catch(PDOException $ex)
+ 			{
+ 				
+ 				login_fail_redirect();
+ 				die();	
+ 			}
+ 			
+ 		}
+ 		else
+ 		{
+			//Redirect to homepage
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			$extra = 'index.php?sns=facebook&login-succeeded=true';
+			header("Location: http://$host$uri/$extra");
+			die();
+ 		}
 	}
 	else 
 	{
 		echo "POST data is empty!";
+		die();
 	}
 }
 
