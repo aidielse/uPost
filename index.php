@@ -89,7 +89,7 @@
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
 			    <div class="col-md-8 panel custom-panel">
 			    	<!-- Get the user's current location -->
-			    	<script>
+			    	<script type="text/javascript">
 			    	function saveLocation(position)
 			    	{
 				    	$("#current_loc").html(position.coords.latitude+" "+position.coords.longitude);
