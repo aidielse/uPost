@@ -17,7 +17,7 @@
 	  		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
 	  		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	  		
-	  		<!-- JQueryUI-->
+	  		<!-- JQueryUI -->
 	  		<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	  		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
 	  		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
