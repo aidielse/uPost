@@ -77,9 +77,9 @@
 		        </div>
 		        <div class="modal-footer">
 		          <div class="form-group">
-		            <input class="btn btn-primary" type="submit" value="register with Facebook" >
-		            <input class="btn btn-primary" type="submit" value="register with Twitter" >
-		            <input class="btn btn-primary" type="submit" value="register with Google+" >
+		            <input id="fb-register" class="btn btn-primary" type="submit" value="register with Facebook" >
+		            <input id="tw-register" class="btn btn-primary" type="submit" value="register with Twitter" >
+		            <input id="g+-register" class="btn btn-primary" type="submit" value="register with Google+" >
 		          </div>
 		        </div>
 		      </form>
@@ -90,8 +90,7 @@
 		<!-- Nav header -->
 		<div class="navbar navbar-default fixed-top" role="navigation">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="index.php">uPOST</a>
-	          	
+	            <a class="navbar-brand" href="index.php">uPOST</a>      	
 		    </div>
 		        
 		    <ul class="nav navbar-nav navbar-right">
@@ -102,12 +101,9 @@
 		       	    <ul class="dropdown-menu">
 		       	    	<li><a href="#contactus">Contact Us</a></li>
 		       	    	<li><a href="#github">Follow on Github</a></li>
-		       	    </ul>
-		        	
-		        	
+		       	    </ul>      	        	
           		</li>
-	        </ul>
-		        
+	        </ul>	        
         </div>
 		<!-- For client-side notifications -->
 		<?php require_once("alert.php");?>
