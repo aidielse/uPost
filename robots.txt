@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /Images/
+Disallow: /RESOURCES/
+Disallow: /Styles/
