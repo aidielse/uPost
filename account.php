@@ -18,7 +18,7 @@
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		<link type="text/css" rel="stylesheet" href="Styles/general.css">
   		
-		<title> Manage your account</title>
+		<title> Manage Your Account</title>
 	</head>
 	
 	<?php //if (isset($_SESSION["user"])):?>
