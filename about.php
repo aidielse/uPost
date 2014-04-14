@@ -96,13 +96,7 @@
 		    <ul class="nav navbar-nav navbar-right">
 	        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
 	        	<li><a href="#" data-toggle="modal" data-target="#user_register">Register</a></li>
-		        <li class="dropdown">
-		       		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Know about us <b class="caret"></b></a>
-		       	    <ul class="dropdown-menu">
-		       	    	<li><a href="#contactus">Contact Us</a></li>
-		       	    	<li><a href="#github">Follow on Github</a></li>
-		       	    </ul>      	        	
-          		</li>
+		       	<li><a href="#contactus">Contact Us</a></li>
 	        </ul>	        
         </div>
 		<!-- For client-side notifications -->
@@ -127,17 +121,6 @@
 			    	<p>Yufan Lou: <a href="mailto:louy2@rpi.edu">louy2@rpi.edu</a></p>
 			    	<p>Mike Xie: <a href="mailto:xiey3@rpi.edu">xiey3@rpi.edu</a></p>
 			    	<p>Mohd Farhan Jalal: <a href="jalalm@rpi.edu">jalalm@rpi.edu</a></p>
-			    </div>
-			    <div class="col-md-2 hidden-sm hidden-xs"></div>
-			</div>
-			<div class="row" id="contactus">
-				<div class="col-md-2 hidden-sm hidden-xs" id="github"></div>
-			    <div class="col-md-8 panel custom-panel">
-			    	<h1>Follow Us on Github: </h1>
-			    	<p>Github Repo: <a href="https://github.com/Aarons100/uPost">https://github.com/Aarons100/uPost</a></p>
-			    	<br />
-			    	<br />
-			    	<br />
 			    </div>
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
