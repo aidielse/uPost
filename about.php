@@ -5,10 +5,6 @@
 	  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	  		<meta name="viewport" content="width=device-width, initial-scale=1">
 	  		<title>uPost Social Network Update Manager</title>
-
-	  		<style>
-	  		  
-	  		</style>
 	  		
 	  		<!-- Jquery -->
 	  		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -23,9 +19,6 @@
 	  		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
 	  		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	  		
-	  		<script>
-	  		  
-		  	</script>
 	  		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		</head>
   		
