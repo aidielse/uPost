@@ -20,30 +20,28 @@
   		</style>
   		
   		<!-- Jquery -->
-  		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   		
   		<!-- Bootstrap -->
-  		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-  		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-  		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+  		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+  		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
   		<!-- JQueryUI -->
-  		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
-  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  		<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+  		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   		
   		<!-- stylesheet specific to the site -->
-  		<link rel="stylesheet" href="Styles/general.css">
+  		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		
-  		<script>
-  		$(document).ready(function() {
-  	  		//$("#debug").append("Hello bug!").show(200);
-  	  		
-  	  	});
-  		
+  		<script type = "text/javascript">
+	  		$(document).ready(function() {
+	  	  		//$("#debug").append("Hello bug!").show(200);
+	  	  	});
   		</script>
   		
-		<title> uPost Social Network Update Manager</title>
+		<title>uPost Social Network Update Manager</title>
 	</head>
 	
 	<body>
