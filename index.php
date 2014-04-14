@@ -1,13 +1,22 @@
 <!-- If the user is not logged in, redirect to about.php page, which is the default homepage -->
-<?php session_start(); header('Content-Type: text/html; charset=utf-8'); ?>
-<?php if(!isset($_SESSION["user"])): ?>
+<?php 
+	session_set_cookie_params(3600);
+	session_start(); 
+	header('Content-Type: text/html; charset=utf-8'); 
+?>
+
+<?php 
+	if(!isset($_SESSION["user"])): 
+?>
 	<?php 
 		$host  = $_SERVER['HTTP_HOST'];
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = 'about.php';
 		header("Location: http://$host$uri/$extra");
 	?>
-<?php else: ?>
+<?php 
+	else: 
+?>
 <!DOCTYPE html>
 <html>
 	<head>
