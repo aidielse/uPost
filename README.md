@@ -27,8 +27,8 @@ Installation Instructions
 	$password = "phppass";
 	$host = "localhost";
 	//store facebook api information
-	$appid = "";
-	$appsecret = "";
+	$appid = "290187461143677";
+	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
 
 	$database=array("username" => $username, "password"=>$password, "host"=>$host, "dbname"=>"uPost");
 
