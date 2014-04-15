@@ -12,7 +12,7 @@ if(!empty($_POST)) {
 		header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
 	}
 	else {
-		echo "No sns is selcted!";
+		echo "No sns is selected!";
 	}
 }
 else {
@@ -23,7 +23,7 @@ else {
 		$APPID=$fb["APPID"];
 		$REDIRECT_URI=$fb["REDIRECT_URI"];
 		$APP_SECRET=$fb["APP_SECRET"];
-		
+		//echo "wut";
 		//Get a short lived token
 		$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -32,14 +32,18 @@ else {
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
-			
+			echo "failed getting token";
 			login_fail_redirect();
 			die();
 		}
+		else {
+			echo "succeeded getting access token";
+		}
+		echo "something happened";
+
 		//$ret has format access_token=xxxxxxxx&expire=xxxxxx
 		parse_str($ret, $q);
 		$access_token=$q["access_token"];			
-		
 		//Exchange the short-lived token for a long-lived access token
 		curl_setopt($c, CURLOPT_URL, "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={$APPID}&client_secret={$APP_SECRET}&%20fb_exchange_token={$access_token}");
 		$ret=curl_exec($c);
