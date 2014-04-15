@@ -18,26 +18,5 @@ Installation Instructions
 
 3. Configure apache2 to serve our website, set the DocumentRoot to the current folder.
 
-4. create a config.php file which contains the following:
-
-	<?php
-
-	//Store mysql information
-	$username = "phpuser1";
-	$password = "phppass";
-	$host = "localhost";
-	//store facebook api information
-	$appid = "290187461143677";
-	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
-
-	$database=array("username" => $username, "password"=>$password, "host"=>$host, "dbname"=>"uPost");
-
-	//Get the current host and uri, so that browser redirection works correctly in different development environments
-
-	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"./login.php?sns=facebook", "APP_SECRET"=>$appsecret);
-	$tw=array();
-	$gp=array();
-
-	?>
-
-5. Make sure you enter your own custom values for $username, $password, $host(if necessary), $appid, and $appsecret
+4. Make sure that the mysql username, password, and hosts variables in the config.php file are set correctly.
+	Also, make sure that the API keys in config.php are the ones that you would like to use.
