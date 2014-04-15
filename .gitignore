@@ -33,4 +33,4 @@ local.properties
 .texlipse
 
 # Developer specific settings
-config.php
+#config.php
