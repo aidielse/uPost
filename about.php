@@ -55,38 +55,6 @@
 		  </div>
 		</div>
 		
-		<!-- Popup for user register -->
-		<div class="modal fade" id="user_register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">Register</h4>
-		      </div>
-		      <form role="form">
-		      
-		        <div class="modal-body">
-		          <div class="form-group">
-		            <label>Username:</label>
-		            <input class="form-control" type="text">
-		          </div>
-		          <div class="form-group">
-		            <label>Password:</label>
-		            <input class="form-control" type="password">
-		          </div>
-		        </div>
-		        <div class="modal-footer">
-		          <div class="form-group">
-		            <input id="fb-register" class="btn btn-primary" type="submit" value="register with Facebook" >
-		            <input id="tw-register" class="btn btn-primary" type="submit" value="register with Twitter" >
-		            <input id="g+-register" class="btn btn-primary" type="submit" value="register with Google+" >
-		          </div>
-		        </div>
-		      </form>
-		    </div>
-		  </div>
-		</div>
-		
 		<!-- Nav header -->
 		<div class="navbar navbar-default fixed-top" role="navigation">
 	        <div class="navbar-header">
@@ -95,7 +63,6 @@
 		        
 		    <ul class="nav navbar-nav navbar-right">
 	        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
-	        	<li><a href="#" data-toggle="modal" data-target="#user_register">Register</a></li>
 		       	<li><a href="#contactus">Contact Us</a></li>
 	        </ul>	        
         </div>
