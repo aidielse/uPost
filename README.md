@@ -23,8 +23,8 @@ Installation Instructions
 	<?php
 
 	//Store mysql information
-	$username = "";
-	$password = "";
+	$username = "phpuser1";
+	$password = "phppass";
 	$host = "localhost";
 	//store facebook api information
 	$appid = "";
