@@ -2,25 +2,23 @@
 require_once("config.php");
 require_once("dbconnect.php");
 
-if(!empty($_POST))
-{
-	if($_POST["sns"]=="login with Facebook")
-	{
-		$EMAIL="";
-		$PASSWORD="";
+if(!empty($_POST)) {
+	//if the user it attempting to log in with facebook
+	if($_POST["sns"]=="login with Facebook") {
+
 		$APPID=$fb["APPID"];
 		$REDIRECT_URI=$fb["REDIRECT_URI"];
+
 		header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
 	}
-	else 
-	{
+	else {
 		echo "No sns is selcted!";
 	}
 }
-else 
-{
-	if($_GET["sns"]=="facebook")
-	{
+else {
+	
+	if($_GET["sns"]=="facebook") {
+
 		$code=$_GET["code"];
 		$APPID=$fb["APPID"];
 		$REDIRECT_URI=$fb["REDIRECT_URI"];
