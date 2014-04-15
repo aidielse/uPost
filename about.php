@@ -33,16 +33,6 @@
 		      </div>
 		      
 		      <form role="form" action="login.php" method="post" autocomplete="on">
-		        <div class="modal-body">
-		          <div class="form-group">
-		            <label>Username(email):</label>
-		            <input name="username" class="form-control" type="text">
-		          </div>
-		          <div class="form-group">
-		            <label>Password:</label>
-		            <input name="password" class="form-control" type="password">
-		          </div>
-		        </div>
 		        <div class="modal-footer">
 		          <div class="form-group">
 		            <input id="fb_login" name="sns" class="btn btn-primary" type="submit" value="login with Facebook">
