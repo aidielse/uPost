@@ -23,26 +23,28 @@ else {
 		$APPID=$fb["APPID"];
 		$REDIRECT_URI=$fb["REDIRECT_URI"];
 		$APP_SECRET=$fb["APP_SECRET"];
+
 		echo "wut";
 		//Get a short lived token
+		//phpinfo();
 		$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
-		echo "curl initialized";
+		echo "curl initialized\n";
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-		echo "about to run curl_exec";
+		echo "about to run curl_exec\n";
 		$ret=curl_exec($c);
-		echo "test";
+
 		if(!$ret)
 		{
-			echo "failed getting token";
+			echo "failed getting short-term access token\n";
 			login_fail_redirect();
 			die();
 		}
 		else {
-			echo "succeeded getting access token";
+			echo "succeeded getting short-term access token\n";
 		}
-		echo "something happened";
+		//echo "something happened";
 
 		//$ret has format access_token=xxxxxxxx&expire=xxxxxx
 		parse_str($ret, $q);
@@ -52,10 +54,11 @@ else {
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
-			
+			echo "Failed getting long-term access token\n";
 			login_fail_redirect();
 			die();
 		}
+		else {echo "succeeded getting long-term access token\n";}
 		parse_str($ret, $q);
 		//The Facebook access token
 		$access_token=$q["access_token"];
@@ -66,11 +69,13 @@ else {
 		if(!$ret)
 		{
 			//
-			echo "3<br />";
+			echo "failed getting app access token";
 			die();
 			login_fail_redirect();
 			die();
 		}
+		else { echo "succeeded getting app access token\n";}
+		
 		parse_str($ret, $q);
 		$app_access_token=$q["access_token"];
 			
@@ -80,10 +85,11 @@ else {
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
-			
+			echo "failed to get facebook user_id\n";
 			login_fail_redirect();
 			die();
-		}	
+		}
+		else {echo "got facebook user_id\n";}	
 		//Get user_id from the decoded json object, and format it to a non-scientific string number
 		$userid=(json_decode($ret, true)["data"]["user_id"]);
 		$userid=(sprintf('%.0f', $userid));
@@ -95,10 +101,11 @@ else {
 		$ret=curl_exec($c);
 		if(!$ret)
 		{
-			
+			echo "Failed to get username\n";
 			login_fail_redirect();
 			die();
 		}
+		else { echo "got username\n";}
 		$username=json_decode($ret, true)["username"];
 		
 		curl_close($c);
@@ -151,7 +158,7 @@ else {
  			}
  			catch(PDOException $ex)
  			{
- 				
+ 				echo "PDO failure\n";
  				login_fail_redirect();
  				die();	
  			}
@@ -179,7 +186,7 @@ function login_fail_redirect()
 	$host  = $_SERVER['HTTP_HOST'];
 	$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 	$extra = 'about.php?login-succeeded=false';
-	header("Location: http://$host$uri/$extra");
+	//header("Location: http://$host$uri/$extra");
 }
 
 
