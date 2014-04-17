@@ -23,13 +23,16 @@ else {
 		$APPID=$fb["APPID"];
 		$REDIRECT_URI=$fb["REDIRECT_URI"];
 		$APP_SECRET=$fb["APP_SECRET"];
-		//echo "wut";
+		echo "wut";
 		//Get a short lived token
 		$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
+		echo "curl initialized";
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+		echo "about to run curl_exec";
 		$ret=curl_exec($c);
+		echo "test";
 		if(!$ret)
 		{
 			echo "failed getting token";

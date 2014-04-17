@@ -1,6 +1,6 @@
 <!-- If the user is not logged in, redirect to about.php page, which is the default homepage -->
 <?php 
-	session_set_cookie_params(3600);
+	session_set_cookie_params(604800);
 	session_start(); 
 	header('Content-Type: text/html; charset=utf-8'); 
 ?>
