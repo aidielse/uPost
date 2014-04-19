@@ -2,8 +2,7 @@
 	require_once("config.php");
 	//require_once("dbconnect.php");
 	//for successful login
-	$sns='';
-
+	$google_access_token = '';
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
 		if($_POST["sns"]=="login with Facebook") {
@@ -14,6 +13,13 @@
 			//redirect the user to facebook to login, we also pass our credentials to facebook
 			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
 		}
+
+		else if ($_POST['sns'] == 'login with Google+') {
+  			$client->authenticate();
+  			$_SESSION['login'] = 'googleplus';
+  			$google_access_token = $client->getAccessToken();
+  		}
+
 		else {
 			echo "No sns is selected!";
 		}
@@ -87,13 +93,10 @@
 	 				 		
 		}
 
-		else if ($_GET['sns'] == 'googleplus') {
-  			$client->authenticate();
-  			$_SESSION['login'] = 'googleplus';
-  			$_SESSION['g+_access_token'] = $client->getAccessToken();
+		else if ($_GET['sns'] == "googleplus") {
+			sleep(10);
 
-  			login_succeed_redirect();
-  		}
+		}
 
 		else {
 			echo "POST data is empty!";
