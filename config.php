@@ -12,8 +12,8 @@
 	//Google+ api stuff
 	$client = new Google_Client();
 	$client->setApplicationName("Google+ PHP uPost app");
-	$client->setClientId('983819609735-ss1oums2a77a93iv2hi2ailqb6974mut.apps.googleusercontent.com');
-	$client->setClientSecret('-XUe29OePy_S-KpuZhybmQdw');
+	$client->setClientId('983819609735-ueud5lh1r2e04f3klssqrqehqfagt9ls.apps.googleusercontent.com');
+	$client->setClientSecret('F3esmITnFr44WJNB91FyQTy_');
 	$client->setRedirectUri('http://localhost/uPost/login.php?sns=googleplus');
 	$client->setDeveloperKey('AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw');
 	$plus = new Google_PlusService($client);
