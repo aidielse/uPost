@@ -15,7 +15,6 @@
 		}
 
 		else if ($_POST['sns'] == 'login with Google+') {
-  			$client->authenticate();
   			$_SESSION['login'] = 'googleplus';
   			$google_access_token = $client->getAccessToken();
   		}
