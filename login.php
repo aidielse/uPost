@@ -86,6 +86,7 @@
 			login_succeed_redirect();
 	 				 		
 		}
+		else if($_GET['sns'] == 'googleplus') {}
 		else {
 			echo "POST data is empty!";
 			die();
