@@ -7,6 +7,11 @@ session_start();
 
 		header("Location: http://upost.websci/");
 	}
+
+	else if($_GET['action'] == 'logout') {
+		session_Destroy();
+		header("Location: http://upost.websci/");
+	}
 ?>
 
 <!DOCTYPE html>
@@ -50,24 +55,9 @@ session_start();
 	        </div>
 	        
 	      	<ul class="nav navbar-nav navbar-right">
-	        	<li class="dropdown">
-	        		<!-- Placeholder for user's username -->
-		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $_SESSION["user"]["username"]?> <b class="caret"></b></a>
-		        	<ul class="dropdown-menu">
-		            	<li><a href="#contactus">change username</a></li>
-		       	    	<li><a href="#github">change password</a></li>
-		       	    </ul>
-          		</li>
           		
-          		<li class="dropdown">
-          			<!-- User's current social accounts  -->
-          			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <b class="caret"></b></a>
-          			<ul class="dropdown-menu">
-          				<!-- Placeholder for social accounts -->
-         				<li><li>
-          				<li><li>
-          				<li><li>
-          			</ul>
+          		<li class="item">
+          			<input type='button' onclick="window.location='about.php?action=logout'" value="Log Out">
           		</li>
 		    </ul>
 		</div>
