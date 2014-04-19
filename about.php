@@ -9,7 +9,7 @@ session_start();
 	}
 
 	else if($_GET['action'] == 'logout') {
-		session_Destroy();
+		session_destroy();
 		header("Location: http://upost.websci/");
 	}
 ?>
