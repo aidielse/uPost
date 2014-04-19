@@ -14,7 +14,7 @@
 	$client->setApplicationName("Google+ PHP uPost app");
 	$client->setClientId('983819609735-ss1oums2a77a93iv2hi2ailqb6974mut.apps.googleusercontent.com');
 	$client->setClientSecret('-XUe29OePy_S-KpuZhybmQdw');
-	$client->setRedirectUri('http://login.php?sns=googleplus');
+	$client->setRedirectUri('http://localhost/uPost/login.php?sns=googleplus');
 	$client->setDeveloperKey('AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw');
 	$plus = new Google_PlusService($client);
 	//Get the current host and uri, so that browser redirection works correctly in different development environments
