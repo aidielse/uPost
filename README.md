@@ -14,9 +14,11 @@ Installation Instructions
 
 2. Configure apache2 to serve our website, set the DocumentRoot to the folder this file is in.
 
-3. Make sure that the API keys in config.php are the ones that you would like to use.
+3. .htaccess must be enabled, check your version of apache2.
 
-4. you need to configure your php.ini file, the default location is in /etc/
+4. Make sure that the API keys in config.php are the ones that you would like to use.
+
+5. you need to configure your php.ini file, the default location is in /etc/
 	
 	to find the location of your php.ini, run php --ini in the terminal.
 

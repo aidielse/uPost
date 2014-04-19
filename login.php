@@ -1,6 +1,6 @@
 <?php
 	require_once("config.php");
-	require_once("dbconnect.php");
+	//require_once("dbconnect.php");
 	//for successful login
 	$sns='';
 
@@ -8,6 +8,7 @@
 		//if the user it attempting to log in with facebook
 		if($_POST["sns"]=="login with Facebook") {
 			//grab information from config.php
+			//echo "hello";
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			//redirect the user to facebook to login, we also pass our credentials to facebook
@@ -17,17 +18,22 @@
 			echo "No sns is selected!";
 		}
 	}
-	//
+	
 	else {
+
+		session_set_cookie_params(604800);
+		session_start(); 
+		session_name('upost');
 		//once the user is verified with facebook and we have an app code
 		if($_GET["sns"]=="facebook") {
+			//echo "facebook login complete\n";
 			//get variables from config.php and the get request
 			$code=$_GET["code"];
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			$APP_SECRET=$fb["APP_SECRET"];
 
-			//echo "wut";
+			//echo "wut\n";
 			//Get a short lived token
 			//phpinfo();
 			$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
@@ -71,11 +77,12 @@
 			//The Facebook access token
 			$access_token=$q["access_token"];
 			//store the long term access token in the session
+			$_SESSION['login'] = 'facebook';
 			$_SESSION['fb_access_token'] = $access_token;
+			//echo $_SESSION['fb_access_token'];
 			//exit curl
 			curl_close($c);
 			//Store the access token and username in the database	 
-			$sns = 'facebook';
 			login_succeed_redirect();
 	 				 		
 		}
@@ -86,15 +93,17 @@
 	}
 	function login_succeed_redirect() {
 			//Redirect to homepage
+			session_write_close();
+			$sns = 'facebook';
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			$extra = 'index.php?sns={$sns}&login-succeeded=true';
+			$extra = 'about.php';
 			header("Location: http://$host$uri/$extra");
 	}
 	function login_fail_redirect() {
 		$host  = $_SERVER['HTTP_HOST'];
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		$extra = 'about.php?login-succeeded=false';
-		//header("Location: http://$host$uri/$extra");
+		$extra = 'index.php';
+		header("Location: http://$host$uri/$extra");
 	}
 ?>
