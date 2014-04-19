@@ -75,7 +75,8 @@
 			//exit curl
 			curl_close($c);
 			//Store the access token and username in the database	 
-			$sns = 'facebook'		
+			$sns = 'facebook';
+			login_succeed_redirect();
 	 				 		
 		}
 		else {
@@ -83,7 +84,6 @@
 			die();
 		}
 	}
-
 	function login_succeed_redirect() {
 			//Redirect to homepage
 			$host  = $_SERVER['HTTP_HOST'];
@@ -91,7 +91,6 @@
 			$extra = 'index.php?sns={$sns}&login-succeeded=true';
 			header("Location: http://$host$uri/$extra");
 	}
-
 	function login_fail_redirect() {
 		$host  = $_SERVER['HTTP_HOST'];
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
