@@ -3,7 +3,7 @@
 	require_once './google-api-php-client/src/Google_Client.php';
 	require_once './google-api-php-client/src/contrib/Google_PlusService.php';
 
-	$host= "upost.websci";
+	$host= "localhost";
 	//Facebook api information
 	$appid = "290187461143677";
 	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
