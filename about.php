@@ -56,8 +56,8 @@ session_start();
 	        
 	      	<ul class="nav navbar-nav navbar-right">
           		
-          		<li class="item">
-          			<input type='button' onclick="window.location='about.php?action=logout'" value="Log Out">
+          		<li class="item"><a href="#" data-toggle="modal" data-target="#user_login" onclick="window.location='about.php?action=logout'">
+          			Log Out
           		</li>
 		    </ul>
 		</div>
