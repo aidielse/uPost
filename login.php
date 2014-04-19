@@ -86,7 +86,15 @@
 			login_succeed_redirect();
 	 				 		
 		}
-		else if($_GET['sns'] == 'googleplus') {}
+
+		else if ($_GET['sns'] == 'googleplus') {
+  			$client->authenticate();
+  			$_SESSION['login'] = 'googleplus';
+  			$_SESSION['g+_access_token'] = $client->getAccessToken();
+
+  			login_succeed_redirect();
+  		}
+
 		else {
 			echo "POST data is empty!";
 			die();
@@ -95,7 +103,6 @@
 	function login_succeed_redirect() {
 			//Redirect to homepage
 			session_write_close();
-			$sns = 'facebook';
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			$extra = 'about.php';
