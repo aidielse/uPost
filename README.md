@@ -20,3 +20,15 @@ Installation Instructions
 
 4. Make sure that the mysql username, password, and hosts variables in the config.php file are set correctly.
 	Also, make sure that the API keys in config.php are the ones that you would like to use.
+
+5. you need to configure your php.ini file, the default location is in /etc/
+	
+	to find the location of your php.ini, run php --ini in the terminal.
+
+	changes:
+
+		Set session.use_trans_sid = 0 in your php.ini file. This will tell PHP not to include the identifier in the URL, and not to read the URL for identifiers.
+
+		Set session.use_only_cookies = 1 in your php.ini file. This will tell PHP to never use URLs with session identifiers.
+
+	these settings are required to prevent session hijacking/fixation attacks 

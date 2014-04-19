@@ -1,6 +1,8 @@
 <?php
 	require_once("config.php");
 	require_once("dbconnect.php");
+	//for successful login
+	$sns='';
 
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
@@ -68,116 +70,26 @@
 			parse_str($ret, $q);
 			//The Facebook access token
 			$access_token=$q["access_token"];
-				
-			//Get App's access token
-			//change curl url setting so that we can get the app access token
-			curl_setopt($c, CURLOPT_URL, "https://graph.facebook.com/oauth/access_token?client_id={$APPID}&client_secret={$APP_SECRET}&grant_type=client_credentials");
-			//execute, store app access token in $ret
-			$ret=curl_exec($c);
-			if(!$ret)
-			{
-				//echo "failed getting app access token";
-				//die();
-				login_fail_redirect();
-				die();
-			}
-
-			parse_str($ret, $q);
-			//save app access token into $app_access_token
-			$app_access_token=$q["access_token"];
-				
-			//Get the user's id
-			curl_setopt($c, CURLOPT_URL, "https://graph.facebook.com/debug_token?input_token={$access_token}&access_token={$app_access_token}");
-			curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
-			//user id gets saved in $ret
-			$ret=curl_exec($c);
-			if(!$ret)
-			{
-				//echo "failed to get facebook user_id\n";
-				login_fail_redirect();
-				die();
-			}
-			//Get user_id from the decoded json object, and format it to a non-scientific string number
-			$userid=(json_decode($ret, true)["data"]["user_id"]);
-			$userid=(sprintf('%.0f', $userid));
-			
-			//Get the user's username
-			curl_setopt($c, CURLOPT_URL, "https://graph.facebook.com/{$userid}?fields=id,name,username&access_token={$access_token}");
-			curl_setopt($c, CURLOPT_POSTFIELDS, array("access_token"=>$access_token));
-			curl_setopt($c, CURLOPT_CUSTOMREQUEST, "GET");
-			$ret=curl_exec($c);
-			if(!$ret)
-			{
-			//	echo "Failed to get username\n";
-				login_fail_redirect();
-				die();
-			}
-			//Get username from the decoded json object
-			$username=json_decode($ret, true)["username"];
+			//store the long term access token in the session
+			$_SESSION['fb_access_token'] = $access_token;
 			//exit curl
 			curl_close($c);
-			//Store the access token and username in the database
-	 		//session_start();
-	 		if(true){
-	 			
-	 			//Check if the user already exists in the facebook table
-	 			//If not, insert a new user, and insert a new user-to-facebook mapping
-	 			//If yes, update the access token in the facebook table
-	 			try {
-
-	 				$query="SELECT * FROM facebook WHERE `facebookid`=:userid";
-	 				$query_params=array("userid"=>$userid);
-	 				$stmt = $db->prepare($query);
-	 				$result = $stmt->execute($query_params);
-	 			
-		 			$fb=$stmt->fetch();
-		 			if(!$fb) {
-		 				
-		 				$query="INSERT INTO users(`userId`) VALUES('')";
-		 				$result = $db->exec($query);
-		 				$upost_userid=$db->lastInsertId();
-		 				
-		 				$query="INSERT INTO facebook(`facebookId`, `userId`, `accessToken`) VALUES(:facebookId, :userId, :accessToken)";
-		 				$stmt=$db->prepare($query);
-		 				$result=$stmt->execute(array("facebookId"=>$userid, "userId"=>$upost_userid, "accessToken"=>$access_token));
-		 				
-		 			}
-		 			else {
-		 					
-		 				$query="UPDATE `facebook` SET `accessToken`=:accessToken WHERE `facebookId`=:facebookId";
-		 				$stmt=$db->prepare($query);
-		 				$result=$stmt->execute(array("accessToken"=>$access_token, "facebookId"=>$userid));
-		 				
-		 			}
-		 			$_SESSION["user"]=array("username"=>$username, "userid"=>$userid);	
-		 			
-		 			//Redirect to homepage
-		 			$host  = $_SERVER['HTTP_HOST'];
-		 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		 			$extra = 'index.php?sns=facebook&login-succeeded=true';
-		 			header("Location: http://$host$uri/$extra");
-		 			die();
-	 			}
-	 			catch(PDOException $ex) {
-	 				echo "PDO failure\n";
-	 				login_fail_redirect();
-	 				die();	
-	 			}
-	 			
-	 		}
-	 		else {
-				//Redirect to homepage
-				$host  = $_SERVER['HTTP_HOST'];
-				$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-				$extra = 'index.php?sns=facebook&login-succeeded=true';
-				header("Location: http://$host$uri/$extra");
-				die();
-	 		}
+			//Store the access token and username in the database	 
+			$sns = 'facebook'		
+	 				 		
 		}
 		else {
 			echo "POST data is empty!";
 			die();
 		}
+	}
+
+	function login_succeed_redirect() {
+			//Redirect to homepage
+			$host  = $_SERVER['HTTP_HOST'];
+			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			$extra = 'index.php?sns={$sns}&login-succeeded=true';
+			header("Location: http://$host$uri/$extra");
 	}
 
 	function login_fail_redirect() {

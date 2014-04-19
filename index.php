@@ -1,14 +1,12 @@
 <!-- If the user is not logged in, redirect to about.php page, which is the default homepage -->
 <?php 
-	session_set_cookie_params(604800);
-	session_start(); 
-	header('Content-Type: text/html; charset=utf-8'); 
-?>
-
-<?php 
-	if(!isset($_SESSION["user"])): 
+	if(!isset($_SESSION["fb_access_token"])): 
 ?>
 	<?php 
+		session_set_cookie_params(604800);
+		session_start(); 
+		header('Content-Type: text/html; charset=utf-8');
+
 		$host  = $_SERVER['HTTP_HOST'];
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = 'about.php';
