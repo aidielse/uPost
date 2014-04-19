@@ -118,7 +118,7 @@
 			curl_close($c);
 			//Store the access token and username in the database
 	 		//session_start();
-	 		if(true) {
+	 		if(true){
 	 			
 	 			//Check if the user already exists in the facebook table
 	 			//If not, insert a new user, and insert a new user-to-facebook mapping
