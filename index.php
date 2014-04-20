@@ -4,7 +4,7 @@
 	session_start();
 	if(isset($_SESSION['fb_access_token'])) {
 
-		header("Location: http://upost.websci/about.php/");
+		header("Location: http://localhost/uPost/about.php/");
 	}
 ?>
 

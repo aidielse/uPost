@@ -1,11 +1,20 @@
 <?php
-//checks to make sure that the user has been logged in and has an access token
-//if the user has no access token, they are redirected to index.php
 session_start();
 
-	if(!isset($_SESSION['fb_access_token'])) {
 
-		header("Location: http://upost.websci/");
+	//checks to make sure that the user has been logged in and has an access token
+	//if the user has no access token, they are redirected to index.php
+	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
+
+	else if($_SESSION['login']=='google+' && $_SESSION['g+_is_logged_in'] == "ye") {}
+	
+	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
+	
+	else {header("Location: http://localhost/uPost/");}
+	//if the user presses the logout button, they are logged out
+	if(isset($_GET['action']) && $_GET['action'] == 'logout') {
+		session_destroy();
+		header("Location: http://localhost/uPost/");
 	}
 ?>
 
@@ -50,24 +59,9 @@ session_start();
 	        </div>
 	        
 	      	<ul class="nav navbar-nav navbar-right">
-	        	<li class="dropdown">
-	        		<!-- Placeholder for user's username -->
-		        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $_SESSION["user"]["username"]?> <b class="caret"></b></a>
-		        	<ul class="dropdown-menu">
-		            	<li><a href="#contactus">change username</a></li>
-		       	    	<li><a href="#github">change password</a></li>
-		       	    </ul>
-          		</li>
           		
-          		<li class="dropdown">
-          			<!-- User's current social accounts  -->
-          			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <b class="caret"></b></a>
-          			<ul class="dropdown-menu">
-          				<!-- Placeholder for social accounts -->
-         				<li><li>
-          				<li><li>
-          				<li><li>
-          			</ul>
+          		<li class="item" onclick="window.location='about.php?action=logout'"><a href="#" data-toggle="modal" data-target="#user_login">
+          			Log Out
           		</li>
 		    </ul>
 		</div>
