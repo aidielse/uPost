@@ -1,6 +1,5 @@
 <?php
 	require_once("config.php");
-	//require_once("dbconnect.php");
 	//for successful login
 	$sns='';
 
@@ -14,9 +13,26 @@
 			//redirect the user to facebook to login, we also pass our credentials to facebook
 			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
 		}
+		else if($_POST["sns"]=="login with Twitter"){
+			$c=curl_init();
+			curl_setopt($c, CURLOPT_URL, "api.twitter.com/oauth/request_token");
+			curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($c, CURLOPT_POST, true);
+			curl_setopt($c, CURLOPT_POSTFIELDS, array());
+			$oauth_nonce=generate_random_string(20);
+			curl_setopt($c, CURLOPT_HTTPHEADER, "Authorization:
+			  oauth_callback='',
+              oauth_consumer_key=\"7IxGwUyu8p6FmJr7PgTNhr1mJ\",
+              oauth_nonce=\"{$oauth_nonce}\",
+              oauth_signature='',
+              oauth_signature_method='HMAC-SHA1',
+              oauth_timestamp='',
+              oauth_version='1.0'");
+		}
 		else {
 			echo "No sns is selected!";
 		}
+		
 	}
 	
 	else {
@@ -86,11 +102,13 @@
 			login_succeed_redirect();
 	 				 		
 		}
-		else {
-			echo "POST data is empty!";
-			die();
+		//once the user is verified with twitter
+		else if($_GET["sns"]=="twitter"){
+			
 		}
 	}
+	
+	
 	function login_succeed_redirect() {
 			//Redirect to homepage
 			session_write_close();
@@ -105,5 +123,13 @@
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = 'index.php';
 		header("Location: http://$host$uri/$extra");
+	}
+	function generate_random_string($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, strlen($characters) - 1)];
+		}
+		return $randomString;
 	}
 ?>
