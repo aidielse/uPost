@@ -3,14 +3,17 @@
 //if the user has no access token, they are redirected to index.php
 session_start();
 
-	if(!isset($_SESSION['fb_access_token'])) {
+	//echo $_SESSION['g+_is_logged_in'];
 
-		header("Location: http://upost.websci/");
-	}
+	if(isset($_SESSION['fb_access_token'])) {}
 
-	else if($_GET['action'] == 'logout') {
+	else if($_SESSION['g+_is_logged_in'] == "ye") {}
+	
+	else {header("Location: http://localhost/uPost/");}
+
+	if($_GET['action'] == 'logout') {
 		session_destroy();
-		header("Location: http://upost.websci/");
+		header("Location: http://localhost/uPost/");
 	}
 ?>
 
@@ -56,7 +59,7 @@ session_start();
 	        
 	      	<ul class="nav navbar-nav navbar-right">
           		
-          		<li class="item"><a href="#" data-toggle="modal" data-target="#user_login" onclick="window.location='about.php?action=logout'">
+          		<li class="item" onclick="window.location='about.php?action=logout'"><a href="#" data-toggle="modal" data-target="#user_login">
           			Log Out
           		</li>
 		    </ul>

@@ -2,7 +2,6 @@
 	require_once("config.php");
 	//require_once("dbconnect.php");
 	//for successful login
-	$google_access_token = '';
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
 		if($_POST["sns"]=="login with Facebook") {
@@ -15,8 +14,7 @@
 		}
 
 		else if ($_POST['sns'] == 'login with Google+') {
-  			$_SESSION['login'] = 'googleplus';
-  			$google_access_token = $client->getAccessToken();
+			$client->authenticate();
   		}
 
 		else {
@@ -91,19 +89,18 @@
 			login_succeed_redirect();
 	 				 		
 		}
-
-		else if ($_GET['sns'] == "googleplus") {
-			sleep(10);
-
+		else if ($_GET['sns'] == 'googleplus') {
+			$_SESSION['g+_is_logged_in'] = "ye";
+			//echo $_SESSION['g+_is_logged_in'];
+			login_succeed_redirect();
 		}
-
 		else {
 			echo "POST data is empty!";
 			die();
 		}
 	}
 	function login_succeed_redirect() {
-			//Redirect to homepage
+			//Redirect to about.php
 			session_write_close();
 			$host  = $_SERVER['HTTP_HOST'];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
