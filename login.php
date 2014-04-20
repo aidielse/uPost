@@ -14,6 +14,7 @@
 		}
 
 		else if ($_POST['sns'] == 'login with Google+') {
+			//login to the google API and google + API's with the credentials in config.php
 			$client->authenticate();
   		}
 
@@ -89,9 +90,13 @@
 			login_succeed_redirect();
 	 				 		
 		}
+		//once we're logged in too google+
+		//due to the way the google PHP API works, 
+		//there is no need to store an app token once we are logged in
 		else if ($_GET['sns'] == 'googleplus') {
+			//just to track that the user is actually logged in
 			$_SESSION['g+_is_logged_in'] = "ye";
-			//echo $_SESSION['g+_is_logged_in'];
+			//redirect to about.php
 			login_succeed_redirect();
 		}
 		else {

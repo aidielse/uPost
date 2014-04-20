@@ -1,16 +1,15 @@
 <?php
-//checks to make sure that the user has been logged in and has an access token
-//if the user has no access token, they are redirected to index.php
 session_start();
 
-	//echo $_SESSION['g+_is_logged_in'];
 
+	//checks to make sure that the user has been logged in and has an access token
+	//if the user has no access token, they are redirected to index.php
 	if(isset($_SESSION['fb_access_token'])) {}
 
 	else if($_SESSION['g+_is_logged_in'] == "ye") {}
 	
 	else {header("Location: http://localhost/uPost/");}
-
+	//if the user presses the logout button, they are logged out
 	if($_GET['action'] == 'logout') {
 		session_destroy();
 		header("Location: http://localhost/uPost/");

@@ -9,7 +9,7 @@
 	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
 	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 
-	//Google+ api stuff
+	//Google+ api credentials
 	$client = new Google_Client();
 	$client->setApplicationName("Google+ PHP uPost app");
 	$client->setClientId('983819609735-ueud5lh1r2e04f3klssqrqehqfagt9ls.apps.googleusercontent.com');
