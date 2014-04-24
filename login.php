@@ -123,7 +123,14 @@
 			/* If the oauth_token is old redirect to the home page. */
 			if (isset($_REQUEST['oauth_token']) && $_SESSION['tw_login']['OAuth_token'] !== $_REQUEST['oauth_token']) {
 				session_destroy();
-				login_fail_redirect("login-timed-out!");		
+				login_fail_redirect("login-timed-out");	
+				die();
+			}
+			if(isset($_REQUEST['denied']))
+			{
+				session_destroy();
+				login_fail_redirect("user denied");
+				die();
 			}
 			/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 			$connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION['tw_login']['OAuth_token'], $_SESSION['tw_login']['OAuth_token_secret']);
@@ -133,13 +140,14 @@
 			$user = $connection->getAccessToken($_REQUEST['oauth_verifier']);
 			
 			$access_token = $user['oauth_token'];
-			$auth_token_secret=$user['oauth_token_secret'];
+			$access_token_secret=$user['oauth_token_secret'];
 			$userid=$user['user_id'];
 			$username=$user['screen_name'];
 			
 			/* Save the access tokens. */
 			$_SESSION['login']="twitter";
 			$_SESSION['tw_access_token'] = $access_token;
+			$_SESSION['tw_access_token_secret']=$access_token_secret;
 			
 			/* Remove no longer needed request tokens */
 			unset($_SESSION['tw_login']);
@@ -171,23 +179,19 @@
 	function login_succeed_redirect() {
 			//Redirect to about.php
 			session_write_close();
-			$host  = $_SERVER['HTTP_HOST'];
+			//$host  = $_SERVER['HTTP_HOST'];
+			$host=HOST;
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			$extra = 'about.php';
 			header("Location: http://$host$uri/$extra");
 	}
 	function login_fail_redirect($error="unknown") {
-		$host  = $_SERVER['HTTP_HOST'];
+		//redirect to about.php with optional error msg
+		session_write_close();
+		//$host  = $_SERVER['HTTP_HOST'];
+		$host=HOST;
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		$extra = 'index.php';
-		header("Location: http://$host$uri/$extra?error={$error}");
-	}
-	function generate_random_string($length = 10) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$randomString = '';
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, strlen($characters) - 1)];
-		}
-		return $randomString;
+		$extra = "index.php?error={$error}";
+		header("Location: http://$host$uri/$extra");
 	}
 ?>

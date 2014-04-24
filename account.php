@@ -52,34 +52,7 @@
 		
 		
 		<div class="fluid-container">
-			<div class="row">
-			    <div class="col-md-2 hidden-sm hidden-xs"></div>
-			    <div class="col-md-8 panel custom-panel">
-			    	<form role="form">
-			    		<div class="form-group">
-			    			<label for="change_password">Change your username: </label>
-			    			<input id="change_username" class="form-control" type="text" required>
-			    		</div>
-			    		<div class="form-group">
-			    			<input class="btn btn-default" type="submit" value="OK">
-			    		</div>
-			    	</form>
-			    	<form role="form">
-			    		<div class="form-group">
-			    			<label for="change_password">Change your password: </label>
-			    			<input id="change_password" class="form-control" type="password" required>
-			    			<label for="change_password_again">Type it again: </label>
-			    			<input id="change_password_again" class="form-control" type="password" required>
-			    			<label for="old_password">Type your old password: </label>
-			    			<input id="old_password" class="form-control" type="password" required>
-			    		</div>
-			    		<div class="form-group">
-			    			<input class="btn btn-default" type="submit" value="OK">
-			    		</div>
-			    	</form>
-			    </div>
-			    <div class="col-md-2 hidden-sm hidden-xs"></div>
-			</div>
+			
 			<div class="row">
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 				<div class="col-md-8 panel custom-panel">

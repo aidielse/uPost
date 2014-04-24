@@ -1,10 +1,11 @@
 <?php
+	require_once 'config.php';
 	//checks to see if the user has a session.
 	//if the user has a session, they are redirected to the user page
 	session_start();
 	if(isset($_SESSION['fb_access_token'])) {
 
-		header("Location: http://localhost/uPost/about.php/");
+		header("Location: http://{$host}/about.php");
 	}
 ?>
 

@@ -1,4 +1,6 @@
 <?php
+require_once 'config.php';
+
 session_start();
 
 
@@ -14,7 +16,7 @@ session_start();
 	//if the user presses the logout button, they are logged out
 	if(isset($_GET['action']) && $_GET['action'] == 'logout') {
 		session_destroy();
-		header("Location: http://localhost/uPost/");
+		header("Location: http://{$host}/index.php");
 	}
 ?>
 
@@ -43,7 +45,63 @@ session_start();
   		
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
-	  	  		//$("#debug").append("Hello bug!").show(200);
+	  	  		$("#submit").on('click', function(e){
+		  	  		e.preventDefault();
+					//Prepare the data to be sent
+					var text=$("form [name='text']").val();
+					var loc=$("#current_loc").html().split(" ");
+					var lat=loc[0];
+					var lon=loc[1];
+					var location="off";
+					var facebook="off";
+					var twitter="off";
+					var google_plus="off";
+		  	  		if($("form [name='location']").prop('checked')==true)
+		  	  		{
+			  	  		location="on";
+		  	  		}
+		  	  		if($("form [name='facebook']").prop('checked')==true)
+		  	  		{
+			  	  		facebook="on";
+		  	  		}
+		  	  		if($("form [name='twitter']").prop('checked')==true)
+		  	  		{
+			  	  		twitter="on";
+			  	  	}
+		  	  		if($("form [name='google+']").prop('checked')==true)
+		  	  		{
+			  	  		google_plus="on";
+		  	  		}
+
+		  	  		var data={
+				  	  	text: text, 
+				  	  	lat: lat,
+				  	  	long: lon,
+				  	  	location: location,
+				  	  	facebook: facebook,
+				  	  	twitter: twitter,
+				  	  	"google+":google_plus
+				  	};
+		  	  		
+		  	  		$.ajax({
+			  	  		url:"post.php",
+			  	  		type:"POST",
+			  	  		ajax: true,
+			  	  		data:data,
+			  	  		dataType: "json",
+			  	  		success:function(data, textStatus, jqXHR){
+				  	  		//console.dir(data);
+				  	  		alert("success!");
+				  	  	},
+				  	  	error:function(jqXHR, textStatus, errorThrown){
+					  	  	//console.dir(jqXHR+textStatus+errorThrown);
+					  	  	alert("error! "+jqXHR+textStatus+errorThrown);
+					  	},
+					  	complete:function(jqXHR, textStatus){
+							alert("completed!");
+						}
+			  	  	});
+		  	  	});
 	  	  	});
   		</script>
   		
@@ -59,10 +117,15 @@ session_start();
 	        </div>
 	        
 	      	<ul class="nav navbar-nav navbar-right">
+          		<li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account Settings <b class="caret"></b></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#" onclick="window.location='account.php'">Manage Social Accounts</a></li>
+		            <li><a href="#" onclick="window.location='about.php?action=logout'">Log Out</a></li>
+		            <li class="divider"></li>
+		          </ul>
+		        </li>
           		
-          		<li class="item" onclick="window.location='about.php?action=logout'"><a href="#" data-toggle="modal" data-target="#user_login">
-          			Log Out
-          		</li>
 		    </ul>
 		</div>
 		
@@ -105,12 +168,12 @@ session_start();
 					</script>
 					
 					<!-- User's post -->
-				    <form role="form">
+				    <form method="post" action="post.php" role="form">
 				    
 				    	<!-- Text area -->
 			    		<div class="form-group">
 			    			<label for="post_text">Write something and public everywhere!</label>
-			    			<textarea id="post_text" class="form-control" placeholder="Write something you want to say..." rows="5"></textarea>
+			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something you want to say..." rows="5"></textarea>
 			    			
 			    		</div>
 			    		
@@ -123,6 +186,14 @@ session_start();
 			    				<div class="col-sm-3">
 			    				<p id="current_loc"></p>
 			    				</div>
+			    				<div class="col-sm-6">
+			    				<label class="checkbox-inline">
+			    					
+			    					<input name="location" type="checkbox" checked>
+			    					Enable location posting
+			    				</label>
+			    				</div>
+			    				
 			    			</div>
 			    		</div>
 			    		
@@ -132,21 +203,26 @@ session_start();
 			    			
 			    			<img src="Images/Logos/facebook.jpg" height="20">
 			    			<label class="checkbox-inline">
-			    				<input type="checkbox">
+			    				<input name="facebook" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    			
 			    			<img src="Images/Logos/twitter.jpg" height="20">
 			    			<label class="checkbox-inline">
-			    			<input type="checkbox">
+			    			    <input name="twitter" type="checkbox">
+			    			</label>
+			    			<span>&nbsp;&nbsp;</span>
+			    			
+			    			<img src="Images/Logos/google+.jpg" height="20">
+			    			<label class="checkbox-inline">
+			    			    <input name="google+" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
 			    		
 			    		<div class="form-group">
-			    			<input class="btn btn-default btn-block" type="submit" value="uPOST!">
+			    			<input id="submit" class="btn btn-default btn-block" type="submit" value="uPOST!">
 			    		</div>
-			    		
 			    	</form>
 			    </div>
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
