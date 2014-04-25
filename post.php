@@ -4,7 +4,8 @@ session_start();
 
 //This script will receive an ajax request from the user
 //Check if it is a POST Request
-//And return a json formated response
+//And return a json formated response {'data': xxxx}
+//IF an ERROR occurs, it returns a json formated as {'error': 'error type'}
 header('Content-Type: application/json');
 
 //Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", googleplus=>"on", lat=>Num, long=>Num, location=>"on") 
@@ -21,31 +22,30 @@ if(!empty($_POST))
 	if(!isset($_SESSION["fb_access_token"]) && ($_POST["facebook"])=="on")
 	{
 		$all_loggedin=false;
-		echo json_encode(array("success"=>0, "error"=>"facebook"));
-		die();
+		echo json_encode(array("error"=>"facebook"));
 	}
 	if(!isset($_SESSION["tw_access_token"]) &&  ($_POST["twitter"]=="on"))
 	{
 		$all_loggedin=false;
-		echo json_encode(array("success"=>0, "error"=>"twitter"));
-		die();
+		echo json_encode(array("error"=>"twitter"));
 	}
 	if(!isset($_SESSION["g+_is_logged_in"]) &&  ($_POST["googleplus"])=="on")
 	{
 		$all_loggedin=false;
-		echo json_encode(array("success"=>0, "error"=>"googleplus"));
-		die();
+		echo json_encode(array("error"=>"googleplus"));
+		
 	}
 	
 	
 	if(!$all_loggedin)
 	{
-		
+		http_response_code(403);
+		die();
 	}
 	
 	if(isset($_POST['facebook']))
 	{
-	
+		//posting to Facebook
 	}
 	
 	if(isset($_POST['twitter']))
@@ -59,7 +59,7 @@ if(!empty($_POST))
 	
 	if(isset($_POST['googleplus']))
 	{
-	
+		//posting to Google plus
 	}
 	
 	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}

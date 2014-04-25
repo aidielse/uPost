@@ -38,16 +38,13 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
-  		<!-- JQueryUI -->
-  		<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
-  		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   		
   		<!-- stylesheet specific to the site -->
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
+	  			$("#test").modal();
 	  	  		$("#submit").on('click', function(e){
 		  	  		e.preventDefault();
 					//Prepare the data to be sent
@@ -94,21 +91,46 @@ session_start();
 			  	  		dataType: "json",
 			  	  		success:function(data, textStatus, jqXHR){
 				  	  		//console.dir(data);
-				  	  		if(data["success"]==1)
-				  	  		{
-				  	  			alert("success!");
-				  	  		}
-				  	  		else
-				  	  		{
-					  	  		alert("failed: "+data["error"]);
-				  	  		}
+				  	  		$("#ssn_selections input").each(function(i, e){
+					  	  		if($(e).prop("checked")==true)
+					  	  		{
+						  	  		var display_name;
+						  	  		if($(e).attr("name")=="Facebook")
+						  	  		{
+							  	  		display_name="Facebook";
+						  	  		}
+					  	  			else if($(e).attr("name")=="googleplus")
+					  	  			{
+						  	  			display_name="Google+"
+					  	  			}
+					  	  			else if($(e).attr("name")=="twitter")
+					  	  			{
+						  	  			display_name="Twitter";
+					  	  			}
+					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
+					  	  		}
+					  	  	});
+					  	  	$("#success_login").modal("show");
+					  	  $("#sites_posted_to").html("");
 				  	  	},
 				  	  	error:function(jqXHR, textStatus, errorThrown){
 					  	  	//console.dir(jqXHR+textStatus+errorThrown);
-					  	  	alert("error! "+jqXHR+textStatus+errorThrown);
+					  	  	var error_type=JSON.parse(jqXHR.responseText)["error"];
+
+					  	  	if(error_type=="facebook")
+					  	  	{
+						  	  	$("#fb_user_login").modal("show");
+					  	  	}
+					  	  	else if(error_type=="googleplus")
+					  	  	{
+					  	  		$("#gp_user_login").modal("show");
+						  	}
+					  	  	else if(error_type=="twitter")
+					  	  	{
+					  	  		$("#tw_user_login").modal("show");
+					  	  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
-							alert("completed!");
 						}
 			  	  	});
 		  	  	});
@@ -123,6 +145,80 @@ session_start();
 	</head>
 	
 	<body>
+		<!-- Login prompts when user has not logged in to one of the selected sns's -->
+		<!-- Popup for facebook login -->
+		<div class="modal fade" id="fb_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="fb_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Facebook" >
+			          </div>
+			      </form>
+			  </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Popup for google plus login -->
+		<div class="modal fade" id="gp_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="gp_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Google+" >
+			          </div>
+			      </form>
+			  </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Popup for twitter login -->
+		<div class="modal fade" id="tw_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="tw_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Twitter" >
+			          </div>
+			      </form>
+			  </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Prompt for successful posting -->
+	    <div class="modal fade" id="success_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You have successfully posted to the following sites:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <ul id="sites_posted_to">
+			        
+			      </ul>
+			  </div>
+		    </div>
+		  </div>
+		</div>
 		
 		<!-- Navbar(header) -->
 		<nav class="navbar navbar-default fixed-top" role="navigation">
@@ -213,7 +309,7 @@ session_start();
 			    		</div>
 			    		
 			    		<!-- SNS options -->
-			    		<div class="form-group">
+			    		<div id="ssn_selections" class="form-group">
 			    			<!-- Generated dynamically -->
 			    			
 			    			<img src="Images/Logos/facebook.jpg" height="20">

@@ -152,10 +152,6 @@
 			/* Remove no longer needed request tokens */
 			unset($_SESSION['tw_login']);
 			
-			//echo 'twitter session saved'
- 			//echo 'twitter session saved!<br />';
- 			//die();
-			
 			login_succeed_redirect("twitter");
 		}
 		//once we're logged in too google+
