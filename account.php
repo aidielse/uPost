@@ -1,3 +1,10 @@
+<?php 
+require_once 'config.php';
+session_start();
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -60,8 +67,11 @@
 							</form>
 						</div>
 						<div class="col-md-3">
-							<p>Login status:</p>
-							<p>Logged in</p>
+						  <?php if(isset($_SESSION["fb_access_token"])): ?>
+							<p class="text-success">You are currently logged in!</p>
+					 	  <?php else: ?>
+					 	    <p class="text-danger">You are currently logged out!</p>
+					 	  <?php endif; ?>
 						</div>
 					</div>
 				</div>
@@ -82,8 +92,11 @@
 					         </form>
 					    </div>
 						<div class="col-md-3">
-							<p>Login status:</p>
-							<p>Logged in</p>
+						  <?php if(isset($_SESSION["tw_access_token"])): ?>
+							<p class="text-success">You are currently logged in!</p>
+					 	  <?php else: ?>
+					 	    <p class="text-danger">You are currently logged out!</p>
+					 	  <?php endif; ?>
 						</div>
 					</div>
 				</div>
@@ -104,13 +117,17 @@
 					        </form>
 						</div>
 						<div class="col-md-3">
-							<p>Login status:</p>
-							<p>Logged in</p>
-						</div>
+						  <?php if(isset($_SESSION["g+_is_logged_in"])): ?>
+							<p class="text-success">You are currently logged in!</p>
+					 	  <?php else: ?>
+					 	    <p class="text-danger">You are currently logged out!</p>
+					 	  <?php endif; ?>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+				
 			</div>
 		</div>
 	</body>

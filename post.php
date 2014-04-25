@@ -7,19 +7,46 @@ session_start();
 //And return a json formated response
 header('Content-Type: application/json');
 
-//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", google+=>"on", lat=>Num, long=>Num, location=>"on") 
+//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", googleplus=>"on", lat=>Num, long=>Num, location=>"on") 
 if(!empty($_POST))
 {
+	//print_r($_POST);
 	//Check to see if the user is logged in to the SSN they are posting to by checking the xx_access_token. 
 	//print_r($_SESSION);
+	$all_snss=array("fb_access_token", "tw_access_token", "g+_is_logged_in");
+	//A flag that indicates if the user has logged into all the sns selected
+	$all_loggedin=true;
+	//If there's any unset access token, let the user know by sending the error msg
 	
-	//If there's any unset access token, let the user know 
-	//print_r($_POST);
+	if(!isset($_SESSION["fb_access_token"]) &&  isset($_POST["facebook"]))
+	{
+		$all_loggedin=false;
+		echo json_encode(array("success"=>0, "error"=>"facebook"));
+		die();
+	}
+	if(!isset($_SESSION["tw_access_token"]) &&  isset($_POST["twitter"]))
+	{
+		$all_loggedin=false;
+		echo json_encode(array("success"=>0, "error"=>"twitter"));
+		die();
+	}
+	if(!isset($_SESSION["g+_is_logged_in"]) &&  isset($_POST["googleplus"]))
+	{
+		$all_loggedin=false;
+		echo json_encode(array("success"=>0, "error"=>"googleplus"));
+		die();
+	}
 	
 	
-	//Validation that the user is logged in with all the ssns he chose to post to
-	//...
-	//...
+	if(!$all_loggedin)
+	{
+		
+	}
+	
+	if(isset($_POST['facebook']))
+	{
+	
+	}
 	
 	if(isset($_POST['twitter']))
 	{
@@ -28,6 +55,11 @@ if(!empty($_POST))
 		$status = $connection->post('statuses/update', array('status' => $_POST['text'], 'lat' =>$_POST['lat'], 'long'=>$_POST['long'], 'display_coordinates'=>$_POST['location'] ));
 		echo json_encode(array("success"=>1, "status"=>$status));
 		die();
+	}
+	
+	if(isset($_POST['googleplus']))
+	{
+	
 	}
 	
 	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}

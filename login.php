@@ -56,6 +56,7 @@
 		//echo "session: ";
 		//print_r($_SESSION);
 		
+		
 		//once the user is verified with facebook and we have an app code
 		if($_GET["sns"]=="facebook") {
 			//echo "facebook login complete\n";
@@ -64,8 +65,7 @@
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			$APP_SECRET=$fb["APP_SECRET"];
-
-			//echo "wut\n";
+			
 			//Get a short lived token
 			//phpinfo();
 			$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
@@ -81,11 +81,11 @@
 			if(!$ret)
 			{
 				//echo "failed getting short-term access token\n";
-				login_fail_redirect();
+				login_fail_redirect("failed-getting-short-term-token-facebook");
+				
 				die();
 			}
-			//echo "something happened";
-
+			
 			//$ret has format access_token=xxxxxxxx&expire=xxxxxx
 			parse_str($ret, $q);
 			//parse the short term access token to seperate the expiration,
@@ -101,7 +101,7 @@
 			if(!$ret)
 			{
 				//echo "Failed getting long-term access token\n";
-				login_fail_redirect();
+				login_fail_redirect("failed-getting-long-term-token-facebook");
 				die();
 			}
 			//get the actual long-term access token from $ret
@@ -123,13 +123,13 @@
 			/* If the oauth_token is old redirect to the home page. */
 			if (isset($_REQUEST['oauth_token']) && $_SESSION['tw_login']['OAuth_token'] !== $_REQUEST['oauth_token']) {
 				session_destroy();
-				login_fail_redirect("login-timed-out");	
+				login_fail_redirect("login-timed-out-twitter");	
 				die();
 			}
 			if(isset($_REQUEST['denied']))
 			{
 				session_destroy();
-				login_fail_redirect("user denied");
+				login_fail_redirect("user-denied-twitter");
 				die();
 			}
 			/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */

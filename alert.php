@@ -1,4 +1,4 @@
-
+<!-- A collection of alerts that provide users and developers of what went wrong or what's going on -->
 
 <!-- An alert that provides debug information -->
 <div id="debug" class="alert alert-warning alert-dismissable" hidden>
@@ -27,6 +27,7 @@
 </div>
 
 <script>
+	//If the paramter is not defined, it reutrns an empty string
 	function getParameterByName(name) {
 	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -34,12 +35,33 @@
 	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-	
-	if(getParameterByName("error")!="")
+
+	if(getParameterByName("error")!="" && getParameterByName("error")=="failed-getting-short-term-token-facebook")
 	{
+		$("#debug p").html("Failed to obtain short term token from facebook");
+		$("#debug").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="failed-getting-long-term-token-facebook")
+	{
+		$("#debug p").html("Failed to obtain long term token from facebook");
+		$("#debug").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="login-timed-out-twitter")
+	{
+		$("#user_alert p").html("Login timed out, please try again");
 		$("#user_alert").slideDown(300);
 	}
-		
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="user-denied-twitter")
+	{
+		$("#user_alert p").html("You denied the app for posting for you");
+		$("#user_alert").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="unknown")
+	{
+		$("#user_alert p").html("An unknown error has occurred. Please contact us for further assistance");
+		$("#user_alert").slideDown(300);
+	}
+
 	
 	if(getParameterByName("login")=="facebook")
 	{
