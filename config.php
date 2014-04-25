@@ -6,14 +6,15 @@
 	//this file for Twitter
 	require_once './twitter-api-php-client/twitteroauth/twitteroauth.php';
 
-	$host = "localhost/uPost/";
+	//$host = "localhost/uPost/";
 	//Make it GLOBAL
 	define('HOST',"localhost/uPost/");
+	$host = HOST;
 	$uri="";
 	//Facebook api information
 	$appid = "290187461143677";
 	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
-	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
+	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 	
 	//Twitter api credentials
 	$consumer_key="yVqGgDv0G6KLLMRpgvKL5Fdft";

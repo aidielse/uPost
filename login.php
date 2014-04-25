@@ -159,14 +159,13 @@
 		//there is no need to store an app token once we are logged in
 		else if ($_GET['sns'] == 'googleplus') {
 			//just to track that the user is actually logged in
-			$_SESSION['login']=='googleplus';
-			$_SESSION['g+_is_logged_in'] = "ye";
+			$_SESSION['g+_is_logged_in'] = 'ye';
 			//redirect to about.php
 			login_succeed_redirect("googleplus");
 		}
 		else {
-			echo "POST data is empty!";
-			die();
+			//echo "POST data is empty!";
+			login_fail_redirect("Could not log in to SNS");
 		}
 	}
 	
@@ -178,15 +177,15 @@
 			$host=HOST;
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			$extra = "about.php?login={$ssn}";
-			header("Location: http://$host$uri/$extra");
+			header("Location: http://{$host}{$extra}");
 	}
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
 		session_write_close();
 		//$host  = $_SERVER['HTTP_HOST'];
-		$host=HOST;
+		//$host=HOST;
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "index.php?error={$error}";
-		header("Location: http://$host$uri/$extra");
+		header("Location: http://{$host}{$extra}");
 	}
 ?>

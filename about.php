@@ -6,11 +6,11 @@ session_start();
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
-	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
+	if(isset($_SESSION['fb_access_token'])) {}
 
-	else if($_SESSION['login']=='googleplus' && $_SESSION['g+_is_logged_in'] == true) {}
+	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
-	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
+	else if(isset($_SESSION['tw_access_token'])){}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
