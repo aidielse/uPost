@@ -18,19 +18,19 @@ if(!empty($_POST))
 	$all_loggedin=true;
 	//If there's any unset access token, let the user know by sending the error msg
 	
-	if(!isset($_SESSION["fb_access_token"]) &&  isset($_POST["facebook"]))
+	if(!isset($_SESSION["fb_access_token"]) && ($_POST["facebook"])=="on")
 	{
 		$all_loggedin=false;
 		echo json_encode(array("success"=>0, "error"=>"facebook"));
 		die();
 	}
-	if(!isset($_SESSION["tw_access_token"]) &&  isset($_POST["twitter"]))
+	if(!isset($_SESSION["tw_access_token"]) &&  ($_POST["twitter"]=="on"))
 	{
 		$all_loggedin=false;
 		echo json_encode(array("success"=>0, "error"=>"twitter"));
 		die();
 	}
-	if(!isset($_SESSION["g+_is_logged_in"]) &&  isset($_POST["googleplus"]))
+	if(!isset($_SESSION["g+_is_logged_in"]) &&  ($_POST["googleplus"])=="on")
 	{
 		$all_loggedin=false;
 		echo json_encode(array("success"=>0, "error"=>"googleplus"));

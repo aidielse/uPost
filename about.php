@@ -55,13 +55,13 @@ session_start();
 					var loc=$("#current_loc").html().split(" ");
 					var lat=loc[0];
 					var lon=loc[1];
-					var location="off";
+					var location=false;
 					var facebook="off";
 					var twitter="off";
 					var google_plus="off";
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
-			  	  		location="on";
+			  	  		location=true;
 		  	  		}
 		  	  		if($("form [name='facebook']").prop('checked')==true)
 		  	  		{
@@ -94,7 +94,14 @@ session_start();
 			  	  		dataType: "json",
 			  	  		success:function(data, textStatus, jqXHR){
 				  	  		//console.dir(data);
-				  	  		alert("success!");
+				  	  		if(data["success"]==1)
+				  	  		{
+				  	  			alert("success!");
+				  	  		}
+				  	  		else
+				  	  		{
+					  	  		alert("failed: "+data["error"]);
+				  	  		}
 				  	  	},
 				  	  	error:function(jqXHR, textStatus, errorThrown){
 					  	  	//console.dir(jqXHR+textStatus+errorThrown);

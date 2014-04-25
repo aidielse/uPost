@@ -107,7 +107,7 @@ session_start();
 				<div class="col-md-8 panel custom-panel">
 					<div class="row">
 						<div class="col-md-3">
-							<img class="img-responsive" src="Images/Logos/google+.jpg" >
+							<img class="img-responsive" src="Images/Logos/googleplus.jpg" >
 						</div>
 						<div class="col-md-6">
 							<form role="form" action="login.php" method="post" autocomplete="on">
