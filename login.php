@@ -114,8 +114,8 @@
 			//echo $_SESSION['fb_access_token'];
 			//exit curl
 			curl_close($c);
-			//Store the access token and username in the database	 
-			login_succeed_redirect();
+			
+			login_succeed_redirect("facebook");
 	 				 		
 		}
 		//once the user is verified with twitter
@@ -156,18 +156,17 @@
  			//echo 'twitter session saved!<br />';
  			//die();
 			
-			//Store the access token and username in the database
-			login_succeed_redirect();
+			login_succeed_redirect("twitter");
 		}
 		//once we're logged in too google+
 		//due to the way the google PHP API works, 
 		//there is no need to store an app token once we are logged in
 		else if ($_GET['sns'] == 'googleplus') {
 			//just to track that the user is actually logged in
-			$_SESSION['login']=='google+';
+			$_SESSION['login']=='googleplus';
 			$_SESSION['g+_is_logged_in'] = "ye";
 			//redirect to about.php
-			login_succeed_redirect();
+			login_succeed_redirect("googleplus");
 		}
 		else {
 			echo "POST data is empty!";
@@ -176,13 +175,13 @@
 	}
 	
 	
-	function login_succeed_redirect() {
+	function login_succeed_redirect($ssn="unknown") {
 			//Redirect to about.php
 			session_write_close();
 			//$host  = $_SERVER['HTTP_HOST'];
 			$host=HOST;
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			$extra = 'about.php';
+			$extra = "about.php?login={$ssn}";
 			header("Location: http://$host$uri/$extra");
 	}
 	function login_fail_redirect($error="unknown") {

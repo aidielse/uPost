@@ -27,24 +27,15 @@
 		        </div>
 		        
 		        <ul class="nav navbar-nav navbar-right">
-		        	<li class="dropdown">
-		        		<!-- Generated dynamically -->
-		        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
-		        	    <ul class="dropdown-menu">
-		        	    	<li><a href="#contactus">change username</a></li>
-		        	    	<li><a href="#github">change password</a></li>
-		        	    </ul>
-          			</li>
-          			<li class="dropdown">
-          				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <b class="caret"></b></a>
-          				<ul class="dropdown-menu">
-          					<!-- Generated dynamically -->
-          					<li><li>
-          					<li><li>
-          					<li><li>
-          				</ul>
-          			</li>
-		        </ul>
+	          		<li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account Settings <b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="#" onclick="window.location='account.php'">Manage Social Accounts</a></li>
+			            <li><a href="#" onclick="window.location='about.php?action=logout'">Log Out</a></li>
+			            <li class="divider"></li>
+			          </ul>
+			        </li>
+		    	</ul>
 		        
 		    </div>
 		</div>
@@ -63,16 +54,9 @@
 						<div class="col-md-6">
 							<form role="form">
 								<div class="form-group">
-									<label>Username:</label>
-									<input class="form-control" type="text">
+									<input id="fb_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Facebook">
 								</div>
-								<div class="form-group">
-									<label>Password:</label>
-									<input class="form-control" type="password">
-								</div>
-								<div class="form-group">
-									<input class="btn btn-default btn-block" type="submit" value="login">
-								</div>
+								
 							</form>
 						</div>
 						<div class="col-md-3">
@@ -91,23 +75,38 @@
 							<img class="img-responsive" src="Images/Logos/twitter.jpg" >
 						</div>
 						<div class="col-md-6">
-							<form role="form">
-								<div class="form-group">
-									<label>Username:</label>
-									<input class="form-control" type="text">
-								</div>
-								<div class="form-group">
-									<label>Password:</label>
-									<input class="form-control" type="password">
-								</div>
-								<div class="form-group">
-									<input class="btn btn-default btn-block" type="submit" value="login">
-								</div>
-							</form>
+							<form role="form" action="login.php" method="post" autocomplete="on">
+					            <div class="form-group">
+					              <input id="tw_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Twitter">
+					            </div>
+					         </form>
+					    </div>
+						<div class="col-md-3">
+							<p>Login status:</p>
+							<p>Logged in</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+				<div class="col-md-8 panel custom-panel">
+					<div class="row">
+						<div class="col-md-3">
+							<img class="img-responsive" src="Images/Logos/google+.jpg" >
+						</div>
+						<div class="col-md-6">
+							<form role="form" action="login.php" method="post" autocomplete="on">
+					            <div class="form-group">
+					              <input id="gp_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Google+">
+					            </div>
+					        </form>
 						</div>
 						<div class="col-md-3">
 							<p>Login status:</p>
 							<p>Logged in</p>
+						</div>
 						</div>
 					</div>
 				</div>

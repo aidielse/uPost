@@ -32,7 +32,7 @@ if(!empty($_POST))
 	
 	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
 	
-	else if($_SESSION['login']=='google+' && $_SESSION['g+_is_logged_in'] == "ye") {}
+	else if($_SESSION['login']=='googleplus' && $_SESSION['g+_is_logged_in'] == "ye") {}
 	
 	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
 	

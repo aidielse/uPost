@@ -8,7 +8,7 @@ session_start();
 	//if the user has no access token, they are redirected to index.php
 	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
 
-	else if($_SESSION['login']=='google+' && $_SESSION['g+_is_logged_in'] == "ye") {}
+	else if($_SESSION['login']=='googleplus' && $_SESSION['g+_is_logged_in'] == "ye") {}
 	
 	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
 	
@@ -18,6 +18,9 @@ session_start();
 		session_destroy();
 		header("Location: http://{$host}/index.php");
 	}
+	
+	//Print out the current session data
+	print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +71,7 @@ session_start();
 		  	  		{
 			  	  		twitter="on";
 			  	  	}
-		  	  		if($("form [name='google+']").prop('checked')==true)
+		  	  		if($("form [name='googleplus']").prop('checked')==true)
 		  	  		{
 			  	  		google_plus="on";
 		  	  		}
@@ -80,7 +83,7 @@ session_start();
 				  	  	location: location,
 				  	  	facebook: facebook,
 				  	  	twitter: twitter,
-				  	  	"google+":google_plus
+				  	  	"googleplus":google_plus
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -102,6 +105,10 @@ session_start();
 						}
 			  	  	});
 		  	  	});
+
+				//Alert
+				//$("#debug").slideDown(200);
+		  	  	
 	  	  	});
   		</script>
   		
@@ -111,7 +118,8 @@ session_start();
 	<body>
 		
 		<!-- Navbar(header) -->
-		<div class="navbar navbar-default fixed-top" role="navigation">
+		<nav class="navbar navbar-default fixed-top" role="navigation">
+		  <div class="container-fluid">
 	        <div class="navbar-header">
 	            <a class="navbar-brand" href="index.php">uPOST</a>
 	        </div>
@@ -125,12 +133,12 @@ session_start();
 		            <li class="divider"></li>
 		          </ul>
 		        </li>
-          		
 		    </ul>
-		</div>
+		  </div>
+		</nav>
 		
 		<!-- For client-side notifications -->
-		<?php require_once("alert.php");?>
+		<?php include("alert.php");?>
 		
 		<!-- Main body. Post area -->
 		<div class="fluid-container">
@@ -213,9 +221,9 @@ session_start();
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    			
-			    			<img src="Images/Logos/google+.jpg" height="20">
+			    			<img src="Images/Logos/googleplus.jpg" height="20">
 			    			<label class="checkbox-inline">
-			    			    <input name="google+" type="checkbox">
+			    			    <input name="googleplus" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
