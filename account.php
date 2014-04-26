@@ -21,6 +21,14 @@ session_start();
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		<link type="text/css" rel="stylesheet" href="Styles/general.css">
   		
+  		<style>
+  		  .text-success{
+  		    font-size: 150%;
+  		  }
+  		  .text-danger{
+  		    font-size: 150%;
+  		  }
+  		</style>
 		<title> Manage Your Account</title>
 	</head>
 	
@@ -58,21 +66,20 @@ session_start();
 						<div class="col-md-3">
 							<img class="img-responsive" src="Images/Logos/facebook.jpg" >
 						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-6">
 							<form role="form">
 								<div class="form-group">
-									<input id="fb_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Facebook">
+									<input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook">
 								</div>
-								
 							</form>
+							<?php if(isset($_SESSION["fb_access_token"])): ?>
+							  <p class="text-success">You are currently logged in!</p>
+					 	  	<?php else: ?>
+					 	      <p class="text-danger">You are currently logged out!</p>
+					 	  	<?php endif; ?>
 						</div>
-						<div class="col-md-3">
-						  <?php if(isset($_SESSION["fb_access_token"])): ?>
-							<p class="text-success">You are currently logged in!</p>
-					 	  <?php else: ?>
-					 	    <p class="text-danger">You are currently logged out!</p>
-					 	  <?php endif; ?>
-						</div>
+						<div class="col-md-2"></div>
 					</div>
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
@@ -84,19 +91,22 @@ session_start();
 						<div class="col-md-3">
 							<img class="img-responsive" src="Images/Logos/twitter.jpg" >
 						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-6">
 							<form role="form" action="login.php" method="post" autocomplete="on">
 					            <div class="form-group">
-					              <input id="tw_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Twitter">
+					              <input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter">
 					            </div>
 					         </form>
+					         <?php if(isset($_SESSION["tw_access_token"])): ?>
+							   <p class="text-success">You are currently logged in!</p>
+					 	     <?php else: ?>
+					 	       <p class="text-danger">You are currently logged out!</p>
+					 	     <?php endif; ?>
 					    </div>
-						<div class="col-md-3">
-						  <?php if(isset($_SESSION["tw_access_token"])): ?>
-							<p class="text-success">You are currently logged in!</p>
-					 	  <?php else: ?>
-					 	    <p class="text-danger">You are currently logged out!</p>
-					 	  <?php endif; ?>
+					    
+						<div class="col-md-2">
+						  
 						</div>
 					</div>
 				</div>
@@ -109,19 +119,21 @@ session_start();
 						<div class="col-md-3">
 							<img class="img-responsive" src="Images/Logos/googleplus.jpg" >
 						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-6">
 							<form role="form" action="login.php" method="post" autocomplete="on">
 					            <div class="form-group">
-					              <input id="gp_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Google+">
+					              <input id="gp_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Google+">
 					            </div>
 					        </form>
+					        <?php if(isset($_SESSION["g+_is_logged_in"])): ?>
+							  <p class="text-success">You are currently logged in!</p>
+					 	    <?php else: ?>
+					 	      <p class="text-danger">You are currently logged out!</p>
+					 	    <?php endif; ?>
 						</div>
-						<div class="col-md-3">
-						  <?php if(isset($_SESSION["g+_is_logged_in"])): ?>
-							<p class="text-success">You are currently logged in!</p>
-					 	  <?php else: ?>
-					 	    <p class="text-danger">You are currently logged out!</p>
-					 	  <?php endif; ?>
+						<div class="col-md-2">
+						  
 						</div>
 					</div>
 				</div>

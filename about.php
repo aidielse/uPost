@@ -19,8 +19,6 @@ session_start();
 		header("Location: http://{$host}/index.php");
 	}
 	
-	//Print out the current session data
-	print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +44,13 @@ session_start();
   		
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
-	  			$("#test").modal();
+				//Character counter
+				$("#post_text").on("keyup", function(){
+					var text=$(this).val();
+					$("#char_count").html(text.length);
+				});
+				
+		  		
 	  	  		$("#submit").on('click', function(e){
 		  	  		e.preventDefault();
 					//Prepare the data to be sent
@@ -58,21 +62,38 @@ session_start();
 					var facebook="off";
 					var twitter="off";
 					var google_plus="off";
+					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
 			  	  		location=true;
 		  	  		}
+
+		  	  		var all_off=true;
 		  	  		if($("form [name='facebook']").prop('checked')==true)
 		  	  		{
 			  	  		facebook="on";
+			  	  		all_off=false;
 		  	  		}
 		  	  		if($("form [name='twitter']").prop('checked')==true)
 		  	  		{
 			  	  		twitter="on";
+			  	  		//Check for characters count
+			  	  		if(parseInt($("#char_count").html())>144)
+			  	  		{
+				  	  		alert("exceeds!");
+				  	  		window.location="about.php?error=char-count-excceeds";
+			  	  		}
+			  	  		all_off=false;
 			  	  	}
 		  	  		if($("form [name='googleplus']").prop('checked')==true)
 		  	  		{
 			  	  		google_plus="on";
+			  	  		all_off=false;
+		  	  		}
+		  	  		//If the user didn't select any sns, stop and inform the user
+		  	  		if(all_off)
+		  	  		{
+		  	  			window.location="about.php?error=all-off";
 		  	  		}
 
 		  	  		var data={
@@ -137,9 +158,7 @@ session_start();
 			  	  	});
 		  	  	});
 
-				//Alert
-				//$("#debug").slideDown(200);
-		  	  	
+				
 	  	  	});
   		</script>
   		
@@ -285,8 +304,8 @@ session_start();
 				    
 				    	<!-- Text area -->
 			    		<div class="form-group">
-			    			<label for="post_text">Write something and public everywhere!</label>
-			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something you want to say..." rows="5"></textarea>
+			    			<label for="post_text">Write something and public everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
+			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something in your mind..." rows="5"></textarea>
 			    			
 			    		</div>
 			    		

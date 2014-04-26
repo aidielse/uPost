@@ -56,11 +56,22 @@
 		$("#user_alert p").html("You denied the app for posting for you");
 		$("#user_alert").slideDown(300);
 	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="char-count-excceeds")
+	{
+		$("#user_alert p").html("Your character count must not excceed 144 if you want to post to Twitter");
+		$("#user_alert").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="all-off")
+	{
+		$("#user_alert p").html("You must select at least one site to post to");
+		$("#user_alert").slideDown(300);
+	}
 	else if(getParameterByName("error")!="" && getParameterByName("error")=="unknown")
 	{
 		$("#user_alert p").html("An unknown error has occurred. Please contact us for further assistance");
 		$("#user_alert").slideDown(300);
 	}
+	
 
 	
 	if(getParameterByName("login")=="facebook")

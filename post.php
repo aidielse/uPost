@@ -47,34 +47,34 @@ if(!empty($_POST))
 	{
 		// connects to facebook
 		$config = array(
-    	'appId' => $fb["APPID"],
-    	'secret' => $fb["APP_SECRET"],
-    	'allowSignedRequest' => false
-  	);
-  	$facebook = new Facebook( $config );
-  	$user_id = $facebook->getUser();
-  	if ( isset( $user_id ) ) 
-  	{
-  		// posts the message
-  		try 
-  		{
-	  		$return = $facebook->api(
-	  			'/me/feed',
-	  			'POST',
-	  			array(
-	  				'message' 		  => $_POST["text"],
-	  				'access_token'  => $_SESSION["fb_access_token"]
-	  			)
-	  		);
-	  	}
-	  	// handles error
-	  	catch ( FacebookApiException $e )
+    		'appId' => $fb["APPID"],
+    		'secret' => $fb["APP_SECRET"],
+    		'allowSignedRequest' => false
+  		);
+  		$facebook = new Facebook( $config );
+  		$user_id = $facebook->getUser();
+	  	if ( isset( $user_id ) ) 
 	  	{
-	  		error_log( "Caught exception " . $e );
-        error_log( $e->getType() );
-        error_log( $e->getMessage() );
+	  		// posts the message
+	  		try 
+	  		{
+		  		$return = $facebook->api(
+		  			'/me/feed',
+		  			'POST',
+		  			array(
+		  				'message' 		  => $_POST["text"],
+		  				'access_token'  => $_SESSION["fb_access_token"]
+		  			)
+		  		);
+		  	}
+		  	// handles error
+		  	catch ( FacebookApiException $e )
+		  	{
+		  		error_log( "Caught exception " . $e );
+	        error_log( $e->getType() );
+	        error_log( $e->getMessage() );
+		  	}
 	  	}
-  	}
 	}
 	
 	if(isset($_POST['twitter']))
