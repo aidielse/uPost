@@ -8,7 +8,7 @@ session_start();
 	//if the user has no access token, they are redirected to index.php
 	if(isset($_SESSION['fb_access_token'])) {}
 
-	else if( isset($_SESSION['g+_is_logged_in']) && $_SESSION['g+_is_logged_in'] == true) {}
+	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
 	else if(isset($_SESSION['tw_access_token'])){}
 	
