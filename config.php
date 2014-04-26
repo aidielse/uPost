@@ -5,6 +5,9 @@
 
 	//this file for Twitter
 	require_once './twitter-api-php-client/twitteroauth/twitteroauth.php';
+	
+	//this file for Facebook
+	require_once 'facebook-php-sdk/src/facebook.php';
 
 	$host = "uPost.websci";
 	//Make it GLOBAL

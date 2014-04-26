@@ -80,7 +80,6 @@ session_start();
 			  	  		//Check for characters count
 			  	  		if(parseInt($("#char_count").html())>144)
 			  	  		{
-				  	  		alert("exceeds!");
 				  	  		window.location="about.php?error=char-count-excceeds";
 			  	  		}
 			  	  		all_off=false;
@@ -114,7 +113,11 @@ session_start();
 			  	  		dataType: "json",
 			  	  		success:function(data, textStatus, jqXHR){
 				  	  		//console.dir(data);
+				  	  		$("#sites_posted_to").html("");
 				  	  		$("#ssn_selections input").each(function(i, e){
+					  	  		//First, clear the list
+				  	  			
+				  	  			//Repopulate the list with ssns that the user posted to with success
 					  	  		if($(e).prop("checked")==true)
 					  	  		{
 						  	  		var display_name;
@@ -133,8 +136,8 @@ session_start();
 					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
 					  	  	});
-					  	  	$("#success_login").modal("show");
-					  	  $("#sites_posted_to").html("");
+					  	  	$("#success_posting").modal("show");
+					  	  
 				  	  	},
 				  	  	error:function(jqXHR, textStatus, errorThrown){
 					  	  	//console.dir(jqXHR+textStatus+errorThrown);
@@ -152,6 +155,18 @@ session_start();
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
 					  	  	}
+					  	  	else if(error_type=="facebook-posting-failed")
+					  	  	{
+						  	  	alert("Facebook posting failed!");
+					  	  	}
+					  	  	else if(error_type=="twitter-postign-failed")
+					  	  	{
+						  	  	alert("Twitter posting failed!");
+					  	  	}
+					  	  	else if(error-type=="googleplus-posting-failed")
+					  	  	{
+						  	  	alert("Google plus posting failed!");
+						  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
 						}
@@ -225,7 +240,7 @@ session_start();
 		</div>
 		
 		<!-- Prompt for successful posting -->
-	    <div class="modal fade" id="success_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal fade" id="success_posting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">

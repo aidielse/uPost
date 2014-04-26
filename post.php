@@ -43,6 +43,9 @@ if(!empty($_POST))
 		die();
 	}
 	
+	//If succeeded posting to all the ssns, success will be 1, and ssns will be an array of ssns posted to
+	//If any posting failedd, success will be 0, and ssns will be an array of ssns posted to with success, and error will be the error type
+	$res=array('success'=>1, 'ssns'=>array(), 'error'=>null);
 	if(isset($_POST['facebook']))
 	{
 		// connects to facebook
@@ -66,24 +69,36 @@ if(!empty($_POST))
 		  				'access_token'  => $_SESSION["fb_access_token"]
 		  			)
 		  		);
+		  		array_push($res['ssns'], 'facebook');
 		  	}
 		  	// handles error
 		  	catch ( FacebookApiException $e )
 		  	{
 		  		error_log( "Caught exception " . $e );
-	        error_log( $e->getType() );
-	        error_log( $e->getMessage() );
+	        	error_log( $e->getType() );
+	        	error_log( $e->getMessage() );
+	        	$res['success']=0;
+	        	$res['error']="facebook-posting-failed";
 		  	}
+	  	}
+	  	else
+	  	{
+	  		$res['success']=0;
 	  	}
 	}
 	
 	if(isset($_POST['twitter']))
 	{
 		//Get a user-specific connection object that 
-		$connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION["tw_access_token"], $_SESSION["tw_access_token_secret"]);
-		$status = $connection->post('statuses/update', array('status' => $_POST['text'], 'lat' =>$_POST['lat'], 'long'=>$_POST['long'], 'display_coordinates'=>$_POST['location'] ));
-		echo json_encode(array("success"=>1, "status"=>$status));
-		die();
+		try{
+			$connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION["tw_access_token"], $_SESSION["tw_access_token_secret"]);
+			$status = $connection->post('statuses/update', array('status' => $_POST['text'], 'lat' =>$_POST['lat'], 'long'=>$_POST['long'], 'display_coordinates'=>$_POST['location'] ));
+			array_push($res['ssns'], 'twitter');
+		}
+		catch(Exception $e)
+		{
+			$res['success']=0;
+		}
 	}
 	
 	if(isset($_POST['googleplus']))
@@ -91,13 +106,12 @@ if(!empty($_POST))
 		//posting to Google plus
 	}
 	
-	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
-	
-	else if($_SESSION['login']=='googleplus' && $_SESSION['g+_is_logged_in'] == "ye") {}
-	
-	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
-	
-	else {header("Location: http://{$host}/");}
+	//Send the response
+	if($res['success']==0)
+	{
+		http_response_code(403);
+	}
+	echo json_encode($res);
 	
 }
 ?>
