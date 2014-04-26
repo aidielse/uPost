@@ -5,8 +5,15 @@
 	session_start();
 	if(isset($_SESSION['fb_access_token'])) {
 
-		header("Location: http://{$host}/about.php");
+		header("Location: http://{$HOST}/about.php");
 	}
+	else if(isset($_SESSION['tw_access_token'])){
+		header("Location: http://{$HOST}/about.php");
+	}
+	else if(isset($_SESSION['g+_is_logged_in'])){
+		header("Location: http://{$HOST}/about.php");
+	}
+	
 ?>
 
 <html>

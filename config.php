@@ -22,6 +22,7 @@
 	
 	
 	//Google+ api credentials
+	$googleplus_developer_key="AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw";
 	$client = new Google_Client();
 	$client->setApplicationName("Google+ PHP uPost app");
 	$client->setClientId('983819609735-ueud5lh1r2e04f3klssqrqehqfagt9ls.apps.googleusercontent.com');

@@ -6,11 +6,11 @@ session_start();
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
-	if($_SESSION['login']=='facebook' && isset($_SESSION['fb_access_token'])) {}
+	if(isset($_SESSION['fb_access_token'])) {}
 
-	else if($_SESSION['login']=='googleplus' && $_SESSION['g+_is_logged_in'] == true) {}
+	else if( isset($_SESSION['g+_is_logged_in']) && $_SESSION['g+_is_logged_in'] == true) {}
 	
-	else if($_SESSION['login']=='twitter' && isset($_SESSION['tw_access_token'])){}
+	else if(isset($_SESSION['tw_access_token'])){}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -38,6 +38,8 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
+  		<!-- Google Map API -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleplus_developer_key?>&sensor=true"></script>
   		
   		<!-- stylesheet specific to the site -->
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
@@ -95,13 +97,13 @@ session_start();
 					  	  		if($(e).prop("checked")==true)
 					  	  		{
 						  	  		var display_name;
-						  	  		if($(e).attr("name")=="Facebook")
+						  	  		if($(e).attr("name")=="facebook")
 						  	  		{
 							  	  		display_name="Facebook";
 						  	  		}
 					  	  			else if($(e).attr("name")=="googleplus")
 					  	  			{
-						  	  			display_name="Google+"
+						  	  			display_name="Google+";
 					  	  			}
 					  	  			else if($(e).attr("name")=="twitter")
 					  	  			{

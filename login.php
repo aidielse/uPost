@@ -109,7 +109,6 @@
 			//The Facebook access token
 			$access_token=$q["access_token"];
 			//store the long term access token in the session
-			$_SESSION['login'] = 'facebook';
 			$_SESSION['fb_access_token'] = $access_token;
 			//echo $_SESSION['fb_access_token'];
 			//exit curl
@@ -145,7 +144,6 @@
 			$username=$user['screen_name'];
 			
 			/* Save the access tokens. */
-			$_SESSION['login']="twitter";
 			$_SESSION['tw_access_token'] = $access_token;
 			$_SESSION['tw_access_token_secret']=$access_token_secret;
 			
@@ -172,13 +170,13 @@
 	
 	
 	function login_succeed_redirect($ssn="unknown") {
-			//Redirect to about.php
-			session_write_close();
-			//$host  = $_SERVER['HTTP_HOST'];
-			$host=HOST;
-			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			$extra = "about.php?login={$ssn}";
-			header("Location: http://$host$uri/$extra");
+		//Redirect to about.php
+		session_write_close();
+		//$host  = $_SERVER['HTTP_HOST'];
+		$host=HOST;
+		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		$extra = "about.php?login={$ssn}";
+		header("Location: http://$host$uri/$extra");
 	}
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
