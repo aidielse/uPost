@@ -45,6 +45,8 @@ session_start();
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
 				//Character counter
+				var text=$(this).val();
+				$("#char_count").html(text.length);
 				$("#post_text").on("keyup", function(){
 					var text=$(this).val();
 					$("#char_count").html(text.length);
@@ -159,7 +161,7 @@ session_start();
 					  	  	{
 						  	  	alert("Facebook posting failed!");
 					  	  	}
-					  	  	else if(error_type=="twitter-postign-failed")
+					  	  	else if(error_type=="twitter-posting-failed")
 					  	  	{
 						  	  	alert("Twitter posting failed!");
 					  	  	}
