@@ -45,7 +45,7 @@ if(!empty($_POST))
 	
 	//If succeeded posting to all the ssns, success will be 1, and ssns will be an array of ssns posted to
 	//If any posting failedd, success will be 0, and ssns will be an array of ssns posted to with success, and error will be the error type
-	$res=array('success'=>1, 'ssns'=>array(), 'error'=>null);
+	$res=array('success'=>1, 'ssns'=>array(), 'error'=>array());
 	if(isset($_POST['facebook']))
 	{
 		// connects to facebook
@@ -78,7 +78,7 @@ if(!empty($_POST))
 	        	error_log( $e->getType() );
 	        	error_log( $e->getMessage() );
 	        	$res['success']=0;
-	        	$res['error']="facebook-posting-failed";
+	        	array_push($res['error'],"facebook-posting-failed");
 		  	}
 	  	}
 	  	else
@@ -98,17 +98,20 @@ if(!empty($_POST))
 		catch(Exception $e)
 		{
 			$res['success']=0;
+			array_push($res['error'],"twitter-posting-failed");
 		}
 	}
 	
 	if(isset($_POST['googleplus']))
 	{
 		//posting to Google plus
+		
 	}
 	
 	//Send the response
 	if($res['success']==0)
 	{
+		//Send a problem response
 		http_response_code(403);
 	}
 	echo json_encode($res);

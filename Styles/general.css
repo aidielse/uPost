@@ -43,5 +43,30 @@
  }
  
 .ssn_name{
-	
+	color: rgb(150, 255, 90);
+	font-size:150%;
+}
+
+.fb-button{
+	color: white;
+	background-image: -webkit-linear-gradient(to bottom, rgb(51, 102, 153), rgb(71, 122, 173)); /* For Safari 5.1 to 6.0 */
+	background-image: -o-linear-gradient(to bottom, rgb(51, 102, 153), rgb(71, 122, 173)); /* For Opera 11.1 to 12.0 */
+	background-image: -moz-linear-gradient(to bottom, rgb(51, 102, 153), rgb(71, 122, 173)); /* For Firefox 3.6 to 15 */
+	background-image: linear-gradient(to bottom, rgb(51, 102, 153), rgb(71, 122, 173)); /* Standard syntax (must be last) */
+}
+
+.tw-button{
+	color: white;
+	background-image: -webkit-linear-gradient(to bottom, rgb(51, 204, 225), rgb(51, 204, 225)); /* For Safari 5.1 to 6.0 */
+	background-image: -o-linear-gradient(to bottom, rgb(51, 204, 225), rgb(51, 204, 225)); /* For Opera 11.1 to 12.0 */
+	background-image: -moz-linear-gradient(to bottom, rgb(51, 204, 225), rgb(51, 204, 225)); /* For Firefox 3.6 to 15 */
+	background-image: linear-gradient(to bottom, rgb(51, 204, 225), rgb(51, 204, 225)); /* Standard syntax (must be last) */
+}
+
+.gp-button{
+	color: white;
+	background-image: -webkit-linear-gradient(to bottom, rgb(204, 51, 51), rgb(224, 71, 71)); /* For Safari 5.1 to 6.0 */
+	background-image: -o-linear-gradient(to bottom, rgb(204, 51, 51), rgb(224, 71, 71)); /* For Opera 11.1 to 12.0 */
+	background-image: -moz-linear-gradient(to bottom, rgb(204, 51, 51), rgb(224, 71, 71)); /* For Firefox 3.6 to 15 */
+	background-image: linear-gradient(to bottom, rgb(204, 51, 51), rgb(224, 71, 71)); /* Standard syntax (must be last) */
 }

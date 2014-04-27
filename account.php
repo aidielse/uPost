@@ -70,9 +70,9 @@ session_start();
 						</div>
 						<div class="col-md-1"></div>
 						<div class="col-md-6">
-							<form role="form">
+							<form role="form" action="login.php" method="post" autocomplete="on">
 								<div class="form-group">
-									<input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook">
+									<input id="fb_login" name="sns" class="btn-block btn-lg fb-button" type="submit" value="login with Facebook">
 								</div>
 							</form>
 							<?php if(isset($_SESSION["fb_access_token"])): ?>
@@ -97,7 +97,7 @@ session_start();
 						<div class="col-md-6">
 							<form role="form" action="login.php" method="post" autocomplete="on">
 					            <div class="form-group">
-					              <input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter">
+					              <input id="tw_login" name="sns" class="btn-block btn-lg tw-button" type="submit" value="login with Twitter">
 					            </div>
 					         </form>
 					         <?php if(isset($_SESSION["tw_access_token"])): ?>
@@ -125,7 +125,7 @@ session_start();
 						<div class="col-md-6">
 							<form role="form" action="login.php" method="post" autocomplete="on">
 					            <div class="form-group">
-					              <input id="gp_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Google+">
+					              <input id="gp_login" name="sns" class="btn-block btn-lg gp-button" type="submit" value="login with Google+">
 					            </div>
 					        </form>
 					        <?php if(isset($_SESSION["g+_is_logged_in"])): ?>

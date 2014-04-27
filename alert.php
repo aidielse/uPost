@@ -66,6 +66,21 @@
 		$("#user_alert p").html("You must select at least one site to post to");
 		$("#user_alert").slideDown(300);
 	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="facebook-posting-failed")
+	{
+		$("#user_alert p").html("Some error occurred while posting to some social network sites");
+		$("#user_alert").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="twitter-posting-failed")
+	{
+		$("#user_alert p").html("Some error occurred while posting to some social network sites");
+		$("#user_alert").slideDown(300);
+	}
+	else if(getParameterByName("error")!="" && getParameterByName("error")=="googleplus-posting-failed")
+	{
+		$("#user_alert p").html("Some error occurred while posting to some social network sites");
+		$("#user_alert").slideDown(300);
+	}
 	else if(getParameterByName("error")!="" && getParameterByName("error")=="unknown")
 	{
 		$("#user_alert p").html("An unknown error has occurred. Please contact us for further assistance");

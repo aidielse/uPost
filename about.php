@@ -45,7 +45,7 @@ session_start();
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
 				//Character counter
-				var text=$(this).val();
+				var text=$("#post_text").val();
 				$("#char_count").html(text.length);
 				$("#post_text").on("keyup", function(){
 					var text=$(this).val();
@@ -144,7 +144,7 @@ session_start();
 				  	  	error:function(jqXHR, textStatus, errorThrown){
 					  	  	//console.dir(jqXHR+textStatus+errorThrown);
 					  	  	var error_type=JSON.parse(jqXHR.responseText)["error"];
-
+							//If the user hasn't logged in to one of the selected sites, display a popup asking for log in
 					  	  	if(error_type=="facebook")
 					  	  	{
 						  	  	$("#fb_user_login").modal("show");
@@ -159,15 +159,15 @@ session_start();
 					  	  	}
 					  	  	else if(error_type=="facebook-posting-failed")
 					  	  	{
-						  	  	alert("Facebook posting failed!");
+						  	  	window.location="about.php?error=facebook-posting-failed";
 					  	  	}
 					  	  	else if(error_type=="twitter-posting-failed")
 					  	  	{
-						  	  	alert("Twitter posting failed!");
+					  	  		window.location="about.php?error=twitter-posting-failed";
 					  	  	}
 					  	  	else if(error-type=="googleplus-posting-failed")
 					  	  	{
-						  	  	alert("Google plus posting failed!");
+					  	  		window.location="about.php?error=googleplus-posting-failed";
 						  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
@@ -195,7 +195,7 @@ session_start();
 		      <div class="modal-body">
 			      <form role="form" action="login.php" method="post" autocomplete="on">
 			          <div class="form-group">
-			            <input id="fb_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Facebook" >
+			            <input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook" >
 			          </div>
 			      </form>
 			  </div>
@@ -214,7 +214,7 @@ session_start();
 		      <div class="modal-body">
 			      <form role="form" action="login.php" method="post" autocomplete="on">
 			          <div class="form-group">
-			            <input id="gp_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Google+" >
+			            <input id="gp_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Google+" >
 			          </div>
 			      </form>
 			  </div>
@@ -233,7 +233,7 @@ session_start();
 		      <div class="modal-body">
 			      <form role="form" action="login.php" method="post" autocomplete="on">
 			          <div class="form-group">
-			            <input id="tw_login" name="sns" class="btn btn-primary btn-block" type="submit" value="login with Twitter" >
+			            <input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter" >
 			          </div>
 			      </form>
 			  </div>
@@ -351,26 +351,26 @@ session_start();
 			    			<!-- Generated dynamically -->
 			    			
 			    			<img src="Images/Logos/facebook.jpg" height="20">
-			    			<label class="checkbox-inline">
-			    				<input name="facebook" type="checkbox">
+			    			<label class="checkbox-inline" >
+			    				<input id="fb-checkbox" name="facebook" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    			
 			    			<img src="Images/Logos/twitter.jpg" height="20">
-			    			<label class="checkbox-inline">
-			    			    <input name="twitter" type="checkbox">
+			    			<label class="checkbox-inline" >
+			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    			
 			    			<img src="Images/Logos/googleplus.jpg" height="20">
-			    			<label class="checkbox-inline">
-			    			    <input name="googleplus" type="checkbox">
+			    			<label class="checkbox-inline" >
+			    			    <input id="gp-checkbox" name="googleplus" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
 			    		
 			    		<div class="form-group">
-			    			<input id="submit" class="btn btn-default btn-block" type="submit" value="uPOST!">
+			    			<input id="submit" class="btn btn-default btn-block btn-lg" type="submit" value="uPOST!">
 			    		</div>
 			    	</form>
 			    </div>
