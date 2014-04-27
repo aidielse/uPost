@@ -9,7 +9,7 @@
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			//redirect the user to facebook to login, we also pass our credentials to facebook
-			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
+			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions,read_stream");
 		}
 		else if($_POST["sns"]=="login with Twitter"){
 			/* Build TwitterOAuth object with client credentials. */
@@ -31,7 +31,6 @@
 			//print SESSION var tw_login
 			//echo "session var tw_login: ";
 			//print_r($_SESSION["tw_login"]);
-			
 			
 			header("Location: ".$url);
 			die();
@@ -172,16 +171,14 @@
 		//Redirect to about.php
 		session_write_close();
 		$host=HOST;
-		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "about.php?login={$ssn}";
-		header("Location: http://$host$uri/$extra");
+		header("Location: http://$host/$extra");
 	}
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
 		session_write_close();
 		$host=HOST;
-		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "index.php?error={$error}";
-		header("Location: http://$host$uri/$extra");
+		header("Location: http://$host/$extra");
 	}
 ?>

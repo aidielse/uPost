@@ -1,6 +1,5 @@
 <?php
 require_once 'config.php';
-
 session_start();
 
 
@@ -82,7 +81,7 @@ session_start();
 		  	  		{
 			  	  		twitter="on";
 			  	  		//Check for characters count
-			  	  		if(parseInt($("#char_count").html())>144)
+			  	  		if(parseInt($("#char_count").html())>140)
 			  	  		{
 				  	  		window.location="about.php?error=char-count-excceeds";
 			  	  		}
@@ -177,7 +176,25 @@ session_start();
 			  	  	});
 		  	  	});
 
-				
+				//Fetch feed updates from the sns
+				$.ajax({
+					url:"fetch.php",
+					type:"GET",
+					dataType:"json",
+					data:{"ssns":["facebook", "twitter", "googleplus"]},
+					ajax:true,
+					success:function(data, textStatus, jqXHR){
+						console.dir(data);
+					},
+					error:function(jqXHR, textStatus, errorThrown)
+					{
+						console.log(jqXHR.responseText);
+						alert("failed");
+					},
+					complete:function(jqXHR, textStatus){
+						alert();
+					}
+				});
 	  	  	});
   		</script>
   		
@@ -374,6 +391,16 @@ session_start();
 			    	</form>
 			    </div>
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+				<div class="col-md-8 panel">
+					<div class="panel-heading"></div>
+					<div class="panel-body"></div>
+					<div class="panel-footer"></div>
+				</div>
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
 		</div>
 	</body>
