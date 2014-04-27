@@ -1,8 +1,14 @@
 <?php
 	require_once("config.php");
+	//linkedin state
+	$state = "DCFEFWF45453sdffef424";
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
-		if($_POST["sns"]=="login with Facebook") {
+
+		if($_POST["sns"]=="login with LinkedIn") {
+			header("Location: https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={$api_key}&state={$state}&scope=rw_nus&redirect_uri={$linkedin_redirect}");
+		}
+		else if($_POST["sns"]=="login with Facebook") {
 			//grab information from config.php
 			//echo "hello";
 			$APPID=$fb["APPID"];
@@ -146,9 +152,35 @@
 			
 			login_succeed_redirect("twitter");
 		}
-		
+		else if($_GET["sns"]=="linkedin") {
+
+			if($_GET['state'] == $state) {
+
+				$linkedin_code = $_GET["code"];
+
+				$url = "https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code={$linkedin_code}&redirect_uri={$linkedin_redirect}&client_id={$api_key}&client_secret={$api_secret}";
+	        	$c=curl_init($url);
+				//echo "curl initialized\n";
+				//configure curl options so that curl_exec($c) returns the short term token as a string.
+				curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+				//echo "about to run curl_exec\n";
+				//$ret holds the short term access token
+				$ret=curl_exec($c);
+				curl_close($c);
+
+				//print_r($ret);
+				
+				$obj = json_decode($ret);
+				$access_token = $obj->{'access_token'};
+
+				$_SESSION['linkedin_token'] = $access_token;
+				login_succeed_redirect("linkedin");
+	        }
+
+		}
 	}
-	
 	
 	function login_succeed_redirect($ssn="unknown") {
 		//Redirect to about.php

@@ -8,6 +8,8 @@ session_start();
 	if(isset($_SESSION['fb_access_token'])) {}
 	
 	else if(isset($_SESSION['tw_access_token'])) {}
+
+	else if(isset($_SESSION['linkedin_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
