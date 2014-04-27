@@ -9,13 +9,13 @@
 	//this file for Facebook
 	require_once 'facebook-php-sdk/src/facebook.php';
 
-	$host = "uPost.websci";
+	$host = "localhost/uPost";
 	//Make it GLOBAL
-	define('HOST',"uPost.websci");
+	define('HOST',"localhost/uPost");
 	$uri="";
 	//Facebook api information
-	$appid = "722200331145073";
-	$appsecret = "5b98d8acacdd0c144ab71197a344a87b";
+	$appid = "290187461143677";
+	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
 	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 	
 	//Twitter api credentials
@@ -33,5 +33,6 @@
 	$client->setRedirectUri('http://localhost/uPost/login.php?sns=googleplus');
 	$client->setDeveloperKey('AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw');
 	$plus = new Google_PlusService($client);
-	
+	//Get the current host and uri, so that browser redirection works correctly in different development environments
+
 ?>
