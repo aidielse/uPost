@@ -1,3 +1,10 @@
+<?php 
+require_once 'config.php';
+session_start();
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,8 +19,18 @@
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  		
+  		<!-- Styles specific to this site -->
   		<link type="text/css" rel="stylesheet" href="Styles/general.css">
   		
+  		<style>
+  		  .text-success{
+  		    font-size: 150%;
+  		  }
+  		  .text-danger{
+  		    font-size: 150%;
+  		  }
+  		</style>
 		<title> Manage Your Account</title>
 	</head>
 	
@@ -27,24 +44,15 @@
 		        </div>
 		        
 		        <ul class="nav navbar-nav navbar-right">
-		        	<li class="dropdown">
-		        		<!-- Generated dynamically -->
-		        		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
-		        	    <ul class="dropdown-menu">
-		        	    	<li><a href="#contactus">change username</a></li>
-		        	    	<li><a href="#github">change password</a></li>
-		        	    </ul>
-          			</li>
-          			<li class="dropdown">
-          				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accounts <b class="caret"></b></a>
-          				<ul class="dropdown-menu">
-          					<!-- Generated dynamically -->
-          					<li><li>
-          					<li><li>
-          					<li><li>
-          				</ul>
-          			</li>
-		        </ul>
+	          		<li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account Settings <b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="#" onclick="window.location='account.php'">Manage Social Accounts</a></li>
+			            <li><a href="#" onclick="window.location='about.php?action=logout'">Log Out</a></li>
+			            <li class="divider"></li>
+			          </ul>
+			        </li>
+		    	</ul>
 		        
 		    </div>
 		</div>
@@ -60,25 +68,20 @@
 						<div class="col-md-3">
 							<img class="img-responsive" src="Images/Logos/facebook.jpg" >
 						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-6">
-							<form role="form">
+							<form role="form" action="login.php" method="post" autocomplete="on">
 								<div class="form-group">
-									<label>Username:</label>
-									<input class="form-control" type="text">
-								</div>
-								<div class="form-group">
-									<label>Password:</label>
-									<input class="form-control" type="password">
-								</div>
-								<div class="form-group">
-									<input class="btn btn-default btn-block" type="submit" value="login">
+									<input id="fb_login" name="sns" class="btn-block btn-lg fb-button" type="submit" value="login with Facebook">
 								</div>
 							</form>
+							<?php if(isset($_SESSION["fb_access_token"])): ?>
+							  <p class="text-success">You are currently logged in!</p>
+					 	  	<?php else: ?>
+					 	      <p class="text-danger">You are currently logged out!</p>
+					 	  	<?php endif; ?>
 						</div>
-						<div class="col-md-3">
-							<p>Login status:</p>
-							<p>Logged in</p>
-						</div>
+						<div class="col-md-2"></div>
 					</div>
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
@@ -90,28 +93,55 @@
 						<div class="col-md-3">
 							<img class="img-responsive" src="Images/Logos/twitter.jpg" >
 						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-6">
-							<form role="form">
-								<div class="form-group">
-									<label>Username:</label>
-									<input class="form-control" type="text">
-								</div>
-								<div class="form-group">
-									<label>Password:</label>
-									<input class="form-control" type="password">
-								</div>
-								<div class="form-group">
-									<input class="btn btn-default btn-block" type="submit" value="login">
-								</div>
-							</form>
-						</div>
-						<div class="col-md-3">
-							<p>Login status:</p>
-							<p>Logged in</p>
+							<form role="form" action="login.php" method="post" autocomplete="on">
+					            <div class="form-group">
+					              <input id="tw_login" name="sns" class="btn-block btn-lg tw-button" type="submit" value="login with Twitter">
+					            </div>
+					         </form>
+					         <?php if(isset($_SESSION["tw_access_token"])): ?>
+							   <p class="text-success">You are currently logged in!</p>
+					 	     <?php else: ?>
+					 	       <p class="text-danger">You are currently logged out!</p>
+					 	     <?php endif; ?>
+					    </div>
+					    
+						<div class="col-md-2">
+						  
 						</div>
 					</div>
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+				<div class="col-md-8 panel custom-panel">
+					<div class="row">
+						<div class="col-md-3">
+							<img class="img-responsive" src="Images/Logos/googleplus.jpg" >
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-6">
+							<form role="form" action="login.php" method="post" autocomplete="on">
+					            <div class="form-group">
+					              <input id="gp_login" name="sns" class="btn-block btn-lg gp-button" type="submit" value="login with Google+">
+					            </div>
+					        </form>
+					        <?php if(isset($_SESSION["g+_is_logged_in"])): ?>
+							  <p class="text-success">You are currently logged in!</p>
+					 	    <?php else: ?>
+					 	      <p class="text-danger">You are currently logged out!</p>
+					 	    <?php endif; ?>
+						</div>
+						<div class="col-md-2">
+						  
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+				
 			</div>
 		</div>
 	</body>

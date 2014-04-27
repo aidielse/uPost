@@ -56,6 +56,7 @@
 		//echo "session: ";
 		//print_r($_SESSION);
 		
+		
 		//once the user is verified with facebook and we have an app code
 		if($_GET["sns"]=="facebook") {
 			//echo "facebook login complete\n";
@@ -64,8 +65,7 @@
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			$APP_SECRET=$fb["APP_SECRET"];
-
-			//echo "wut\n";
+			
 			//Get a short lived token
 			//phpinfo();
 			$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
@@ -81,11 +81,11 @@
 			if(!$ret)
 			{
 				//echo "failed getting short-term access token\n";
-				login_fail_redirect();
+				login_fail_redirect("failed-getting-short-term-token-facebook");
+				
 				die();
 			}
-			//echo "something happened";
-
+			
 			//$ret has format access_token=xxxxxxxx&expire=xxxxxx
 			parse_str($ret, $q);
 			//parse the short term access token to seperate the expiration,
@@ -101,7 +101,7 @@
 			if(!$ret)
 			{
 				//echo "Failed getting long-term access token\n";
-				login_fail_redirect();
+				login_fail_redirect("failed-getting-long-term-token-facebook");
 				die();
 			}
 			//get the actual long-term access token from $ret
@@ -109,13 +109,12 @@
 			//The Facebook access token
 			$access_token=$q["access_token"];
 			//store the long term access token in the session
-			$_SESSION['login'] = 'facebook';
 			$_SESSION['fb_access_token'] = $access_token;
 			//echo $_SESSION['fb_access_token'];
 			//exit curl
 			curl_close($c);
-			//Store the access token and username in the database	 
-			login_succeed_redirect();
+			
+			login_succeed_redirect("facebook");
 	 				 		
 		}
 		//once the user is verified with twitter
@@ -123,13 +122,13 @@
 			/* If the oauth_token is old redirect to the home page. */
 			if (isset($_REQUEST['oauth_token']) && $_SESSION['tw_login']['OAuth_token'] !== $_REQUEST['oauth_token']) {
 				session_destroy();
-				login_fail_redirect("login-timed-out");	
+				login_fail_redirect("login-timed-out-twitter");	
 				die();
 			}
 			if(isset($_REQUEST['denied']))
 			{
 				session_destroy();
-				login_fail_redirect("user denied");
+				login_fail_redirect("user-denied-twitter");
 				die();
 			}
 			/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
@@ -145,50 +144,41 @@
 			$username=$user['screen_name'];
 			
 			/* Save the access tokens. */
-			$_SESSION['login']="twitter";
 			$_SESSION['tw_access_token'] = $access_token;
 			$_SESSION['tw_access_token_secret']=$access_token_secret;
 			
 			/* Remove no longer needed request tokens */
 			unset($_SESSION['tw_login']);
 			
-			//echo 'twitter session saved'
- 			//echo 'twitter session saved!<br />';
- 			//die();
-			
-			//Store the access token and username in the database
-			login_succeed_redirect();
+			login_succeed_redirect("twitter");
 		}
 		//once we're logged in too google+
 		//due to the way the google PHP API works, 
 		//there is no need to store an app token once we are logged in
 		else if ($_GET['sns'] == 'googleplus') {
 			//just to track that the user is actually logged in
-			$_SESSION['login']=='google+';
-			$_SESSION['g+_is_logged_in'] = "ye";
+			$_SESSION['g+_is_logged_in'] = 'ye';
 			//redirect to about.php
-			login_succeed_redirect();
+			login_succeed_redirect("googleplus");
 		}
 		else {
-			echo "POST data is empty!";
-			die();
+			//echo "POST data is empty!";
+			login_fail_redirect("Could not log in to SNS");
 		}
 	}
 	
 	
-	function login_succeed_redirect() {
-			//Redirect to about.php
-			session_write_close();
-			//$host  = $_SERVER['HTTP_HOST'];
-			$host=HOST;
-			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			$extra = 'about.php';
-			header("Location: http://$host$uri/$extra");
+	function login_succeed_redirect($ssn="unknown") {
+		//Redirect to about.php
+		session_write_close();
+		$host=HOST;
+		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		$extra = "about.php?login={$ssn}";
+		header("Location: http://$host$uri/$extra");
 	}
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
 		session_write_close();
-		//$host  = $_SERVER['HTTP_HOST'];
 		$host=HOST;
 		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "index.php?error={$error}";

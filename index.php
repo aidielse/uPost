@@ -6,7 +6,15 @@
 	if(isset($_SESSION['fb_access_token'])) {
 
 		header("Location: http://{$host}/about.php");
+		die("Redirecting to "."http://{$host}/about.php");
 	}
+	else if(isset($_SESSION['tw_access_token'])){
+		header("Location: http://{$host}/about.php");
+	}
+	else if(isset($_SESSION['g+_is_logged_in'])){
+		header("Location: http://{$host}/about.php");
+	}
+	
 ?>
 
 <html>
@@ -57,7 +65,8 @@
 		</div>
 		
 		<!-- Nav header -->
-		<div class="navbar navbar-default fixed-top" role="navigation">
+		<nav class="navbar navbar-default fixed-top" role="navigation">
+		  <div class="container-fluid">
 	        <div class="navbar-header">
 	            <a class="navbar-brand" href="index.php">uPOST</a>      	
 		    </div>
@@ -65,10 +74,11 @@
 		    <ul class="nav navbar-nav navbar-right">
 	        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
 		       	<li><a href="#contactus">Contact Us</a></li>
-	        </ul>	        
-        </div>
+	        </ul>	
+	      </div>        
+        </nav>
 		<!-- For client-side notifications -->
-		<?php require_once("alert.php");?>
+		<?php include("alert.php");?>
 		<div class="fluid-container">
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
