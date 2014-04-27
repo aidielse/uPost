@@ -43,6 +43,53 @@ session_start();
   		<!-- stylesheet specific to the site -->
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		
+  		<style>
+	    #tweets {
+	    	height: 600px;
+	    	position: relative;
+	    	overflow: hidden;
+	    }
+	    #tweets ul{
+	    	margin: 0px;
+	    }
+	    #tweets ul li{
+	    	list-style: none;
+	    	background-color: #ffffff;
+	    	border-top: solid rgb(170,170,255);
+	    	position: absolute;
+	    	left: -5px;
+	    	width: 100%;
+	    	height: 20%;
+	    	overflow: hidden;
+	    }
+	    #tweets ul li div img{
+	    	float: left;
+	    	position: absolute;
+	    	top: 0px;
+	    	left: 5px;
+	    	height:100%;
+	    }
+	    #tweets ul li div{
+	    	width: 75%;
+	    	height: 100%;
+	    	float: right;
+	    }
+	    #tweets ul li div p{
+	    	margin: 0px;
+	    	font-style: italic;
+	    }
+	    #tweets ul li div .text{
+	    	font-size: 120%;
+	    	color: rgb(150,150,255);
+	    	position: relative;
+	    	left: 10px;
+	    }
+	    #tweets ul li div .created_at{
+	    	font-size: 80%;
+	    }
+  		</style>
+  		
+  		
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
 				//Character counter
@@ -59,8 +106,8 @@ session_start();
 					//Prepare the data to be sent
 					var text=$("form [name='text']").val();
 					var loc=$("#current_loc").html().split(" ");
-					var lat=loc[0];
-					var lon=loc[1];
+					var lat=loc[1];
+					var lon=loc[3];
 					var location=false;
 					var facebook="off";
 					var twitter="off";
@@ -185,6 +232,17 @@ session_start();
 					ajax:true,
 					success:function(data, textStatus, jqXHR){
 						console.dir(data);
+
+						//Display twitter posts
+						var num=0;
+			    	    interval=window.setInterval(function(){
+				      	  grab_next_tweet(num, data["data"]["twitter"]);
+				      	  num+=1;
+				      	  if(num==50)
+				          {
+				      		  num=0;
+				          }
+			            }, 3000);
 					},
 					error:function(jqXHR, textStatus, errorThrown)
 					{
@@ -192,10 +250,72 @@ session_start();
 						alert("failed");
 					},
 					complete:function(jqXHR, textStatus){
-						alert();
 					}
 				});
 	  	  	});
+
+			function grab_next_fb_feed(current_index, feed)
+			{
+				//Calculate the height of a single feed dynamically 
+	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
+	  			tweet_h=tweet_h.toString();
+
+	  			//Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
+	  	        var output="<li><div>";
+
+				//status_type: "mobile_status_update"(message), "added_photos"(story), ""
+	  	        var status_type=
+
+	  	        
+			}
+	  		//This function grabs a tweet from an array of tweets and pushes it to the current tweet stream
+	  	    function grab_next_tweet(current_index, tweets)
+	  	    {
+	  			//Calculate the height of a single tweet dynamically 
+	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
+	  	        
+	  			tweet_h=tweet_h.toString();
+	  	        
+	  	        //Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
+	  	        var output="<li><div>";
+
+	  			//arr is used for parsing datetime information
+	  	       	var arr=new Array();
+	  	       	arr=tweets[current_index]["created_at"].split(" ");
+	  	       	
+	  	        output+="<p class='created_at'> At "+arr[3]+" "+arr[1]+" "+arr[2]+"</p>";
+	  	        output+="<p class='user_name'>"+tweets[current_index]["user"]["name"]+" tweets: </p>";
+	  	        output+="<p class='text'>"+tweets[current_index]["text"]+"</p>";
+	  	        if(tweets[current_index]["place"]!=null)
+	  	        {
+	  	        	output+="<p class='place'>In: "+tweets[current_index]["place"]["full_name"]+"</p>";
+	  	        }
+	  	        output+="<img src='"+tweets[current_index]["user"]["profile_image_url"]+"' alt='profile image' >";
+	  			output+="</div></li>";
+	  			
+	  			if($("#tweets ul li").length==0)
+	  			{
+	  				$("#tweets ul").prepend(output).hide().fadeIn(200);
+	  			}
+	  			else
+	  			{
+	  				//Animate each tweet down with the distance equal to the height of the each tweet
+	  		        $("#tweets ul li").each(function(i){
+	  			        $(this).animate({top: "+="+tweet_h}, 400, "swing", function(){
+	  						if(i==0)
+	  						{
+	  							$("#tweets ul").prepend(output);
+	  				    		$("#tweets ul li:first-child").hide();
+	  				        	$("#tweets ul li:first-child").fadeIn(200);
+	  						}
+	  						else if(i>5)
+	  			            {
+	  			        		$(this).remove();
+	  			            }
+	  		        	});
+	  		        });
+	  			}
+	  	    }
   		</script>
   		
 		<title>uPost Social Network Update Manager</title>
@@ -309,7 +429,7 @@ session_start();
 			    	<script type="text/javascript">
 			    	function saveLocation(position)
 			    	{
-				    	$("#current_loc").html("latitude: "+position.coords.latitude.toFixed(2)+", longitude: "+position.coords.longitude.toFixed(2));
+				    	$("#current_loc").html("latitude: "+position.coords.latitude.toFixed(2)+" longitude: "+position.coords.longitude.toFixed(2));
 			    	}
 			    	function showError(error)
 			    	{
@@ -394,12 +514,36 @@ session_start();
 			</div>
 			
 			<div class="row">
-				<div class="col-md-2 hidden-sm hidden-xs"></div>
-				<div class="col-md-8 panel">
-					<div class="panel-heading"></div>
-					<div class="panel-body"></div>
+			    <div class="col-md-2 hidden-sm hidden-xs"></div>
+			    
+			    
+				<div class="col-md-4">
+				  <div class="panel panel-default">
+					<div class="panel-heading">Facebook Latest Posts</div>
+					<div class="panel-body">
+					  
+					</div>
 					<div class="panel-footer"></div>
+				  </div>
 				</div>
+				
+				<div class="col-md-4">
+				  <div class="panel panel-default">
+					<div class="panel-heading">Twitter Lastest Posts</div>
+					<div class="panel-body">
+					  <div id="tweets_container">
+		                  <div id="tweets">
+					        <ul id="stream">
+					  	      
+					        </ul>
+					      </div>
+					  </div>
+					</div>
+					<div class="panel-footer"></div>
+				  </div>
+				</div>
+				
+				
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
 		</div>

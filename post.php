@@ -8,7 +8,7 @@ session_start();
 //IF an ERROR occurs, it returns a json formated as {'error': 'error type'}
 header('Content-Type: application/json');
 
-//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", googleplus=>"on", lat=>Num, long=>Num, location=>"on") 
+//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", lat=>Num, long=>Num, location=>"on") 
 if(!empty($_POST))
 {
 	//print_r($_POST);
@@ -29,12 +29,6 @@ if(!empty($_POST))
 		$all_loggedin=false;
 		echo json_encode(array("error"=>"twitter"));
 	}
-	if(!isset($_SESSION["g+_is_logged_in"]) &&  ($_POST["googleplus"])=="on")
-	{
-		$all_loggedin=false;
-		echo json_encode(array("error"=>"googleplus"));
-		
-	}
 	
 	
 	if(!$all_loggedin)
@@ -42,6 +36,10 @@ if(!empty($_POST))
 		http_response_code(403);
 		die();
 	}
+	
+	//Debugging $_POST
+// 	print_r($_POST);
+// 	die();
 	
 	//If succeeded posting to all the ssns, success will be 1, and ssns will be an array of ssns posted to
 	//If any posting failedd, success will be 0, and ssns will be an array of ssns posted to with success, and error will be the error type
@@ -93,6 +91,7 @@ if(!empty($_POST))
 		try{
 			$connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION["tw_access_token"], $_SESSION["tw_access_token_secret"]);
 			$status = $connection->post('statuses/update', array('status' => $_POST['text'], 'lat' =>$_POST['lat'], 'long'=>$_POST['long'], 'display_coordinates'=>$_POST['location'] ));
+			
 			array_push($res['ssns'], 'twitter');
 		}
 		catch(Exception $e)
@@ -102,11 +101,7 @@ if(!empty($_POST))
 		}
 	}
 	
-	if($_POST['googleplus']=="on")
-	{
-		//posting to Google plus
-		
-	}
+	
 	
 	//Send the response
 	if($res['success']==0)

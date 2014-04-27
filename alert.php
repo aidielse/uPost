@@ -20,11 +20,6 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <p>You have successfully logged in with your twitter account!</p>
 </div>
-<!-- An alert triggered when user successfully logs in with google+ -->
-<div id="google+" class="alert alert-success alert-dismissable" hidden>
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>You have successfully logged in with your google+ account!</p>
-</div>
 
 <script>
 	//If the paramter is not defined, it reutrns an empty string
@@ -76,11 +71,6 @@
 		$("#user_alert p").html("Some error occurred while posting to some social network sites");
 		$("#user_alert").slideDown(300);
 	}
-	else if(getParameterByName("error")!="" && getParameterByName("error")=="googleplus-posting-failed")
-	{
-		$("#user_alert p").html("Some error occurred while posting to some social network sites");
-		$("#user_alert").slideDown(300);
-	}
 	else if(getParameterByName("error")!="" && getParameterByName("error")=="unknown")
 	{
 		$("#user_alert p").html("An unknown error has occurred. Please contact us for further assistance");
@@ -97,8 +87,5 @@
 	{
 		$("#twitter").slideDown(300);
 	}
-	else if(getParameterByName("login")=="google+")
-	{
-		$("#google+").slideDown(300);
-	}
+	
 </script>

@@ -9,19 +9,18 @@
 	//this file for Facebook
 	require_once 'facebook-php-sdk/src/facebook.php';
 
-	$host = "uPost.websci";
+	$host = "localhost/uPost";
 	//Make it GLOBAL
-	define('HOST',"uPost.websci");
-	$uri="";
+	define('HOST',"localhost/uPost");
 	//Facebook api information
-	$appid = "722200331145073";
-	$appsecret = "5b98d8acacdd0c144ab71197a344a87b";
-	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
+	$appid = "290187461143677";
+  	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
+	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 	
 	//Twitter api credentials
 	$consumer_key="yVqGgDv0G6KLLMRpgvKL5Fdft";
 	$consumer_secret="KtzAMX2LuTvabvFaUu8MeCgYIEyRnrS7qtLLlExtzNIRl9AqVg";
-	$auth_callback="http://{$host}{$uri}/login.php?sns=twitter";
+	$auth_callback="http://{$host}/login.php?sns=twitter";
 	
 	
 	//Google+ api credentials
