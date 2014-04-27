@@ -136,7 +136,7 @@ session_start();
 					  	  			{
 						  	  			display_name="Twitter";
 					  	  			}
-					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
+					  	  	g		$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
 					  	  	});
 					  	  	$("#success_posting").modal("show");
@@ -375,12 +375,6 @@ session_start();
 			    			<img src="Images/Logos/twitter.jpg" height="20">
 			    			<label class="checkbox-inline" >
 			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
-			    			</label>
-			    			<span>&nbsp;&nbsp;</span>
-			    			
-			    			<img src="Images/Logos/googleplus.jpg" height="20">
-			    			<label class="checkbox-inline" >
-			    			    <input id="gp-checkbox" name="googleplus" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
