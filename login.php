@@ -1,6 +1,5 @@
 <?php
 	require_once("config.php");
-	//for successful login
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
 		if($_POST["sns"]=="login with Facebook") {
@@ -35,10 +34,6 @@
 			header("Location: ".$url);
 			die();
 		}
-		else if ($_POST['sns'] == 'login with Google+') {
-			//login to the google API and google + API's with the credentials in config.php
-			$client->authenticate();
-  		}
 		else {
 			echo "No sns is selected!";
 		}
@@ -151,19 +146,7 @@
 			
 			login_succeed_redirect("twitter");
 		}
-		//once we're logged in too google+
-		//due to the way the google PHP API works, 
-		//there is no need to store an app token once we are logged in
-		else if ($_GET['sns'] == 'googleplus') {
-			//just to track that the user is actually logged in
-			$_SESSION['g+_is_logged_in'] = 'ye';
-			//redirect to about.php
-			login_succeed_redirect("googleplus");
-		}
-		else {
-			//echo "POST data is empty!";
-			login_fail_redirect("Could not log in to SNS");
-		}
+		
 	}
 	
 	

@@ -33,9 +33,6 @@ if(!empty($_GET))
 			array_push($res["error"], "facebook");
 		}
 	}
-
-	if(isset($_SESSION['g+_is_logged_in'])) {
-	}
 	
 	if(isset($_SESSION['tw_access_token'])){
 		try{

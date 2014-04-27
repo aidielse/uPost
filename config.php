@@ -12,25 +12,17 @@
 	$host = "localhost/uPost";
 	//Make it GLOBAL
 	define('HOST',"localhost/uPost");
+	
 	//Facebook api information
-	$appid = "290187461143677";
-  	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
-	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
+	$appid = "1445044862401093";
+	$appsecret = "9f36b22727116951d3872405ea748fb3";
+	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 	
 	//Twitter api credentials
 	$consumer_key="yVqGgDv0G6KLLMRpgvKL5Fdft";
 	$consumer_secret="KtzAMX2LuTvabvFaUu8MeCgYIEyRnrS7qtLLlExtzNIRl9AqVg";
 	$auth_callback="http://{$host}/login.php?sns=twitter";
 	
-	
-	//Google+ api credentials
-	$googleplus_developer_key="AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw";
-	$client = new Google_Client();
-	$client->setApplicationName("Google+ PHP uPost app");
-	$client->setClientId('983819609735-ueud5lh1r2e04f3klssqrqehqfagt9ls.apps.googleusercontent.com');
-	$client->setClientSecret('F3esmITnFr44WJNB91FyQTy_');
-	$client->setRedirectUri('http://localhost/uPost/login.php?sns=googleplus');
-	$client->setDeveloperKey('AIzaSyC6ggim_1iP8T_8Qz8DWjRo5peZabQkEnw');
-	$plus = new Google_PlusService($client);
-	
+
+
 ?>

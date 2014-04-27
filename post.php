@@ -14,7 +14,7 @@ if(!empty($_POST))
 	//print_r($_POST);
 	//Check to see if the user is logged in to the SSN they are posting to by checking the xx_access_token. 
 	//print_r($_SESSION);
-	$all_snss=array("fb_access_token", "tw_access_token", "g+_is_logged_in");
+	
 	//A flag that indicates if the user has logged into all the sns selected
 	$all_loggedin=true;
 	//If there's any unset access token, let the user know by sending the error msg

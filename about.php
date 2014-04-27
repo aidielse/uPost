@@ -6,12 +6,8 @@ session_start();
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
 	if(isset($_SESSION['fb_access_token'])) {}
-
-	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
-	else if(isset($_SESSION['tw_access_token'])){
-		
-	}
+	else if(isset($_SESSION['tw_access_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -37,8 +33,6 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
-  		<!-- Google Map API -->
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleplus_developer_key?>&sensor=true"></script>
   		
   		<!-- stylesheet specific to the site -->
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
@@ -111,7 +105,6 @@ session_start();
 					var location=false;
 					var facebook="off";
 					var twitter="off";
-					var google_plus="off";
 					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
@@ -134,11 +127,6 @@ session_start();
 			  	  		}
 			  	  		all_off=false;
 			  	  	}
-		  	  		if($("form [name='googleplus']").prop('checked')==true)
-		  	  		{
-			  	  		google_plus="on";
-			  	  		all_off=false;
-		  	  		}
 		  	  		//If the user didn't select any sns, stop and inform the user
 		  	  		if(all_off)
 		  	  		{
@@ -151,8 +139,7 @@ session_start();
 				  	  	long: lon,
 				  	  	location: location,
 				  	  	facebook: facebook,
-				  	  	twitter: twitter,
-				  	  	"googleplus":google_plus
+				  	  	twitter: twitter
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -175,15 +162,11 @@ session_start();
 						  	  		{
 							  	  		display_name="Facebook";
 						  	  		}
-					  	  			else if($(e).attr("name")=="googleplus")
-					  	  			{
-						  	  			display_name="Google+";
-					  	  			}
 					  	  			else if($(e).attr("name")=="twitter")
 					  	  			{
 						  	  			display_name="Twitter";
 					  	  			}
-					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
+					  	  	g		$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
 					  	  	});
 					  	  	$("#success_posting").modal("show");
@@ -197,10 +180,6 @@ session_start();
 					  	  	{
 						  	  	$("#fb_user_login").modal("show");
 					  	  	}
-					  	  	else if(error_type=="googleplus")
-					  	  	{
-					  	  		$("#gp_user_login").modal("show");
-						  	}
 					  	  	else if(error_type=="twitter")
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
@@ -213,10 +192,6 @@ session_start();
 					  	  	{
 					  	  		window.location="about.php?error=twitter-posting-failed";
 					  	  	}
-					  	  	else if(error-type=="googleplus-posting-failed")
-					  	  	{
-					  	  		window.location="about.php?error=googleplus-posting-failed";
-						  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
 						}
@@ -228,7 +203,7 @@ session_start();
 					url:"fetch.php",
 					type:"GET",
 					dataType:"json",
-					data:{"ssns":["facebook", "twitter", "googleplus"]},
+					data:{"ssns":["facebook", "twitter"]},
 					ajax:true,
 					success:function(data, textStatus, jqXHR){
 						console.dir(data);
@@ -342,24 +317,7 @@ session_start();
 		  </div>
 		</div>
 		
-		<!-- Popup for google plus login -->
-		<div class="modal fade" id="gp_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
-		      </div>
-		      <div class="modal-body">
-			      <form role="form" action="login.php" method="post" autocomplete="on">
-			          <div class="form-group">
-			            <input id="gp_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Google+" >
-			          </div>
-			      </form>
-			  </div>
-		    </div>
-		  </div>
-		</div>
+		
 		
 		<!-- Popup for twitter login -->
 		<div class="modal fade" id="tw_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -460,7 +418,7 @@ session_start();
 				    
 				    	<!-- Text area -->
 			    		<div class="form-group">
-			    			<label for="post_text">Write something and public everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
+			    			<label for="post_text">Write something and publish everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
 			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something in your mind..." rows="5"></textarea>
 			    			
 			    		</div>
@@ -495,12 +453,6 @@ session_start();
 			    			<img src="Images/Logos/twitter.jpg" height="20">
 			    			<label class="checkbox-inline" >
 			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
-			    			</label>
-			    			<span>&nbsp;&nbsp;</span>
-			    			
-			    			<img src="Images/Logos/googleplus.jpg" height="20">
-			    			<label class="checkbox-inline" >
-			    			    <input id="gp-checkbox" name="googleplus" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
