@@ -11,9 +11,6 @@
 	else if(isset($_SESSION['tw_access_token'])){
 		header("Location: http://{$host}/about.php");
 	}
-	else if(isset($_SESSION['g+_is_logged_in'])){
-		header("Location: http://{$host}/about.php");
-	}
 	
 ?>
 
@@ -50,16 +47,17 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalLabel">Login</h4>
 		      </div>
-		      
-		      <form role="form" action="login.php" method="post" autocomplete="on">
-		        <div class="modal-footer">
-		          <div class="form-group">
-		            <input id="fb_login" name="sns" class="btn btn-primary" type="submit" value="login with Facebook">
-		          	<input id="tw_login" name="sns" class="btn btn-primary" type="submit" value="login with Twitter">
-		          	<input id="gp_login" name="sns" class="btn btn-primary" type="submit" value="login with Google+">
-		          </div>
-		        </div>
-		      </form>
+		      <div class="panel panel-default">
+		        <div class="panel-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook">
+			          	<input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter">
+			          	
+			          </div>
+			      </form>
+			    </div>
+		      </div>
 		    </div>
 		  </div>
 		</div>

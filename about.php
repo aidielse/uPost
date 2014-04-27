@@ -166,7 +166,7 @@ session_start();
 					  	  			{
 						  	  			display_name="Twitter";
 					  	  			}
-					  	  	g		$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
+					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
 					  	  	});
 					  	  	$("#success_posting").modal("show");
@@ -239,7 +239,7 @@ session_start();
 	  	        var output="<li><div>";
 
 				//status_type: "mobile_status_update"(message), "added_photos"(story), ""
-	  	        var status_type=
+	  	        var status_type="";
 
 	  	        
 			}
