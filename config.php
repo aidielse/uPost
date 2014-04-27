@@ -14,8 +14,8 @@
 	define('HOST',"localhost/uPost");
 	$uri="";
 	//Facebook api information
-	$appid = "290187461143677";
-	$appsecret = "7da03a3fb3b68b3bb8bbb8e593754f40";
+	$appid = "1445044862401093";
+	$appsecret = "9f36b22727116951d3872405ea748fb3";
 	$fb=array("APPID"=>$appid, "REDIRECT_URI"=>"http://{$host}{$uri}/login.php?sns=facebook", "APP_SECRET"=>$appsecret);
 	
 	//Twitter api credentials
