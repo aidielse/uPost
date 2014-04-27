@@ -10,7 +10,9 @@ session_start();
 
 	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
-	else if(isset($_SESSION['tw_access_token'])){}
+	else if(isset($_SESSION['tw_access_token'])){
+		
+	}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -290,7 +292,7 @@ session_start();
 			    	<script type="text/javascript">
 			    	function saveLocation(position)
 			    	{
-				    	$("#current_loc").html(position.coords.latitude+" "+position.coords.longitude);
+				    	$("#current_loc").html("latitude: "+position.coords.latitude.toFixed(2)+", longitude: "+position.coords.longitude.toFixed(2));
 			    	}
 			    	function showError(error)
 			    	{
@@ -329,11 +331,8 @@ session_start();
 			    		<!-- Current Location -->
 			    		<div class="form-group">
 			    		    <div class="row">
-			    			    <div class="col-sm-3">
-			    				    <label>Your current location:</label>
-			    			    </div>
-			    				<div class="col-sm-3">
-			    				<p id="current_loc"></p>
+			    				<div class="col-sm-6">
+			    					<p><span>Your current location: &nbsp;&nbsp;</span><span id="current_loc"></span></p>
 			    				</div>
 			    				<div class="col-sm-6">
 			    				<label class="checkbox-inline">

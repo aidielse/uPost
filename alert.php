@@ -35,7 +35,7 @@
 	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-
+	//Deal with different cases of errors
 	if(getParameterByName("error")!="" && getParameterByName("error")=="failed-getting-short-term-token-facebook")
 	{
 		$("#debug p").html("Failed to obtain short term token from facebook");
