@@ -46,7 +46,7 @@ if(!empty($_POST))
 	//If succeeded posting to all the ssns, success will be 1, and ssns will be an array of ssns posted to
 	//If any posting failedd, success will be 0, and ssns will be an array of ssns posted to with success, and error will be the error type
 	$res=array('success'=>1, 'ssns'=>array(), 'error'=>array());
-	if(isset($_POST['facebook']))
+	if($_POST['facebook']=="on")
 	{
 		// connects to facebook
 		$config = array(
@@ -87,7 +87,7 @@ if(!empty($_POST))
 	  	}
 	}
 	
-	if(isset($_POST['twitter']))
+	if($_POST['twitter']=="on")
 	{
 		//Get a user-specific connection object that 
 		try{
@@ -102,7 +102,7 @@ if(!empty($_POST))
 		}
 	}
 	
-	if(isset($_POST['googleplus']))
+	if($_POST['googleplus']=="on")
 	{
 		//posting to Google plus
 		
