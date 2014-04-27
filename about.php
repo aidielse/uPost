@@ -9,9 +9,7 @@ session_start();
 
 	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
-	else if(isset($_SESSION['tw_access_token'])){
-		
-	}
+	else if(isset($_SESSION['tw_access_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -64,7 +62,6 @@ session_start();
 					var location=false;
 					var facebook="off";
 					var twitter="off";
-					var google_plus="off";
 					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
@@ -87,11 +84,6 @@ session_start();
 			  	  		}
 			  	  		all_off=false;
 			  	  	}
-		  	  		if($("form [name='googleplus']").prop('checked')==true)
-		  	  		{
-			  	  		google_plus="on";
-			  	  		all_off=false;
-		  	  		}
 		  	  		//If the user didn't select any sns, stop and inform the user
 		  	  		if(all_off)
 		  	  		{
@@ -104,8 +96,7 @@ session_start();
 				  	  	long: lon,
 				  	  	location: location,
 				  	  	facebook: facebook,
-				  	  	twitter: twitter,
-				  	  	"googleplus":google_plus
+				  	  	twitter: twitter
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -128,10 +119,6 @@ session_start();
 						  	  		{
 							  	  		display_name="Facebook";
 						  	  		}
-					  	  			else if($(e).attr("name")=="googleplus")
-					  	  			{
-						  	  			display_name="Google+";
-					  	  			}
 					  	  			else if($(e).attr("name")=="twitter")
 					  	  			{
 						  	  			display_name="Twitter";
@@ -150,10 +137,6 @@ session_start();
 					  	  	{
 						  	  	$("#fb_user_login").modal("show");
 					  	  	}
-					  	  	else if(error_type=="googleplus")
-					  	  	{
-					  	  		$("#gp_user_login").modal("show");
-						  	}
 					  	  	else if(error_type=="twitter")
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
@@ -166,10 +149,6 @@ session_start();
 					  	  	{
 					  	  		window.location="about.php?error=twitter-posting-failed";
 					  	  	}
-					  	  	else if(error-type=="googleplus-posting-failed")
-					  	  	{
-					  	  		window.location="about.php?error=googleplus-posting-failed";
-						  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
 						}
@@ -181,7 +160,7 @@ session_start();
 					url:"fetch.php",
 					type:"GET",
 					dataType:"json",
-					data:{"ssns":["facebook", "twitter", "googleplus"]},
+					data:{"ssns":["facebook", "twitter"]},
 					ajax:true,
 					success:function(data, textStatus, jqXHR){
 						console.dir(data);
@@ -340,7 +319,7 @@ session_start();
 				    
 				    	<!-- Text area -->
 			    		<div class="form-group">
-			    			<label for="post_text">Write something and public everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
+			    			<label for="post_text">Write something and publish everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
 			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something in your mind..." rows="5"></textarea>
 			    			
 			    		</div>
