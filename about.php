@@ -5,11 +5,11 @@ session_start();
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
-	if(isset($_SESSION['fb_access_token'])) {}
+	if(isset($_SESSION['fb_access_token'])) {session_regenerate_id();}
 	
-	else if(isset($_SESSION['tw_access_token'])) {}
+	else if(isset($_SESSION['tw_access_token'])) {session_regenerate_id();}
 
-	else if(isset($_SESSION['linkedin_token'])) {}
+	else if(isset($_SESSION['linkedin_token'])) {session_regenerate_id();}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
