@@ -29,6 +29,11 @@ if(!empty($_POST))
 		$all_loggedin=false;
 		echo json_encode(array("error"=>"twitter"));
 	}
+	if(!isset($_SESSION["lk_access_token"]) &&  ($_POST["linkedin"]=="on"))
+	{
+		$all_loggedin=false;
+		echo json_encode(array("error"=>"linkedin"));
+	}
 	
 	
 	if(!$all_loggedin)
@@ -101,6 +106,65 @@ if(!empty($_POST))
 		}
 	}
 	
+	if($_POST['linkedin']=="on")
+	{
+		
+		//Prep the url for the post request
+		$params = array('oauth2_access_token' => $_SESSION['linkedin_token'],
+				'format' => 'json',
+		);
+		$url = 'https://api.linkedin.com/v1/people/~/shares?' . http_build_query($params);
+		
+		
+		$comment=$_POST['text'];
+		//Prep the post data
+		$data=array(
+			"comment" => $comment,
+			/*"content" => array(
+				"title"=>"Sharing via uPost",
+				"description"=>"Leverage the Share API to maximize engagement on user-generated content on LinkedIn",
+				"submitted-url"=>"https://developer.linkedin.com/documents/share-api"
+			),*/
+			"visibility" => array(
+				"code"=> "anyone"
+			)
+		);
+		
+		//
+		//print_r($data);
+		
+		$c=curl_init();
+		curl_setopt($c, CURLOPT_URL, $url);
+		curl_setopt($c, CURLOPT_HTTPHEADER, array(
+			"Content-Type: application/json",
+			"x-li-format: json"
+		));
+		
+		//Test
+		curl_setopt($c, CURLINFO_HEADER_OUT, true);
+		
+		
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, json_encode($data));
+		
+		
+		$result=curl_exec($c);
+		
+		//print the result from linkedin
+		//print_r($result);
+		
+		//Get the CURL info
+		//$info=curl_getinfo($c);
+		//print_r($info);
+		
+		
+		array_push($res['ssns'], 'linkedin');
+		
+		curl_close($c);
+	}
 	
 	
 	//Send the response
@@ -109,6 +173,7 @@ if(!empty($_POST))
 		//Send a problem response
 		http_response_code(403);
 	}
+	
 	echo json_encode($res);
 	
 }

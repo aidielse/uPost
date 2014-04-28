@@ -159,7 +159,10 @@
 				//store the token in $access_token
 				$access_token = $obj->{'access_token'};
 				//store the token as a session variable
-				$_SESSION['linkedin_token'] = $access_token;
+				$_SESSION['lk_access_token'] = $access_token;
+				
+				
+				
 				//redirect the user to about.php
 				login_succeed_redirect("linkedin");
 	        }

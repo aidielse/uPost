@@ -53,7 +53,7 @@
 			          <div class="form-group">
 			            <input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook">
 			          	<input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter">
-			          	<input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with LinkedIn">
+			          	<input id="lk_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with LinkedIn">
 			          </div>
 			      </form>
 			    </div>

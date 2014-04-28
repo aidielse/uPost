@@ -60,7 +60,7 @@ session_start();
 		
 		
 		<div class="fluid-container">
-			
+			<!-- Facebook -->
 			<div class="row">
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 				<div class="col-md-8 panel custom-panel">
@@ -86,6 +86,7 @@ session_start();
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
+			<!-- Twitter -->
 			<div class="row">
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 				<div class="col-md-8 panel custom-panel">
@@ -101,6 +102,35 @@ session_start();
 					            </div>
 					         </form>
 					         <?php if(isset($_SESSION["tw_access_token"])): ?>
+							   <p class="text-success">You are currently logged in!</p>
+					 	     <?php else: ?>
+					 	       <p class="text-danger">You are currently logged out!</p>
+					 	     <?php endif; ?>
+					    </div>
+					    
+						<div class="col-md-2">
+						  
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+			<!-- Linkedin -->
+			<div class="row">
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
+				<div class="col-md-8 panel custom-panel">
+					<div class="row">
+						<div class="col-md-3">
+							<img class="img-responsive" src="Images/Logos/linkedin.jpg" >
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-6">
+							<form role="form" action="login.php" method="post" autocomplete="on">
+					            <div class="form-group">
+					              <input id="lk_login" name="sns" class="btn-block btn-lg lk-button" type="submit" value="login with LinkedIn">
+					            </div>
+					         </form>
+					         <?php if(isset($_SESSION["lk_access_token"])): ?>
 							   <p class="text-success">You are currently logged in!</p>
 					 	     <?php else: ?>
 					 	       <p class="text-danger">You are currently logged out!</p>

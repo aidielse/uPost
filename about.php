@@ -9,7 +9,7 @@ session_start();
 	
 	else if(isset($_SESSION['tw_access_token'])) {}
 
-	else if(isset($_SESSION['linkedin_token'])) {}
+	else if(isset($_SESSION['lk_access_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -107,6 +107,7 @@ session_start();
 					var location=false;
 					var facebook="off";
 					var twitter="off";
+					var linkedin="off";
 					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
@@ -129,6 +130,11 @@ session_start();
 			  	  		}
 			  	  		all_off=false;
 			  	  	}
+			  	  	if($("form [name='linkedin']").prop('checked')==true)
+		  	  		{
+			  	  		linkedin="on";
+			  	  		all_off=false;
+		  	  		}
 		  	  		//If the user didn't select any sns, stop and inform the user
 		  	  		if(all_off)
 		  	  		{
@@ -141,7 +147,8 @@ session_start();
 				  	  	long: lon,
 				  	  	location: location,
 				  	  	facebook: facebook,
-				  	  	twitter: twitter
+				  	  	twitter: twitter,
+				  	  	linkedin: linkedin
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -167,6 +174,10 @@ session_start();
 					  	  			else if($(e).attr("name")=="twitter")
 					  	  			{
 						  	  			display_name="Twitter";
+					  	  			}
+					  	  			else if($(e).attr("name")=="linkedin")
+					  	  			{
+						  	  			display_name="Linkedin";
 					  	  			}
 					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
@@ -209,28 +220,35 @@ session_start();
 					ajax:true,
 					success:function(data, textStatus, jqXHR){
 						console.dir(data);
+						if(typeof data["data"]["twitter"]!='undefined')
+						{
+							//Display twitter posts
+							var tw_num=0;
+				    	    tw_interval=window.setInterval(function(){
+					      	  grab_next_tweet(tw_num, data["data"]["twitter"]);
+					      	  tw_num+=1;
+					      	  if(tw_num==50)
+					          {
+					      		  tw_num=0;
+					          }
+				            }, 3000);
+						}
+						
+						if(typeof data["data"]["facebook"]!='undefined')
+						{
+							//Display facebook posts
+							var fb_num=0;
+				            fb_interval=window.setInterval(function(){
+							  grab_next_fb_feed(fb_num, data["data"]["facebook"]);
+							  fb_num+=1;
+							  if(fb_num==25)
+							  {
+								  fb_num=0;
+							  }
 
-						//Display twitter posts
-						var tw_num=0;
-			    	    tw_interval=window.setInterval(function(){
-				      	  grab_next_tweet(tw_num, data["data"]["twitter"]);
-				      	  tw_num+=1;
-				      	  if(tw_num==50)
-				          {
-				      		  tw_num=0;
-				          }
-			            }, 3000);
-
-			            var fb_num=0;
-			            fb_interval=window.setInterval(function(){
-						  grab_next_fb_feed(fb_num, data["data"]["facebook"]);
-						  fb_num+=1;
-						  if(fb_num==25)
-						  {
-							  fb_num=0;
-						  }
-
-					    }, 3000);
+						    }, 3000);
+						}
+			            
 
 			            
 					},
@@ -533,6 +551,12 @@ session_start();
 			    			<img src="Images/Logos/twitter.jpg" height="20">
 			    			<label class="checkbox-inline" >
 			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
+			    			</label>
+			    			<span>&nbsp;&nbsp;</span>
+			    			
+			    			<img src="Images/Logos/linkedin.jpg" height="20">
+			    			<label class="checkbox-inline" >
+			    			    <input id="lk-checkbox" name="linkedin" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
