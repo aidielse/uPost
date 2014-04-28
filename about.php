@@ -38,15 +38,15 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		
   		<style>
-	    #tweets {
+	    #tweets, #feeds {
 	    	height: 600px;
 	    	position: relative;
 	    	overflow: hidden;
 	    }
-	    #tweets ul{
+	    #tweets ul, #feeds ul{
 	    	margin: 0px;
 	    }
-	    #tweets ul li{
+	    #tweets ul li, #feeds ul li{
 	    	list-style: none;
 	    	background-color: #ffffff;
 	    	border-top: solid rgb(170,170,255);
@@ -63,16 +63,16 @@ session_start();
 	    	left: 5px;
 	    	height:100%;
 	    }
-	    #tweets ul li div{
+	    #tweets ul li div, #feeds ul li div{
 	    	width: 75%;
 	    	height: 100%;
 	    	float: right;
 	    }
-	    #tweets ul li div p{
+	    #tweets ul li div p, #feeds ul li div p{
 	    	margin: 0px;
 	    	font-style: italic;
 	    }
-	    #tweets ul li div .text{
+	    #tweets ul li div .text, #feeds ul li div .text{
 	    	font-size: 120%;
 	    	color: rgb(150,150,255);
 	    	position: relative;
@@ -209,15 +209,28 @@ session_start();
 						console.dir(data);
 
 						//Display twitter posts
-						var num=0;
-			    	    interval=window.setInterval(function(){
-				      	  grab_next_tweet(num, data["data"]["twitter"]);
-				      	  num+=1;
-				      	  if(num==50)
+						var tw_num=0;
+			    	    tw_interval=window.setInterval(function(){
+				      	  grab_next_tweet(tw_num, data["data"]["twitter"]);
+				      	  tw_num+=1;
+				      	  if(tw_num==50)
 				          {
-				      		  num=0;
+				      		  tw_num=0;
 				          }
 			            }, 3000);
+
+			            var fb_num=0;
+			            fb_interval=window.setInterval(function(){
+						  grab_next_fb_feed(fb_num, data["data"]["facebook"]);
+						  fb_num+=1;
+						  if(fb_num==25)
+						  {
+							  fb_num=0;
+						  }
+
+					    }, 3000);
+
+			            
 					},
 					error:function(jqXHR, textStatus, errorThrown)
 					{
@@ -229,17 +242,82 @@ session_start();
 				});
 	  	  	});
 
-			function grab_next_fb_feed(current_index, feed)
+			function grab_next_fb_feed(current_index, feeds)
 			{
+				var feed=feeds[current_index];
+				
 				//Calculate the height of a single feed dynamically 
-	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
-	  			tweet_h=tweet_h.toString();
+	  	        var feed_h=0.2*document.getElementById("feeds").clientHeight;
+	  			feed_h=feed_h.toString();
 
 	  			//Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
 	  	        var output="<li><div>";
 
-				//status_type: "mobile_status_update"(message), "added_photos"(story), ""
-	  	        var status_type="";
+	  	        //:from:name
+	  	        var username=feed["from"]["name"];
+
+	  	        //get the link
+	  	        var link="facebook.com";
+	  	        if(typeof feed["actions"]!='undefined')
+	  	        {
+	  	        	link=feed["actions"][0]["link"];
+		  	    }
+	  	        else if(typeof feed["link"]!='undefined')
+	  	        {
+		  	        link=feed["link"];
+	  	        }
+	  	        
+				//get the text status(either the story field or the message field)
+	  	        var text="";
+	  	        if(typeof feed["story"]!='undefined')
+	  	        {
+		  	        text=feed["story"];
+	  	        }
+	  	        else if(typeof feed["message"]!='undefined')
+	  	        {
+		  	        text=feed["message"];
+	  	        }
+	  	        else
+	  	        {
+		  	        text="unfound";
+	  	        }
+
+	  	        //Get number of comments
+	  	        var num_comments=0;
+	  	        if(typeof feed["comments"]!='undefined')
+	  	        {
+	  	        	num_comments=feed["comments"]["data"].length;
+	  	        }
+	  	        
+			
+				output+="<p>"+username+"</p>";
+				output+="<p>"+text+"</p>";
+				output+="<p>"+num_comments+" comments</p>";
+				output+="<a href='"+link+"'>"+"Go to see it"+"</a>";
+	  	        output+="</div></li>";
+
+	  	        if($("#feeds ul li").length==0)
+	  			{
+	  				$("#feeds ul").prepend(output).hide().fadeIn(200);
+	  			}
+	  			else
+	  			{
+	  				//Animate each tweet down with the distance equal to the height of the each tweet
+	  		        $("#feeds ul li").each(function(i){
+	  			        $(this).animate({top: "+="+feed_h}, 400, "swing", function(){
+	  						if(i==0)
+	  						{
+	  							$("#feeds ul").prepend(output);
+	  				    		$("#feeds ul li:first-child").hide();
+	  				        	$("#feeds ul li:first-child").fadeIn(200);
+	  						}
+	  						else if(i>5)
+	  			            {
+	  			        		$(this).remove();
+	  			            }
+	  		        	});
+	  		        });
+	  			}
 
 	  	        
 			}
@@ -473,7 +551,12 @@ session_start();
 				  <div class="panel panel-default">
 					<div class="panel-heading">Facebook Latest Posts</div>
 					<div class="panel-body">
-					  
+					  <div id="feeds_container">
+					  	<div id="feeds">
+					  	  <ul>
+					  	  </ul>
+					  	</div>
+					  </div>
 					</div>
 					<div class="panel-footer"></div>
 				  </div>
