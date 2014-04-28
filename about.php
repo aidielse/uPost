@@ -5,13 +5,13 @@ session_start();
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
-	if(isset($_SESSION['fb_access_token'])) {}
+	if(isset($_SESSION['fb_access_token'])) {session_regenerate_id();}
 	
-	else if(isset($_SESSION['tw_access_token'])) {}
+	else if(isset($_SESSION['tw_access_token'])) {session_regenerate_id();}
 
-	else if(isset($_SESSION['lk_access_token'])) {}
+	else if(isset($_SESSION['lk_access_token'])) {session_regenerate_id();}
 	
-	else {header("Location: http://localhost/uPost/");}
+	else {header("Location: http://{$host}");}
 	//if the user presses the logout button, they are logged out
 	if(isset($_GET['action']) && $_GET['action'] == 'logout') {
 		session_destroy();
@@ -197,6 +197,10 @@ session_start();
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
 					  	  	}
+					  	  	else if(error_type=="linkedin")
+					  	  	{
+					  	  		$("#lk_user_login").modal("show");
+					  	  	}
 					  	  	else if(error_type=="facebook-posting-failed")
 					  	  	{
 						  	  	window.location="about.php?error=facebook-posting-failed";
@@ -254,8 +258,7 @@ session_start();
 					},
 					error:function(jqXHR, textStatus, errorThrown)
 					{
-						console.log(jqXHR.responseText);
-						alert("failed");
+						console.log(JSON.parse(jqXHR.responseText));
 					},
 					complete:function(jqXHR, textStatus){
 					}
@@ -429,6 +432,25 @@ session_start();
 			      <form role="form" action="login.php" method="post" autocomplete="on">
 			          <div class="form-group">
 			            <input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter" >
+			          </div>
+			      </form>
+			  </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Popup for linkedin login -->
+		<div class="modal fade" id="lk_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="lk_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with LinkedIn" >
 			          </div>
 			      </form>
 			  </div>

@@ -110,7 +110,7 @@ if(!empty($_POST))
 	{
 		
 		//Prep the url for the post request
-		$params = array('oauth2_access_token' => $_SESSION['linkedin_token'],
+		$params = array('oauth2_access_token' => $_SESSION['lk_access_token'],
 				'format' => 'json',
 		);
 		$url = 'https://api.linkedin.com/v1/people/~/shares?' . http_build_query($params);
