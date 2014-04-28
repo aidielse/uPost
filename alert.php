@@ -20,6 +20,11 @@
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <p>You have successfully logged in with your twitter account!</p>
 </div>
+<!-- An alert triggered when user successfully logs in with twitter -->
+<div id="linkedin" class="alert alert-success alert-dismissable" hidden>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <p>You have successfully logged in with your linkedin account!</p>
+</div>
 
 <script>
 	//If the paramter is not defined, it reutrns an empty string
@@ -86,6 +91,10 @@
 	else if(getParameterByName("login")=="twitter")
 	{
 		$("#twitter").slideDown(300);
+	}
+	else if(getParameterByName("login")=="linkedin")
+	{
+		$("#linkedin").slideDown(300);
 	}
 	
 </script>

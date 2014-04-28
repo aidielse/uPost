@@ -5,13 +5,13 @@ session_start();
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
-	if(isset($_SESSION['fb_access_token'])) {}
+	if(isset($_SESSION['fb_access_token'])) {session_regenerate_id();}
 	
-	else if(isset($_SESSION['tw_access_token'])) {}
+	else if(isset($_SESSION['tw_access_token'])) {session_regenerate_id();}
 
-	else if(isset($_SESSION['linkedin_token'])) {}
+	else if(isset($_SESSION['lk_access_token'])) {session_regenerate_id();}
 	
-	else {header("Location: http://localhost/uPost/");}
+	else {header("Location: http://{$host}");}
 	//if the user presses the logout button, they are logged out
 	if(isset($_GET['action']) && $_GET['action'] == 'logout') {
 		session_destroy();
@@ -40,15 +40,15 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		
   		<style>
-	    #tweets {
+	    #tweets, #feeds {
 	    	height: 600px;
 	    	position: relative;
 	    	overflow: hidden;
 	    }
-	    #tweets ul{
+	    #tweets ul, #feeds ul{
 	    	margin: 0px;
 	    }
-	    #tweets ul li{
+	    #tweets ul li, #feeds ul li{
 	    	list-style: none;
 	    	background-color: #ffffff;
 	    	border-top: solid rgb(170,170,255);
@@ -65,16 +65,16 @@ session_start();
 	    	left: 5px;
 	    	height:100%;
 	    }
-	    #tweets ul li div{
+	    #tweets ul li div, #feeds ul li div{
 	    	width: 75%;
 	    	height: 100%;
 	    	float: right;
 	    }
-	    #tweets ul li div p{
+	    #tweets ul li div p, #feeds ul li div p{
 	    	margin: 0px;
 	    	font-style: italic;
 	    }
-	    #tweets ul li div .text{
+	    #tweets ul li div .text, #feeds ul li div .text{
 	    	font-size: 120%;
 	    	color: rgb(150,150,255);
 	    	position: relative;
@@ -107,6 +107,7 @@ session_start();
 					var location=false;
 					var facebook="off";
 					var twitter="off";
+					var linkedin="off";
 					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
@@ -129,6 +130,11 @@ session_start();
 			  	  		}
 			  	  		all_off=false;
 			  	  	}
+			  	  	if($("form [name='linkedin']").prop('checked')==true)
+		  	  		{
+			  	  		linkedin="on";
+			  	  		all_off=false;
+		  	  		}
 		  	  		//If the user didn't select any sns, stop and inform the user
 		  	  		if(all_off)
 		  	  		{
@@ -141,7 +147,8 @@ session_start();
 				  	  	long: lon,
 				  	  	location: location,
 				  	  	facebook: facebook,
-				  	  	twitter: twitter
+				  	  	twitter: twitter,
+				  	  	linkedin: linkedin
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -168,6 +175,10 @@ session_start();
 					  	  			{
 						  	  			display_name="Twitter";
 					  	  			}
+					  	  			else if($(e).attr("name")=="linkedin")
+					  	  			{
+						  	  			display_name="Linkedin";
+					  	  			}
 					  	  			$("#sites_posted_to").append("<li class='ssn_name'>"+display_name+"</li>");
 					  	  		}
 					  	  	});
@@ -185,6 +196,10 @@ session_start();
 					  	  	else if(error_type=="twitter")
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
+					  	  	}
+					  	  	else if(error_type=="linkedin")
+					  	  	{
+					  	  		$("#lk_user_login").modal("show");
 					  	  	}
 					  	  	else if(error_type=="facebook-posting-failed")
 					  	  	{
@@ -209,39 +224,123 @@ session_start();
 					ajax:true,
 					success:function(data, textStatus, jqXHR){
 						console.dir(data);
+						if(typeof data["data"]["twitter"]!='undefined')
+						{
+							//Display twitter posts
+							var tw_num=0;
+				    	    tw_interval=window.setInterval(function(){
+					      	  grab_next_tweet(tw_num, data["data"]["twitter"]);
+					      	  tw_num+=1;
+					      	  if(tw_num==50)
+					          {
+					      		  tw_num=0;
+					          }
+				            }, 3000);
+						}
+						
+						if(typeof data["data"]["facebook"]!='undefined')
+						{
+							//Display facebook posts
+							var fb_num=0;
+				            fb_interval=window.setInterval(function(){
+							  grab_next_fb_feed(fb_num, data["data"]["facebook"]);
+							  fb_num+=1;
+							  if(fb_num==25)
+							  {
+								  fb_num=0;
+							  }
 
-						//Display twitter posts
-						var num=0;
-			    	    interval=window.setInterval(function(){
-				      	  grab_next_tweet(num, data["data"]["twitter"]);
-				      	  num+=1;
-				      	  if(num==50)
-				          {
-				      		  num=0;
-				          }
-			            }, 3000);
+						    }, 3000);
+						}
+			            
+
+			            
 					},
 					error:function(jqXHR, textStatus, errorThrown)
 					{
-						console.log(jqXHR.responseText);
-						alert("failed");
+						console.log(JSON.parse(jqXHR.responseText));
 					},
 					complete:function(jqXHR, textStatus){
 					}
 				});
 	  	  	});
 
-			function grab_next_fb_feed(current_index, feed)
+			function grab_next_fb_feed(current_index, feeds)
 			{
+				var feed=feeds[current_index];
+				
 				//Calculate the height of a single feed dynamically 
-	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
-	  			tweet_h=tweet_h.toString();
+	  	        var feed_h=0.2*document.getElementById("feeds").clientHeight;
+	  			feed_h=feed_h.toString();
 
 	  			//Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
 	  	        var output="<li><div>";
 
-				//status_type: "mobile_status_update"(message), "added_photos"(story), ""
-	  	        var status_type="";
+	  	        //:from:name
+	  	        var username=feed["from"]["name"];
+
+	  	        //get the link
+	  	        var link="facebook.com";
+	  	        if(typeof feed["actions"]!='undefined')
+	  	        {
+	  	        	link=feed["actions"][0]["link"];
+		  	    }
+	  	        else if(typeof feed["link"]!='undefined')
+	  	        {
+		  	        link=feed["link"];
+	  	        }
+	  	        
+				//get the text status(either the story field or the message field)
+	  	        var text="";
+	  	        if(typeof feed["story"]!='undefined')
+	  	        {
+		  	        text=feed["story"];
+	  	        }
+	  	        else if(typeof feed["message"]!='undefined')
+	  	        {
+		  	        text=feed["message"];
+	  	        }
+	  	        else
+	  	        {
+		  	        text="unfound";
+	  	        }
+
+	  	        //Get number of comments
+	  	        var num_comments=0;
+	  	        if(typeof feed["comments"]!='undefined')
+	  	        {
+	  	        	num_comments=feed["comments"]["data"].length;
+	  	        }
+	  	        
+			
+				output+="<p>"+username+"</p>";
+				output+="<p>"+text+"</p>";
+				output+="<p>"+num_comments+" comments</p>";
+				output+="<a href='"+link+"'>"+"Go to see it"+"</a>";
+	  	        output+="</div></li>";
+
+	  	        if($("#feeds ul li").length==0)
+	  			{
+	  				$("#feeds ul").prepend(output).hide().fadeIn(200);
+	  			}
+	  			else
+	  			{
+	  				//Animate each tweet down with the distance equal to the height of the each tweet
+	  		        $("#feeds ul li").each(function(i){
+	  			        $(this).animate({top: "+="+feed_h}, 400, "swing", function(){
+	  						if(i==0)
+	  						{
+	  							$("#feeds ul").prepend(output);
+	  				    		$("#feeds ul li:first-child").hide();
+	  				        	$("#feeds ul li:first-child").fadeIn(200);
+	  						}
+	  						else if(i>5)
+	  			            {
+	  			        		$(this).remove();
+	  			            }
+	  		        	});
+	  		        });
+	  			}
 
 	  	        
 			}
@@ -333,6 +432,25 @@ session_start();
 			      <form role="form" action="login.php" method="post" autocomplete="on">
 			          <div class="form-group">
 			            <input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter" >
+			          </div>
+			      </form>
+			  </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Popup for linkedin login -->
+		<div class="modal fade" id="lk_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
+		      </div>
+		      <div class="modal-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="lk_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with LinkedIn" >
 			          </div>
 			      </form>
 			  </div>
@@ -457,6 +575,12 @@ session_start();
 			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
+			    			
+			    			<img src="Images/Logos/linkedin.jpg" height="20">
+			    			<label class="checkbox-inline" >
+			    			    <input id="lk-checkbox" name="linkedin" type="checkbox">
+			    			</label>
+			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
 			    		
 			    		<div class="form-group">
@@ -475,7 +599,12 @@ session_start();
 				  <div class="panel panel-default">
 					<div class="panel-heading">Latest Facebook Posts</div>
 					<div class="panel-body">
-					  
+					  <div id="feeds_container">
+					  	<div id="feeds">
+					  	  <ul>
+					  	  </ul>
+					  	</div>
+					  </div>
 					</div>
 					<div class="panel-footer"></div>
 				  </div>
