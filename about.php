@@ -8,6 +8,8 @@ session_start();
 	if(isset($_SESSION['fb_access_token'])) {}
 	
 	else if(isset($_SESSION['tw_access_token'])) {}
+
+	else if(isset($_SESSION['linkedin_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -549,7 +551,7 @@ session_start();
 			    
 				<div class="col-md-4">
 				  <div class="panel panel-default">
-					<div class="panel-heading">Facebook Latest Posts</div>
+					<div class="panel-heading">Latest Facebook Posts</div>
 					<div class="panel-body">
 					  <div id="feeds_container">
 					  	<div id="feeds">
@@ -564,7 +566,7 @@ session_start();
 				
 				<div class="col-md-4">
 				  <div class="panel panel-default">
-					<div class="panel-heading">Twitter Lastest Posts</div>
+					<div class="panel-heading">Latest Twitter Posts</div>
 					<div class="panel-body">
 					  <div id="tweets_container">
 		                  <div id="tweets">
@@ -577,8 +579,6 @@ session_start();
 					<div class="panel-footer"></div>
 				  </div>
 				</div>
-				
-				
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
 		</div>
