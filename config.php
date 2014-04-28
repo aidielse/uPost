@@ -5,9 +5,9 @@
 	//this file for Facebook
 	require_once 'facebook-php-sdk/src/facebook.php';
 
-	$host = "upost.heroku.com";
+	$host = "upost.herokuapp.com";
 	//Make it GLOBAL
-	define('HOST',"upost.heroku.com");
+	define('HOST',"upost.herokuapp.com");
 	$uri="";
 	//Facebook api information
 	$appid = "290187461143677";
