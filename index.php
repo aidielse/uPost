@@ -11,7 +11,7 @@
 	else if(isset($_SESSION['tw_access_token'])){
 		header("Location: http://{$host}/about.php");
 	}
-	
+
 ?>
 
 <html>
@@ -21,23 +21,24 @@
 	  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	  		<meta name="viewport" content="width=device-width, initial-scale=1">
 	  		<title>uPost Social Network Update Manager</title>
-	  		
+      <link rel="shortcut icon" href="/favicon.ico" />
+
 	  		<!-- Jquery -->
 	  		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	  		
+
 	  		<!-- Bootstrap -->
 	  		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 	  		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
 	  		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	  		
+
 	  		<!-- JQueryUI -->
 	  		<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	  		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
 	  		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-	  		
+
 	  		<link rel="stylesheet" type="text/css" href="Styles/general.css">
   		</head>
-  		
+
 		<!-- Popup for user login -->
 		<!-- Form data format: [username]->xxx, [password]->xxx, [sns]->login with xxx -->
 		<div class="modal fade" id="user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -61,19 +62,19 @@
 		    </div>
 		  </div>
 		</div>
-		
+
 		<!-- Nav header -->
 		<nav class="navbar navbar-default fixed-top" role="navigation">
 		  <div class="container-fluid">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="index.php">uPost</a>      	
+	            <a class="navbar-brand" href="index.php">uPost</a>
 		    </div>
-		        
+
 		    <ul class="nav navbar-nav navbar-right">
 	        	<li><a href="#" data-toggle="modal" data-target="#user_login">Login</a></li>
 		       	<li><a href="#contactus">Contact Us</a></li>
-	        </ul>	
-	      </div>        
+	        </ul>
+	      </div>
         </nav>
 		<!-- For client-side notifications -->
 		<?php include("alert.php");?>
