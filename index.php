@@ -66,7 +66,7 @@
 		<nav class="navbar navbar-default fixed-top" role="navigation">
 		  <div class="container-fluid">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="index.php">uPOST</a>      	
+	            <a class="navbar-brand" href="index.php">uPost</a>      	
 		    </div>
 		        
 		    <ul class="nav navbar-nav navbar-right">
@@ -81,7 +81,7 @@
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
 			    <div class="col-md-8 panel custom-panel">
-			    	<h1>What is uPOST?</h1>
+			    	<h1>What is uPost?</h1>
 			    	<p>Focus on what and where to post. uPost takes care of the rest.</p>
 					<p>uPost is a web application via which users can post content to multiple social media.</p>
 					<p>We hope uPost can inspire creation instead of plain sharing.</p>
