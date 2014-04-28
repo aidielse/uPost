@@ -1,45 +1,37 @@
 <?php
 	require_once("config.php");
-	//for successful login
+	//linkedin state
+	$state = "DCFEFWF45453sdffef424";
 	if(!empty($_POST)) {
 		//if the user it attempting to log in with facebook
-		if($_POST["sns"]=="login with Facebook") {
+
+		if($_POST["sns"]=="login with LinkedIn") {
+			//redirect the user to LinkedIn to login, we pass our credentials here too
+			header("Location: https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id={$api_key}&state={$state}&scope=rw_nus&redirect_uri={$linkedin_redirect}");
+		}
+		else if($_POST["sns"]=="login with Facebook") {
 			//grab information from config.php
-			//echo "hello";
 			$APPID=$fb["APPID"];
 			$REDIRECT_URI=$fb["REDIRECT_URI"];
 			//redirect the user to facebook to login, we also pass our credentials to facebook
-			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions");
+			header("Location: https://www.facebook.com/dialog/oauth?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&response_type=code&scope=publish_actions,read_stream");
 		}
 		else if($_POST["sns"]=="login with Twitter"){
 			/* Build TwitterOAuth object with client credentials. */
 			$connection = new TwitterOAuth($consumer_key, $consumer_secret);
 			/* Get temporary credentials. */
 			$request_token = $connection->getRequestToken($auth_callback);
-			
-			//print request token
-			//echo "request_token: ";
-			//print_r($request_token);
-			
+						
 			/* Get authorize url to redirect user to twitter login page*/
 			$url = $connection->getAuthorizeURL($request_token['oauth_token']);
 			//Save a temporary session variable for later use in the login flow
 			session_start();
 			session_name('upost');
 			$_SESSION["tw_login"]=array('OAuth_token' => $request_token['oauth_token'], 'OAuth_token_secret' => $request_token['oauth_token_secret'], "OAuthorize_URL"=>$url);
-			
-			//print SESSION var tw_login
-			//echo "session var tw_login: ";
-			//print_r($_SESSION["tw_login"]);
-			
-			
+						
 			header("Location: ".$url);
 			die();
 		}
-		else if ($_POST['sns'] == 'login with Google+') {
-			//login to the google API and google + API's with the credentials in config.php
-			$client->authenticate();
-  		}
 		else {
 			echo "No sns is selected!";
 		}
@@ -51,12 +43,7 @@
 		session_set_cookie_params(604800);
 		session_start(); 
 		session_name('upost');
-		
-		//print SESSION 
-		//echo "session: ";
-		//print_r($_SESSION);
-		
-		
+				
 		//once the user is verified with facebook and we have an app code
 		if($_GET["sns"]=="facebook") {
 			//echo "facebook login complete\n";
@@ -67,14 +54,12 @@
 			$APP_SECRET=$fb["APP_SECRET"];
 			
 			//Get a short lived token
-			//phpinfo();
 			$c=curl_init("https://graph.facebook.com/oauth/access_token?client_id={$APPID}&redirect_uri={$REDIRECT_URI}&client_secret={$APP_SECRET}&code={$code}");
-			//echo "curl initialized\n";
+
 			//configure curl options so that curl_exec($c) returns the short term token as a string.
 			curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-			//echo "about to run curl_exec\n";
 			//$ret holds the short term access token
 			$ret=curl_exec($c);
 			//if we couldn't get the short term token
@@ -152,36 +137,48 @@
 			
 			login_succeed_redirect("twitter");
 		}
-		//once we're logged in too google+
-		//due to the way the google PHP API works, 
-		//there is no need to store an app token once we are logged in
-		else if ($_GET['sns'] == 'googleplus') {
-			//just to track that the user is actually logged in
-			$_SESSION['g+_is_logged_in'] = 'ye';
-			//redirect to about.php
-			login_succeed_redirect("googleplus");
-		}
-		else {
-			//echo "POST data is empty!";
-			login_fail_redirect("Could not log in to SNS");
+		//once the user has logged in on the Linkedin Site, we need to get the 60 day access token
+		else if($_GET["sns"]=="linkedin") {
+
+			if($_GET['state'] == $state) {
+				//grab code from url
+				$linkedin_code = $_GET["code"];
+				//to get the 60 day access token, we need to make a post request to LinkedIn
+				$url = "https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code={$linkedin_code}&redirect_uri={$linkedin_redirect}&client_id={$api_key}&client_secret={$api_secret}";
+	        	$c=curl_init($url);
+				//echo "curl initialized\n";
+				//configure curl options, curl_exec returns the access token in a JSON object
+				curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+				//$ret holds the access token
+				$ret=curl_exec($c);
+				curl_close($c);
+				//decode json object
+				$obj = json_decode($ret);
+				//store the token in $access_token
+				$access_token = $obj->{'access_token'};
+				//store the token as a session variable
+				$_SESSION['linkedin_token'] = $access_token;
+				//redirect the user to about.php
+				login_succeed_redirect("linkedin");
+	        }
+
 		}
 	}
-	
 	
 	function login_succeed_redirect($ssn="unknown") {
 		//Redirect to about.php
 		session_write_close();
 		$host=HOST;
-		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "about.php?login={$ssn}";
-		header("Location: http://$host$uri/$extra");
+		header("Location: http://$host/$extra");
 	}
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
 		session_write_close();
 		$host=HOST;
-		$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "index.php?error={$error}";
-		header("Location: http://$host$uri/$extra");
+		header("Location: http://$host/$extra");
 	}
 ?>

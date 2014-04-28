@@ -8,13 +8,13 @@ session_start();
 //IF an ERROR occurs, it returns a json formated as {'error': 'error type'}
 header('Content-Type: application/json');
 
-//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", googleplus=>"on", lat=>Num, long=>Num, location=>"on") 
+//Current POST format, if all ssns are selected: Array(text=>"", facebook=>"on", twitter=>"on", lat=>Num, long=>Num, location=>"on") 
 if(!empty($_POST))
 {
 	//print_r($_POST);
 	//Check to see if the user is logged in to the SSN they are posting to by checking the xx_access_token. 
 	//print_r($_SESSION);
-	$all_snss=array("fb_access_token", "tw_access_token", "g+_is_logged_in");
+	
 	//A flag that indicates if the user has logged into all the sns selected
 	$all_loggedin=true;
 	//If there's any unset access token, let the user know by sending the error msg
@@ -29,12 +29,6 @@ if(!empty($_POST))
 		$all_loggedin=false;
 		echo json_encode(array("error"=>"twitter"));
 	}
-	if(!isset($_SESSION["g+_is_logged_in"]) &&  ($_POST["googleplus"])=="on")
-	{
-		$all_loggedin=false;
-		echo json_encode(array("error"=>"googleplus"));
-		
-	}
 	
 	
 	if(!$all_loggedin)
@@ -43,10 +37,14 @@ if(!empty($_POST))
 		die();
 	}
 	
+	//Debugging $_POST
+// 	print_r($_POST);
+// 	die();
+	
 	//If succeeded posting to all the ssns, success will be 1, and ssns will be an array of ssns posted to
 	//If any posting failedd, success will be 0, and ssns will be an array of ssns posted to with success, and error will be the error type
 	$res=array('success'=>1, 'ssns'=>array(), 'error'=>array());
-	if(isset($_POST['facebook']))
+	if($_POST['facebook']=="on")
 	{
 		// connects to facebook
 		$config = array(
@@ -87,12 +85,13 @@ if(!empty($_POST))
 	  	}
 	}
 	
-	if(isset($_POST['twitter']))
+	if($_POST['twitter']=="on")
 	{
 		//Get a user-specific connection object that 
 		try{
 			$connection = new TwitterOAuth($consumer_key, $consumer_secret, $_SESSION["tw_access_token"], $_SESSION["tw_access_token_secret"]);
 			$status = $connection->post('statuses/update', array('status' => $_POST['text'], 'lat' =>$_POST['lat'], 'long'=>$_POST['long'], 'display_coordinates'=>$_POST['location'] ));
+			
 			array_push($res['ssns'], 'twitter');
 		}
 		catch(Exception $e)
@@ -102,11 +101,7 @@ if(!empty($_POST))
 		}
 	}
 	
-	if(isset($_POST['googleplus']))
-	{
-		//posting to Google plus
-		
-	}
+	
 	
 	//Send the response
 	if($res['success']==0)

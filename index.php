@@ -11,9 +11,6 @@
 	else if(isset($_SESSION['tw_access_token'])){
 		header("Location: http://{$host}/about.php");
 	}
-	else if(isset($_SESSION['g+_is_logged_in'])){
-		header("Location: http://{$host}/about.php");
-	}
 	
 ?>
 
@@ -50,16 +47,17 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalLabel">Login</h4>
 		      </div>
-		      
-		      <form role="form" action="login.php" method="post" autocomplete="on">
-		        <div class="modal-footer">
-		          <div class="form-group">
-		            <input id="fb_login" name="sns" class="btn btn-primary" type="submit" value="login with Facebook">
-		          	<input id="tw_login" name="sns" class="btn btn-primary" type="submit" value="login with Twitter">
-		          	<input id="gp_login" name="sns" class="btn btn-primary" type="submit" value="login with Google+">
-		          </div>
-		        </div>
-		      </form>
+		      <div class="panel panel-default">
+		        <div class="panel-body">
+			      <form role="form" action="login.php" method="post" autocomplete="on">
+			          <div class="form-group">
+			            <input id="fb_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Facebook">
+			          	<input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Twitter">
+			          	<input id="tw_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with LinkedIn">
+			          </div>
+			      </form>
+			    </div>
+		      </div>
 		    </div>
 		  </div>
 		</div>
@@ -68,7 +66,7 @@
 		<nav class="navbar navbar-default fixed-top" role="navigation">
 		  <div class="container-fluid">
 	        <div class="navbar-header">
-	            <a class="navbar-brand" href="index.php">uPOST</a>      	
+	            <a class="navbar-brand" href="index.php">uPost</a>      	
 		    </div>
 		        
 		    <ul class="nav navbar-nav navbar-right">
@@ -83,7 +81,7 @@
 			<div class="row">
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
 			    <div class="col-md-8 panel custom-panel">
-			    	<h1>What is uPOST?</h1>
+			    	<h1>What is uPost?</h1>
 			    	<p>Focus on what and where to post. uPost takes care of the rest.</p>
 					<p>uPost is a web application via which users can post content to multiple social media.</p>
 					<p>We hope uPost can inspire creation instead of plain sharing.</p>

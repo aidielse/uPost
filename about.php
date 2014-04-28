@@ -1,18 +1,15 @@
 <?php
 require_once 'config.php';
-
 session_start();
 
 
 	//checks to make sure that the user has been logged in and has an access token
 	//if the user has no access token, they are redirected to index.php
 	if(isset($_SESSION['fb_access_token'])) {}
-
-	else if(isset($_SESSION['g+_is_logged_in'])) {}
 	
-	else if(isset($_SESSION['tw_access_token'])){
-		
-	}
+	else if(isset($_SESSION['tw_access_token'])) {}
+
+	else if(isset($_SESSION['linkedin_token'])) {}
 	
 	else {header("Location: http://localhost/uPost/");}
 	//if the user presses the logout button, they are logged out
@@ -38,11 +35,56 @@ session_start();
   		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   		
-  		<!-- Google Map API -->
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleplus_developer_key?>&sensor=true"></script>
   		
   		<!-- stylesheet specific to the site -->
   		<link rel="stylesheet" type="text/css" href="Styles/general.css">
+  		
+  		<style>
+	    #tweets {
+	    	height: 600px;
+	    	position: relative;
+	    	overflow: hidden;
+	    }
+	    #tweets ul{
+	    	margin: 0px;
+	    }
+	    #tweets ul li{
+	    	list-style: none;
+	    	background-color: #ffffff;
+	    	border-top: solid rgb(170,170,255);
+	    	position: absolute;
+	    	left: -5px;
+	    	width: 100%;
+	    	height: 20%;
+	    	overflow: hidden;
+	    }
+	    #tweets ul li div img{
+	    	float: left;
+	    	position: absolute;
+	    	top: 0px;
+	    	left: 5px;
+	    	height:100%;
+	    }
+	    #tweets ul li div{
+	    	width: 75%;
+	    	height: 100%;
+	    	float: right;
+	    }
+	    #tweets ul li div p{
+	    	margin: 0px;
+	    	font-style: italic;
+	    }
+	    #tweets ul li div .text{
+	    	font-size: 120%;
+	    	color: rgb(150,150,255);
+	    	position: relative;
+	    	left: 10px;
+	    }
+	    #tweets ul li div .created_at{
+	    	font-size: 80%;
+	    }
+  		</style>
+  		
   		
   		<script type = "text/javascript">
 	  		$(document).ready(function() {
@@ -60,12 +102,11 @@ session_start();
 					//Prepare the data to be sent
 					var text=$("form [name='text']").val();
 					var loc=$("#current_loc").html().split(" ");
-					var lat=loc[0];
-					var lon=loc[1];
+					var lat=loc[1];
+					var lon=loc[3];
 					var location=false;
 					var facebook="off";
 					var twitter="off";
-					var google_plus="off";
 					
 		  	  		if($("form [name='location']").prop('checked')==true)
 		  	  		{
@@ -82,17 +123,12 @@ session_start();
 		  	  		{
 			  	  		twitter="on";
 			  	  		//Check for characters count
-			  	  		if(parseInt($("#char_count").html())>144)
+			  	  		if(parseInt($("#char_count").html())>140)
 			  	  		{
 				  	  		window.location="about.php?error=char-count-excceeds";
 			  	  		}
 			  	  		all_off=false;
 			  	  	}
-		  	  		if($("form [name='googleplus']").prop('checked')==true)
-		  	  		{
-			  	  		google_plus="on";
-			  	  		all_off=false;
-		  	  		}
 		  	  		//If the user didn't select any sns, stop and inform the user
 		  	  		if(all_off)
 		  	  		{
@@ -105,8 +141,7 @@ session_start();
 				  	  	long: lon,
 				  	  	location: location,
 				  	  	facebook: facebook,
-				  	  	twitter: twitter,
-				  	  	"googleplus":google_plus
+				  	  	twitter: twitter
 				  	};
 		  	  		
 		  	  		$.ajax({
@@ -129,10 +164,6 @@ session_start();
 						  	  		{
 							  	  		display_name="Facebook";
 						  	  		}
-					  	  			else if($(e).attr("name")=="googleplus")
-					  	  			{
-						  	  			display_name="Google+";
-					  	  			}
 					  	  			else if($(e).attr("name")=="twitter")
 					  	  			{
 						  	  			display_name="Twitter";
@@ -151,10 +182,6 @@ session_start();
 					  	  	{
 						  	  	$("#fb_user_login").modal("show");
 					  	  	}
-					  	  	else if(error_type=="googleplus")
-					  	  	{
-					  	  		$("#gp_user_login").modal("show");
-						  	}
 					  	  	else if(error_type=="twitter")
 					  	  	{
 					  	  		$("#tw_user_login").modal("show");
@@ -167,18 +194,105 @@ session_start();
 					  	  	{
 					  	  		window.location="about.php?error=twitter-posting-failed";
 					  	  	}
-					  	  	else if(error-type=="googleplus-posting-failed")
-					  	  	{
-					  	  		window.location="about.php?error=googleplus-posting-failed";
-						  	}
 					  	},
 					  	complete:function(jqXHR, textStatus){
 						}
 			  	  	});
 		  	  	});
 
-				
+				//Fetch feed updates from the sns
+				$.ajax({
+					url:"fetch.php",
+					type:"GET",
+					dataType:"json",
+					data:{"ssns":["facebook", "twitter"]},
+					ajax:true,
+					success:function(data, textStatus, jqXHR){
+						console.dir(data);
+
+						//Display twitter posts
+						var num=0;
+			    	    interval=window.setInterval(function(){
+				      	  grab_next_tweet(num, data["data"]["twitter"]);
+				      	  num+=1;
+				      	  if(num==50)
+				          {
+				      		  num=0;
+				          }
+			            }, 3000);
+					},
+					error:function(jqXHR, textStatus, errorThrown)
+					{
+						console.log(jqXHR.responseText);
+						alert("failed");
+					},
+					complete:function(jqXHR, textStatus){
+					}
+				});
 	  	  	});
+
+			function grab_next_fb_feed(current_index, feed)
+			{
+				//Calculate the height of a single feed dynamically 
+	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
+	  			tweet_h=tweet_h.toString();
+
+	  			//Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
+	  	        var output="<li><div>";
+
+				//status_type: "mobile_status_update"(message), "added_photos"(story), ""
+	  	        var status_type="";
+
+	  	        
+			}
+	  		//This function grabs a tweet from an array of tweets and pushes it to the current tweet stream
+	  	    function grab_next_tweet(current_index, tweets)
+	  	    {
+	  			//Calculate the height of a single tweet dynamically 
+	  	        var tweet_h=0.2*document.getElementById("tweets").clientHeight;
+	  	        
+	  			tweet_h=tweet_h.toString();
+	  	        
+	  	        //Get the fields that we need: created_at, text, user, place, entities, and compile them in a <li>
+	  	        var output="<li><div>";
+
+	  			//arr is used for parsing datetime information
+	  	       	var arr=new Array();
+	  	       	arr=tweets[current_index]["created_at"].split(" ");
+	  	       	
+	  	        output+="<p class='created_at'> At "+arr[3]+" "+arr[1]+" "+arr[2]+"</p>";
+	  	        output+="<p class='user_name'>"+tweets[current_index]["user"]["name"]+" tweets: </p>";
+	  	        output+="<p class='text'>"+tweets[current_index]["text"]+"</p>";
+	  	        if(tweets[current_index]["place"]!=null)
+	  	        {
+	  	        	output+="<p class='place'>In: "+tweets[current_index]["place"]["full_name"]+"</p>";
+	  	        }
+	  	        output+="<img src='"+tweets[current_index]["user"]["profile_image_url"]+"' alt='profile image' >";
+	  			output+="</div></li>";
+	  			
+	  			if($("#tweets ul li").length==0)
+	  			{
+	  				$("#tweets ul").prepend(output).hide().fadeIn(200);
+	  			}
+	  			else
+	  			{
+	  				//Animate each tweet down with the distance equal to the height of the each tweet
+	  		        $("#tweets ul li").each(function(i){
+	  			        $(this).animate({top: "+="+tweet_h}, 400, "swing", function(){
+	  						if(i==0)
+	  						{
+	  							$("#tweets ul").prepend(output);
+	  				    		$("#tweets ul li:first-child").hide();
+	  				        	$("#tweets ul li:first-child").fadeIn(200);
+	  						}
+	  						else if(i>5)
+	  			            {
+	  			        		$(this).remove();
+	  			            }
+	  		        	});
+	  		        });
+	  			}
+	  	    }
   		</script>
   		
 		<title>uPost Social Network Update Manager</title>
@@ -205,24 +319,7 @@ session_start();
 		  </div>
 		</div>
 		
-		<!-- Popup for google plus login -->
-		<div class="modal fade" id="gp_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">You need to:</h4>
-		      </div>
-		      <div class="modal-body">
-			      <form role="form" action="login.php" method="post" autocomplete="on">
-			          <div class="form-group">
-			            <input id="gp_login" name="sns" class="btn btn-primary btn-block btn-lg" type="submit" value="login with Google+" >
-			          </div>
-			      </form>
-			  </div>
-		    </div>
-		  </div>
-		</div>
+		
 		
 		<!-- Popup for twitter login -->
 		<div class="modal fade" id="tw_user_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -292,7 +389,7 @@ session_start();
 			    	<script type="text/javascript">
 			    	function saveLocation(position)
 			    	{
-				    	$("#current_loc").html("latitude: "+position.coords.latitude.toFixed(2)+", longitude: "+position.coords.longitude.toFixed(2));
+				    	$("#current_loc").html("latitude: "+position.coords.latitude.toFixed(2)+" longitude: "+position.coords.longitude.toFixed(2));
 			    	}
 			    	function showError(error)
 			    	{
@@ -323,7 +420,7 @@ session_start();
 				    
 				    	<!-- Text area -->
 			    		<div class="form-group">
-			    			<label for="post_text">Write something and public everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
+			    			<label for="post_text">Write something and publish everywhere!</label><span class="pull-right">Character count: <span id="char_count">0</span></span>
 			    			<textarea id="post_text" name="text" class="form-control" placeholder="Write something in your mind..." rows="5"></textarea>
 			    			
 			    		</div>
@@ -360,12 +457,6 @@ session_start();
 			    			    <input id="tw-checkbox" name="twitter" type="checkbox">
 			    			</label>
 			    			<span>&nbsp;&nbsp;</span>
-			    			
-			    			<img src="Images/Logos/googleplus.jpg" height="20">
-			    			<label class="checkbox-inline" >
-			    			    <input id="gp-checkbox" name="googleplus" type="checkbox">
-			    			</label>
-			    			<span>&nbsp;&nbsp;</span>
 			    		</div>
 			    		
 			    		<div class="form-group">
@@ -374,6 +465,38 @@ session_start();
 			    	</form>
 			    </div>
 			    <div class="col-md-2 hidden-sm hidden-xs"></div>
+			</div>
+			
+			<div class="row">
+			    <div class="col-md-2 hidden-sm hidden-xs"></div>
+			    
+			    
+				<div class="col-md-4">
+				  <div class="panel panel-default">
+					<div class="panel-heading">Latest Facebook Posts</div>
+					<div class="panel-body">
+					  
+					</div>
+					<div class="panel-footer"></div>
+				  </div>
+				</div>
+				
+				<div class="col-md-4">
+				  <div class="panel panel-default">
+					<div class="panel-heading">Latest Twitter Posts</div>
+					<div class="panel-body">
+					  <div id="tweets_container">
+		                  <div id="tweets">
+					        <ul id="stream">
+					  	      
+					        </ul>
+					      </div>
+					  </div>
+					</div>
+					<div class="panel-footer"></div>
+				  </div>
+				</div>
+				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
 		</div>
 	</body>

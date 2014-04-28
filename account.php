@@ -114,34 +114,7 @@ session_start();
 				</div>
 				<div class="col-md-2 hidden-sm hidden-xs"></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2 hidden-sm hidden-xs"></div>
-				<div class="col-md-8 panel custom-panel">
-					<div class="row">
-						<div class="col-md-3">
-							<img class="img-responsive" src="Images/Logos/googleplus.jpg" >
-						</div>
-						<div class="col-md-1"></div>
-						<div class="col-md-6">
-							<form role="form" action="login.php" method="post" autocomplete="on">
-					            <div class="form-group">
-					              <input id="gp_login" name="sns" class="btn-block btn-lg gp-button" type="submit" value="login with Google+">
-					            </div>
-					        </form>
-					        <?php if(isset($_SESSION["g+_is_logged_in"])): ?>
-							  <p class="text-success">You are currently logged in!</p>
-					 	    <?php else: ?>
-					 	      <p class="text-danger">You are currently logged out!</p>
-					 	    <?php endif; ?>
-						</div>
-						<div class="col-md-2">
-						  
-						</div>
-					</div>
-				</div>
-				<div class="col-md-2 hidden-sm hidden-xs"></div>
-			</div>
+			
 				
-			</div>
 		</div>
 	</body>
