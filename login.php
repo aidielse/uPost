@@ -35,7 +35,6 @@
 		else {
 			echo "No sns is selected!";
 		}
-		
 	}
 	
 	else {
@@ -169,7 +168,7 @@
 
 		}
 	}
-	
+	//if login succeeds, this function is called
 	function login_succeed_redirect($ssn="unknown") {
 		//Redirect to about.php
 		session_write_close();
@@ -177,6 +176,7 @@
 		$extra = "about.php?login={$ssn}";
 		header("Location: http://$host/$extra");
 	}
+	//if login fails, this function is called
 	function login_fail_redirect($error="unknown") {
 		//redirect to about.php with optional error msg
 		session_write_close();

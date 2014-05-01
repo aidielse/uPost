@@ -97,7 +97,7 @@ session_start();
 					$("#char_count").html(text.length);
 				});
 
-
+				//when the user submits a post
 	  	  		$("#submit").on('click', function(e){
 		  	  		e.preventDefault();
 					//Prepare the data to be sent
@@ -164,7 +164,7 @@ session_start();
 				  	  		$("#ssn_selections input").each(function(i, e){
 					  	  		//First, clear the list
 
-				  	  			//Repopulate the list with ssns that the user posted to with success
+				  	  			//Repopulate the list with sns's that the user posted to with success
 					  	  		if($(e).prop("checked")==true)
 					  	  		{
 						  	  		var display_name;
